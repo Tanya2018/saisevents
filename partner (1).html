@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner With Us | SAIS Events — East Africa Delegation Coordinators</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --gold: #C8A96E;
+    --gold-light: #E8D5A3;
+    --gold-pale: #F9F3E6;
+    --forest: #1A3A2A;
+    --forest-mid: #2C5C3F;
+    --forest-light: #3D7A57;
+    --forest-pale: #EBF4EF;
+    --cream: #FAF8F4;
+    --white: #FFFFFF;
+    --muted: #6B6860;
+    --border: rgba(200,169,110,0.25);
+    --border-dark: rgba(200,169,110,0.5);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--forest);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--gold); font-style: italic; }
+
+  .nav-cta {
+    background: var(--forest);
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--forest-mid); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(100px, 18vw, 220px);
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,169,110,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,169,110,0.06) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,110,0.12) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 48px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.4rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--forest);
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200,169,110,0.3);
+  }
+
+  .btn-ghost {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--gold); }
+
+  /* Hero stats card */
+  .hero-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 20px;
+    padding: 40px 36px;
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-card-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(200,169,110,0.15);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .stat-item {}
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-num span { color: var(--gold); }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .active-badge {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(200,169,110,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #4ADE80;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+  }
+
+  .active-text {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+  }
+
+  .active-text strong { color: #4ADE80; font-weight: 600; }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: var(--gold);
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--forest);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .trust-divider {
+    width: 4px;
+    height: 4px;
+    background: var(--forest);
+    border-radius: 50%;
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 48px; }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-eyebrow::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 600px;
+  }
+
+  /* ── WHY EA IS COMPLEX ── */
+  .complexity-section { background: var(--white); }
+
+  .complexity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 60px;
+  }
+
+  .complexity-left {}
+
+  .complexity-point {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(200,169,110,0.15);
+  }
+
+  .complexity-point:first-child { padding-top: 0; }
+  .complexity-point:last-child { border-bottom: none; }
+
+  .cp-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--gold-pale);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .cp-content h4 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .cp-content p {
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .complexity-right {
+    background: var(--forest);
+    border-radius: 20px;
+    padding: 44px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .complexity-right::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(200,169,110,0.15), transparent 70%);
+  }
+
+  .cr-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .cr-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--white);
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+  }
+
+  .country-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .country-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ci-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ci-flag { font-size: 1.1rem; }
+
+  .ci-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .ci-tag {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .ci-tag.active {
+    background: rgba(74,222,128,0.15);
+    color: #4ADE80;
+    border: 1px solid rgba(74,222,128,0.3);
+  }
+
+  .ci-tag.pipeline {
+    background: rgba(200,169,110,0.15);
+    color: var(--gold-light);
+    border: 1px solid rgba(200,169,110,0.3);
+  }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--cream); }
+
+  .services-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .service-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 36px 30px;
+    border: 1px solid rgba(200,169,110,0.15);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(26,58,42,0.1); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .sc-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(200,169,110,0.12);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+  }
+
+  .sc-icon {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .sc-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .sc-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ── INDUSTRIES ── */
+  .industries-section { background: var(--forest); padding: 80px 48px; }
+
+  .industries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 56px;
+  }
+
+  .industry-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(200,169,110,0.15);
+    border-radius: 14px;
+    padding: 32px 24px;
+    transition: all 0.25s;
+  }
+
+  .industry-card:hover {
+    background: rgba(200,169,110,0.08);
+    border-color: rgba(200,169,110,0.35);
+    transform: translateY(-3px);
+  }
+
+  .ic-emoji { font-size: 2rem; margin-bottom: 16px; display: block; }
+
+  .ic-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .ic-desc {
+    font-size: 0.77rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── HOW WE WORK ── */
+  .process-section { background: var(--white); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--border-dark);
+    z-index: 0;
+  }
+
+  .process-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ps-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--forest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 20px;
+    flex-shrink: 0;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--border-dark);
+  }
+
+  .ps-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .ps-desc {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── NETWORK ── */
+  .network-section {
+    background: linear-gradient(135deg, var(--gold-pale) 0%, var(--cream) 100%);
+    padding: 100px 48px;
+  }
+
+  .network-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .network-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .ns-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px 24px;
+    border: 1px solid var(--border);
+  }
+
+  .ns-card.featured {
+    background: var(--forest);
+    border-color: var(--forest);
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ns-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .ns-card.featured .ns-num { color: var(--gold); font-size: 3rem; }
+
+  .ns-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .ns-card.featured .ns-label { color: rgba(255,255,255,0.55); }
+
+  .ns-featured-text {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    font-weight: 300;
+    border-left: 1px solid rgba(200,169,110,0.3);
+    padding-left: 24px;
+    flex: 1;
+  }
+
+  /* ── PROOF / ACTIVE ── */
+  .proof-section { background: var(--cream); }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .proof-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: box-shadow 0.25s;
+  }
+
+  .proof-card:hover { box-shadow: 0 16px 48px rgba(26,58,42,0.1); }
+
+  .proof-card-top {
+    padding: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .proof-flag {
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .proof-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .proof-status.live {
+    background: rgba(74,222,128,0.12);
+    color: #16A34A;
+    border: 1px solid rgba(74,222,128,0.3);
+  }
+
+  .proof-status.live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #4ADE80;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .proof-status.pipeline {
+    background: rgba(200,169,110,0.12);
+    color: #92650A;
+    border: 1px solid rgba(200,169,110,0.3);
+  }
+
+  .proof-expo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .proof-expo-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .proof-card-bottom { padding: 22px 28px; }
+
+  .proof-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(200,169,110,0.1);
+    font-size: 0.8rem;
+  }
+
+  .proof-detail:last-child { border-bottom: none; }
+  .proof-detail .pd-icon { font-size: 0.9rem; flex-shrink: 0; }
+  .proof-detail span { color: var(--muted); font-weight: 300; }
+  .proof-detail strong { color: var(--forest); font-weight: 600; }
+
+  /* ── QUALIFIER ── */
+  .qualifier-section {
+    background: var(--forest);
+    padding: 100px 48px;
+  }
+
+  .qualifier-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .qualifier-inner .section-title { color: var(--white); margin-bottom: 16px; }
+  .qualifier-inner .section-sub { color: rgba(255,255,255,0.55); margin: 0 auto 56px; }
+
+  .qualifier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+    text-align: left;
+  }
+
+  .q-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(200,169,110,0.15);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .q-check {
+    width: 22px;
+    height: 22px;
+    background: rgba(200,169,110,0.2);
+    border: 1px solid rgba(200,169,110,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: var(--gold);
+    margin-top: 1px;
+  }
+
+  .q-text {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .q-text strong { color: var(--white); font-weight: 600; }
+
+  .qualifier-cta-box {
+    background: rgba(200,169,110,0.08);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 16px;
+    padding: 36px 40px;
+  }
+
+  .qcb-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .qcb-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 24px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .qcb-promise {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 500;
+    margin-top: 16px;
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--cream);
+    padding: 120px 48px;
+    text-align: center;
+  }
+
+  .cta-inner { max-width: 720px; margin: 0 auto; }
+
+  .cta-inner .section-eyebrow {
+    justify-content: center;
+  }
+
+  .cta-inner .section-eyebrow::after { display: none; }
+  .cta-inner .section-eyebrow::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 40px;
+    background: var(--gold);
+  }
+
+  .cta-inner .section-title { text-align: center; margin-bottom: 16px; }
+
+  .cta-sub {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .contact-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .contact-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(200,169,110,0.15);
+  }
+
+  .cc-icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+  .cc-label { font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .cc-value { font-size: 0.82rem; color: var(--forest); font-weight: 600; }
+
+  .cta-48hr {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 20px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--forest);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--gold); font-style: italic; }
+
+  footer p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  footer a {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    nav { padding: 16px 24px; }
+    section { padding: 72px 24px; }
+    .trust-bar { padding: 14px 24px; gap: 24px; }
+    .hero-content { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px; }
+    .hero-card { max-width: 460px; }
+    .complexity-grid { grid-template-columns: 1fr; gap: 40px; }
+    .services-intro { grid-template-columns: 1fr; gap: 24px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .industries-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+    .process-steps::before { display: none; }
+    .process-step { flex-direction: row; text-align: left; gap: 20px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .ps-circle { margin-bottom: 0; }
+    .network-inner { grid-template-columns: 1fr; gap: 48px; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .qualifier-grid { grid-template-columns: 1fr; }
+    .contact-cards { grid-template-columns: 1fr; }
+    .industries-section, .qualifier-section, .cta-section, .network-section { padding: 72px 24px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 640px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .trust-item:nth-child(n+5) { display: none; }
+    .hero h1 { font-size: 2.4rem; }
+  }
+
+/* ══ PARTNER.HTML MOBILE ══ */
+@media(max-width:1024px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .hero-content{grid-template-columns:1fr !important;padding:60px 20px !important;gap:40px !important;}
+  .hero-card{max-width:100% !important;}
+  .stat-grid{grid-template-columns:1fr 1fr !important;}
+  .complexity-grid{grid-template-columns:1fr !important;gap:32px !important;}
+  .services-grid{grid-template-columns:1fr 1fr !important;}
+  .services-intro{grid-template-columns:1fr !important;gap:20px !important;}
+  .industries-grid{grid-template-columns:1fr 1fr !important;}
+  .network-inner{grid-template-columns:1fr !important;gap:40px !important;}
+  .network-stats{grid-template-columns:1fr 1fr !important;}
+  .proof-grid{grid-template-columns:1fr !important;}
+  .qualifier-grid{grid-template-columns:1fr !important;}
+  .contact-cards{grid-template-columns:1fr !important;}
+  .process-steps{grid-template-columns:1fr !important;}
+  .process-steps::before{display:none !important;}
+  .process-step{flex-direction:row !important;text-align:left !important;gap:16px !important;padding:16px 0 !important;border-bottom:1px solid var(--border) !important;}
+  .ps-circle{margin-bottom:0 !important;flex-shrink:0 !important;}
+  section{padding:64px 20px !important;}
+  .network-section,.qualifier-section,.cta-section,.industries-section{padding:64px 20px !important;}
+  .ns-card.featured{flex-direction:column !important;}
+  footer{padding:20px !important;flex-direction:column !important;text-align:center !important;gap:8px !important;}
+}
+
+@media(max-width:640px){
+  .hero h1{font-size:2.4rem !important;}
+  .stat-grid{grid-template-columns:1fr 1fr !important;}
+  .services-grid{grid-template-columns:1fr !important;}
+  .industries-grid{grid-template-columns:1fr 1fr !important;}
+  .proof-grid{grid-template-columns:1fr !important;}
+  section{padding:48px 16px !important;}
+  .network-section,.qualifier-section,.cta-section,.industries-section{padding:48px 16px !important;}
+  .hero-content{padding:48px 16px !important;}
+  .hero-actions{flex-direction:column !important;}
+  .hero-actions a{text-align:center !important;}
+  .qualifier-cta-box{padding:24px 20px !important;}
+  .contact-cards{grid-template-columns:1fr !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://saisevents.com" class="nav-logo">SAIS <span>Events</span></a>
+  <a href="#contact" class="nav-cta">Start a Conversation →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">EAST AFRICA</div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">For Expo Organisers & Event Owners</div>
+      <h1>Your East Africa<br>seat is <em>empty.</em><br>We fill it right.</h1>
+      <p class="hero-desc">
+        SAIS Events is East Africa's dedicated trade delegation and hosted buyer coordinator. We source, vet, brief, and deliver serious delegates — not tourists — to your programme. Across 6 countries, 4 industries, and 3,000+ professional contacts.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Partner With Us →</a>
+        <a href="#how-we-work" class="btn-ghost">See how we work ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-label">SAIS Events at a Glance</div>
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-num">3<span>K+</span></div>
+          <div class="stat-label">Verified professionals in our EA network</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">6</div>
+          <div class="stat-label">East African countries we actively coordinate in</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Industry sectors with active delegate pipelines</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">International expo programmes currently active</div>
+        </div>
+      </div>
+      <div class="active-badge">
+        <div class="pulse-dot"></div>
+        <div class="active-text">
+          <strong>Currently coordinating</strong> delegate sourcing for Egypt, South Africa & USA expos — 2026/2027
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">🇰🇪 Kenya</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇺🇬 Uganda</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇹🇿 Tanzania</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇷🇼 Rwanda</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇪🇹 Ethiopia</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇧🇮 Burundi</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇨🇳 China</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇦🇪 UAE</div>
+  <div class="trust-divider"></div>
+  <div class="trust-item">🇮🇳 India</div>
+</div>
+
+<!-- WHY EAST AFRICA IS COMPLEX -->
+<section class="complexity-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">The East Africa Challenge</div>
+    <h2 class="section-title">Why this region demands<br>a <em>specialist,</em> not a generalist</h2>
+
+    <div class="complexity-grid">
+      <div class="complexity-left fade-up">
+        <div class="complexity-point">
+          <div class="cp-icon">🗺️</div>
+          <div class="cp-content">
+            <h4>6 Countries. 5 Currencies. 3 Visa Regimes.</h4>
+            <p>Coordinating delegates from Kenya, Uganda, Tanzania, Rwanda, Ethiopia, and Burundi requires expertise in different documentation, banking, and travel pathways. One wrong assumption costs you a delegate seat.</p>
+          </div>
+        </div>
+        <div class="complexity-point">
+          <div class="cp-icon">🛂</div>
+          <div class="cp-content">
+            <h4>Visa Support Is Not Optional Here</h4>
+            <p>East African professionals attending expos in the USA, Europe, Egypt, and South Africa require bespoke invitation letters, itinerary preparation, and embassy guidance. We handle it all — so your delegates arrive, not drop out.</p>
+          </div>
+        </div>
+        <div class="complexity-point">
+          <div class="cp-icon">🎯</div>
+          <div class="cp-content">
+            <h4>Qualified Buyers vs. Curious Attendees</h4>
+            <p>The difference between a hosted buyer programme that delivers ROI and one that wastes exhibitor time is vetting. We screen every delegate against your criteria before a single application is submitted.</p>
+          </div>
+        </div>
+        <div class="complexity-point">
+          <div class="cp-icon">📱</div>
+          <div class="cp-content">
+            <h4>WhatsApp-First Market Dynamics</h4>
+            <p>East Africa's professional networks run on WhatsApp — not email campaigns. Our 3,000+ direct contacts mean we can mobilise and qualify faster than any agency using traditional outreach.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="complexity-right fade-up">
+        <div class="cr-label">Our Active Coordination Footprint</div>
+        <div class="cr-title">Where we source<br>your delegates from</div>
+        <div class="country-list">
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇰🇪</span><span class="ci-name">Kenya — HQ & Primary Market</span></div>
+            <span class="ci-tag active">Active</span>
+          </div>
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇺🇬</span><span class="ci-name">Uganda</span></div>
+            <span class="ci-tag active">Active</span>
+          </div>
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇹🇿</span><span class="ci-name">Tanzania</span></div>
+            <span class="ci-tag active">Active</span>
+          </div>
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇷🇼</span><span class="ci-name">Rwanda</span></div>
+            <span class="ci-tag pipeline">Pipeline</span>
+          </div>
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇪🇹</span><span class="ci-name">Ethiopia</span></div>
+            <span class="ci-tag pipeline">Pipeline</span>
+          </div>
+          <div class="country-item">
+            <div class="ci-left"><span class="ci-flag">🇧🇮</span><span class="ci-name">Burundi</span></div>
+            <span class="ci-tag pipeline">Pipeline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="how-we-work">
+  <div class="section-inner">
+    <div class="services-intro">
+      <div>
+        <div class="section-eyebrow">What We Do</div>
+        <h2 class="section-title">End-to-end delegation<br><em>coordination</em> for your programme</h2>
+      </div>
+      <p class="section-sub">
+        We don't just find warm bodies. We manage the entire delegate journey from first contact to show floor — so your programme metrics are met, your exhibitors get real meetings, and your hosted buyers show up prepared and committed.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <div class="sc-num">01</div>
+        <span class="sc-icon">🔍</span>
+        <div class="sc-title">Delegate Sourcing</div>
+        <p class="sc-desc">We tap our 3,000+ verified professional network to identify and approach candidates who match your programme's exact buyer profile — sector, seniority, sourcing authority, and budget.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="sc-num">02</div>
+        <span class="sc-icon">✅</span>
+        <div class="sc-title">Pre-Qualification & Vetting</div>
+        <p class="sc-desc">Every candidate is screened against your criteria before submission. Decision-making authority, import track record, purchasing budget — we do the filtering so you don't have to.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="sc-num">03</div>
+        <span class="sc-icon">📋</span>
+        <div class="sc-title">Application Management</div>
+        <p class="sc-desc">From hosted buyer programme forms to platform registrations (Beacon Discovery, matchmaking apps), we handle all delegate paperwork and submissions on your timeline.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="sc-num">04</div>
+        <span class="sc-icon">🛂</span>
+        <div class="sc-title">Visa & Travel Documentation</div>
+        <p class="sc-desc">Official invitation letters, embassy guidance, itinerary preparation, and travel logistics — the full documentation stack that East African delegates need to actually get on the plane.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="sc-num">05</div>
+        <span class="sc-icon">🎓</span>
+        <div class="sc-title">Pre-Departure Briefing</div>
+        <p class="sc-desc">Every delegate receives a structured pre-departure briefing: programme expectations, meeting obligations, dress code, expo etiquette, and logistics — so they arrive ready to work, not just visit.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="sc-num">06</div>
+        <span class="sc-icon">📊</span>
+        <div class="sc-title">Post-Event Reporting</div>
+        <p class="sc-desc">Delegate attendance confirmation, meetings held, outcomes and feedback — we give you the data your team needs to measure the East Africa cohort's performance and plan future editions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries-section">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="color:var(--gold);">Industries We Serve</div>
+    <h2 class="section-title" style="color:var(--white);">Active delegate pipelines<br>across <em>5 key sectors</em></h2>
+
+    <div class="industries-grid">
+      <div class="industry-card fade-up">
+        <span class="ic-emoji">🌾</span>
+        <div class="ic-title">Agribusiness & Food</div>
+        <p class="ic-desc">Farmers, agro-processors, food importers/exporters, agri-tech operators, and value chain professionals across East Africa's largest economic sector.</p>
+      </div>
+      <div class="industry-card fade-up">
+        <span class="ic-emoji">🌿</span>
+        <div class="ic-title">Natural & Organic Products</div>
+        <p class="ic-desc">Health product distributors, organic food retailers, wellness practitioners, and natural products importers — active pipeline for USA and European expos.</p>
+      </div>
+      <div class="industry-card fade-up">
+        <span class="ic-emoji">🏢</span>
+        <div class="ic-title">Real Estate & Investment</div>
+        <p class="ic-desc">Property developers, real estate agents, fund managers, and investment professionals across Kenya's fastest-growing asset class.</p>
+      </div>
+      <div class="industry-card fade-up">
+        <span class="ic-emoji">🏭</span>
+        <div class="ic-title">Trade & Manufacturing</div>
+        <p class="ic-desc">Importers, distributors, SME manufacturers, and procurement professionals sourcing across China, UAE, Europe, and intra-Africa trade corridors.</p>
+      </div>
+      <div class="industry-card fade-up">
+        <span class="ic-emoji">🏥</span>
+        <div class="ic-title">Healthcare & Medical</div>
+        <p class="ic-desc">Dentists, hospital procurement teams, medical device importers, and healthcare entrepreneurs — coordinated for healthcare expos in India, UAE, and Kenya. From dental equipment sourcing to hospital supply chains.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK - PROCESS -->
+<section class="process-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Our Process</div>
+    <h2 class="section-title">From brief to boardroom<br>in <em>5 structured steps</em></h2>
+
+    <div class="process-steps">
+      <div class="process-step fade-up">
+        <div class="ps-circle">1</div>
+        <div>
+          <div class="ps-title">You Share Your Criteria</div>
+          <p class="ps-desc">Send us your programme requirements, buyer profile, and timeline. We review within 48 hours.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-circle">2</div>
+        <div>
+          <div class="ps-title">We Source & Vet</div>
+          <p class="ps-desc">We tap our EA network, approach candidates, and screen against your exact criteria before going further.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-circle">3</div>
+        <div>
+          <div class="ps-title">Applications Submitted</div>
+          <p class="ps-desc">Qualified candidates are submitted through your programme's official channels — clean, on time, complete.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-circle">4</div>
+        <div>
+          <div class="ps-title">Delegates Prepared</div>
+          <p class="ps-desc">Visas, travel docs, and a full pre-departure briefing ensure every delegate arrives ready and committed.</p>
+        </div>
+      </div>
+      <div class="process-step fade-up">
+        <div class="ps-circle">5</div>
+        <div>
+          <div class="ps-title">We Report Back</div>
+          <p class="ps-desc">Post-event outcomes, attendance data, and delegate feedback delivered to your team after the show.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NETWORK -->
+<section class="network-section">
+  <div class="network-inner">
+    <div class="fade-up">
+      <div class="section-eyebrow">Our Unfair Advantage</div>
+      <h2 class="section-title">A network that no<br>agency can <em>replicate</em></h2>
+      <p class="section-sub" style="margin-bottom:28px;">
+        SAIS Events was built from the ground up inside East Africa's professional community. Our founder Catherine Kinyanjui has spent years building direct relationships — not email lists — across Kenya, Uganda, Tanzania, Rwanda, and Ethiopia. This is a warm network. When we call, people answer.
+      </p>
+      <p class="section-sub">
+        Our team spans multiple EA countries, covering agribusiness, food & beverage, trade, and real estate. We operate on WhatsApp — the native professional communication tool of this region — meaning we move faster and reach deeper than any agency relying on cold outreach.
+      </p>
+    </div>
+    <div class="network-stats fade-up">
+      <div class="ns-card featured">
+        <div>
+          <div class="ns-num">3,000+</div>
+          <div class="ns-label">Direct verified professional contacts</div>
+        </div>
+        <div class="ns-featured-text">
+          Built over years of direct relationship work across East Africa's trade, agribusiness, wellness, and real estate sectors. Not a database — a live, active community.
+        </div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">6</div>
+        <div class="ns-label">EA countries with active coordination presence</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">4</div>
+        <div class="ns-label">Industry sectors with qualified buyer pipelines</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">48h</div>
+        <div class="ns-label">Our response commitment to every new organiser enquiry</div>
+      </div>
+      <div class="ns-card">
+        <div class="ns-num">100%</div>
+        <div class="ns-label">Delegates pre-briefed before attending any programme</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATE & PREPARE -->
+<section style="background:var(--white); padding:100px 48px;" id="delegate-prep">
+  <div class="section-inner">
+    <div class="section-eyebrow">Delegate Education & Preparation</div>
+    <h2 class="section-title">We don't just send delegates.<br>We <em>build them</em> for your programme.</h2>
+    <p class="section-sub" style="margin-bottom:56px;">
+      One of the biggest reasons hosted buyer programmes underperform is unprepared delegates who don't know what to expect, don't engage with exhibitors, and don't fulfil their meeting obligations. We fix that before they board the plane.
+    </p>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:48px;">
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">🎓</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">Pre-Event Orientation Sessions</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">We run structured pre-departure briefings — online or in-person — covering expo layout, meeting etiquette, business card protocol, dress code, and what a productive day on the show floor looks like. Delegates arrive knowing the game.</p>
+      </div>
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">🤝</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">Matchmaking Programme Education</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">We walk every delegate through the matchmaking platform — how to build a compelling profile, how to request meetings, how to favourite products (Beacon Discovery, Sahara matchmaking app, etc.), and how to show up to pre-scheduled meetings prepared with the right questions.</p>
+      </div>
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">🎯</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">Goal-Setting & Business Objective Clarity</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">Before every expo, we work with each delegate to clarify what they want to achieve — specific suppliers, markets, JV partners, or technology. This makes their meetings targeted, not random, and gives exhibitors a buyer worth meeting.</p>
+      </div>
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">📋</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">Obligations Briefing</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">Hosted buyer programmes have strict obligations — minimum meetings, badge scans, attendance at buyer-only hours. We explain every requirement clearly and ensure every delegate understands what's expected of them before they commit.</p>
+      </div>
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">💬</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">On-Ground WhatsApp Support</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">Every delegation travels with an active SAIS Events group on WhatsApp. Real-time logistics, schedule reminders, troubleshooting, and support — throughout the entire duration of the event.</p>
+      </div>
+      <div style="background:var(--cream); border-radius:16px; padding:32px 28px; border:1px solid var(--border);">
+        <div style="font-size:2rem; margin-bottom:16px;">📊</div>
+        <h4 style="font-size:0.92rem; font-weight:700; color:var(--forest); margin-bottom:10px;">Post-Expo Follow-Up Coaching</h4>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; font-weight:300;">The expo is just the beginning. We run a post-event debrief with delegates — reviewing leads generated, follow-up strategies, and next steps. We help turn expo connections into real business outcomes.</p>
+      </div>
+    </div>
+
+    <div style="background:var(--forest); border-radius:16px; padding:36px 40px; display:flex; align-items:center; gap:32px; flex-wrap:wrap;">
+      <div style="font-size:2.4rem; flex-shrink:0;">💡</div>
+      <div style="flex:1; min-width:260px;">
+        <h4 style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--white); margin-bottom:8px; font-weight:600;">The result? Delegates who show up and do business.</h4>
+        <p style="font-size:0.83rem; color:rgba(255,255,255,0.6); line-height:1.7; font-weight:300;">Not tourists. Not passive observers. Business-ready East African professionals who understand the programme, engage with exhibitors, and generate real outcomes — for themselves, and for your event's ROI metrics.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF / ACTIVE PROGRAMMES -->
+<section class="proof-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Live & Pipeline Programmes</div>
+    <h2 class="section-title">Where we're coordinating<br><em>right now</em></h2>
+    <p class="section-sub">We don't claim experience we don't have. Here's exactly what's active and what's in pipeline — with full transparency.</p>
+
+    <div class="proof-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇪🇬</span>
+          <div class="proof-status live">Live — Active</div>
+          <div class="proof-expo-name">Sahara International Agricultural Exhibition 2026</div>
+          <div class="proof-expo-sub">EIEC, Cairo · September 22–24, 2026</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>Official East Africa Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Sourcing: <strong>Agribusiness buyers & investors</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">📋</span><span>Registration form: <strong>Live & onboarding delegates</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🛂</span><span>Service: <strong>Full visa & invitation letter support</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇿🇦</span>
+          <div class="proof-status pipeline">Partnership Outreach</div>
+          <div class="proof-expo-name">Africa Food Show 2027</div>
+          <div class="proof-expo-sub">CTICC, Cape Town · June 2027</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Target role: <strong>East Africa Hosted Buyer Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Sourcing: <strong>F&B retailers, distributors, buyers</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🤝</span><span>Organiser: <strong>DMG Events — partnership in progress</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🏆</span><span>Programme: <strong>Complimentary flights + hotel for qualifiers</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇺🇸</span>
+          <div class="proof-status pipeline">Partnership Outreach</div>
+          <div class="proof-expo-name">Natural Products Expo West 2027</div>
+          <div class="proof-expo-sub">Anaheim Convention Center · March 2–5, 2027</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Target role: <strong>East Africa Hosted Buyer Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Sourcing: <strong>Natural & organic product buyers</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🤝</span><span>Organiser: <strong>New Hope Network — outreach initiated</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🏆</span><span>Programme: <strong>$550 airfare + hotel for qualifiers</strong></span></div>
+        </div>
+      </div>
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇨🇳</span>
+          <div class="proof-status live">Coordinated</div>
+          <div class="proof-expo-name">Hometex China 2026</div>
+          <div class="proof-expo-sub">Shenzhen · Home Textiles & Interior Exhibition</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>EA Buyer Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Delegates: <strong>Home textiles importers & retailers</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🌍</span><span>Region: <strong>Kenya, Uganda, Tanzania</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🏭</span><span>Outcome: <strong>Direct supplier connections established</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇪🇬</span>
+          <div class="proof-status live">Coordinated</div>
+          <div class="proof-expo-name">Food Africa Egypt</div>
+          <div class="proof-expo-sub">Cairo International Convention Centre</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>EA Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Delegates: <strong>Food importers, distributors & buyers</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🌍</span><span>Region: <strong>Kenya, Ethiopia, Rwanda</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🤝</span><span>Outcome: <strong>Sourcing partnerships & trade deals</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇨🇳</span>
+          <div class="proof-status live">Coordinated</div>
+          <div class="proof-expo-name">ITB China</div>
+          <div class="proof-expo-sub">Shanghai · Travel & Tourism Trade Show</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>EA Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Delegates: <strong>Tourism & hospitality professionals</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🌍</span><span>Region: <strong>Kenya, Tanzania, Uganda</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">✈️</span><span>Outcome: <strong>China-Africa tourism partnerships</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇨🇳</span>
+          <div class="proof-status live">Coordinated</div>
+          <div class="proof-expo-name">Canton Fair China</div>
+          <div class="proof-expo-sub">Guangzhou · World's Largest Import/Export Fair</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>EA Buyer Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Delegates: <strong>Importers, manufacturers & traders</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🌍</span><span>Region: <strong>Kenya, Uganda, Tanzania, Rwanda</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🏭</span><span>Outcome: <strong>Direct factory & supplier sourcing</strong></span></div>
+        </div>
+      </div>
+
+      <div class="proof-card fade-up">
+        <div class="proof-card-top">
+          <span class="proof-flag">🇦🇪</span>
+          <div class="proof-status live">Coordinated</div>
+          <div class="proof-expo-name">GITEX Global</div>
+          <div class="proof-expo-sub">Dubai World Trade Centre · Technology & Innovation</div>
+        </div>
+        <div class="proof-card-bottom">
+          <div class="proof-detail"><span class="pd-icon">🎯</span><span>Role: <strong>EA Delegation Coordinator</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">👥</span><span>Delegates: <strong>Tech entrepreneurs & digital innovators</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">🌍</span><span>Region: <strong>Kenya, Ethiopia, Uganda</strong></span></div>
+          <div class="proof-detail"><span class="pd-icon">💻</span><span>Outcome: <strong>Tech partnerships & investment connections</strong></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELEGATE REVIEWS -->
+<section style="background:var(--forest); padding:100px 48px;">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="color:var(--gold);">Real Results. Real People.</div>
+    <h2 class="section-title" style="color:var(--white);">What happens when East African<br>professionals attend the <em>right expo</em></h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.55); margin-bottom:56px;">These are the real business outcomes our delegates achieved through SAIS Events-coordinated programmes. Not attendance — outcomes.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">🐔</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"Through the expo matchmaking programme, I connected with investors who were actively looking for JV partners in East Africa. We now run a broiler meat operation and are exporting to the Middle East. I didn't know this was possible until SAIS Events put me in the right room."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">Anna Njenga</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Agribusiness Entrepreneur · Nairobi, Kenya</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Poultry & Meat Export to Middle East</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">🐐</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"I attended the Dubai agribusiness expo and walked away with a confirmed market for goat meat in Dubai. SAIS Events handled everything — from my visa to making sure I had the right meetings lined up. Patrick Mungai Supplies now has a real export pipeline."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">Patrick Mungai</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Livestock Farmer & Exporter · Nakuru, Kenya</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Goat Meat Export — Dubai Market</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">🥑</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"I went to the expo not knowing what to expect. Kate and the team briefed us thoroughly beforehand. I had 8 pre-scheduled meetings and walked away with two confirmed buyers for my avocados. That single trip changed my business trajectory completely."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">John Karanja</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Horticulture Farmer · Murang'a, Kenya</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Avocado Export — International Buyers</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">🌿</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"We are a cooperative of herb farmers in Uganda. We needed processing machinery and had no idea how to find the right Chinese supplier. SAIS Events took us to the Canton Fair, helped us navigate the floor, and we found exactly what we needed. The machines are already here."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">Kigezi Herbs Cooperative</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Farmers' Cooperative · Kabale, Uganda</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Chinese Herb Processing Machinery Sourced</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">💄</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"I had been struggling to find a reliable manufacturer for my beauty product line for two years. One expo trip coordinated by SAIS Events and I found my manufacturer directly. No middlemen. My brand is now in production and on shelves in Nairobi."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">Grace Wanjiku</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Beauty Brand Founder · Nairobi, Kenya</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Direct Beauty Product Manufacturer Found</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:32px 28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:1.4rem;">🦷</div>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.75); line-height:1.75; font-weight:300; font-style:italic;">"As a dentist, I was spending too much on dental equipment through distributors with huge markups. SAIS Events took me to a healthcare expo in India where I connected with manufacturers directly. My procurement costs dropped by over 40%. That's real money."</p>
+        <div style="margin-top:auto; padding-top:16px; border-top:1px solid rgba(200,169,110,0.12);">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--white);">Dr. Samuel Otieno</div>
+          <div style="font-size:0.75rem; color:var(--gold); font-weight:400;">Dental Surgeon & Clinic Owner · Kisumu, Kenya</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:4px;">Direct Dental Equipment Sourcing — India</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES DECK SECTION -->
+<section style="background:var(--forest); padding:100px 48px;" id="capabilities">
+  <div class="section-inner">
+
+    <!-- Section Header -->
+    <div class="section-eyebrow" style="color:var(--gold);">Our Full Capabilities</div>
+    <h2 class="section-title" style="color:var(--white);">Everything we bring to<br>your <em>programme — at a glance</em></h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.55); margin-bottom:64px; max-width:600px;">
+      A complete overview of who we are, what we do, where we operate, and what we deliver — for expo organisers evaluating SAIS Events as their East Africa coordination partner.
+    </p>
+
+    <!-- CARD GRID WRAPPER -->
+    <div style="display:flex; flex-direction:column; gap:32px;">
+
+      <!-- ROW 1: Who We Are + Stats -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+
+        <!-- Who We Are -->
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(200,169,110,0.2); border-radius:16px; padding:36px 32px;">
+          <div style="font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:16px;">01 — WHO WE ARE</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--white); font-weight:600; margin-bottom:16px; line-height:1.3; letter-spacing:-0.02em;">East Africa's Dedicated Trade Delegation Coordinator</h3>
+          <p style="font-size:0.83rem; color:rgba(255,255,255,0.6); line-height:1.75; font-weight:300; margin-bottom:20px;">
+            SAIS Events is headquartered in Nairobi, Kenya, with an active team across 6 East African countries and international connections spanning China, UAE, and India. We exist for one purpose: to connect East African professionals with the world's best international trade programmes — and deliver them prepared, vetted, and ready to do serious business.
+          </p>
+          <div style="background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:10px; padding:16px 20px;">
+            <p style="font-size:0.82rem; color:rgba(255,255,255,0.6); line-height:1.65; font-style:italic; font-weight:300; margin:0;">
+              "I built SAIS Events because East African professionals with real purchasing power had no credible, supported route into the world's leading trade programmes. We are that route."
+            </p>
+            <p style="font-size:0.75rem; color:var(--gold); font-weight:600; margin-top:10px; margin-bottom:0;">— Catherine Kinyanjui, CEO</p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; flex:1;">
+            <div style="background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:12px; padding:24px 20px; text-align:center;">
+              <div style="font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--gold); line-height:1; margin-bottom:8px;">3,000+</div>
+              <div style="font-size:0.72rem; color:rgba(255,255,255,0.45); line-height:1.4; font-weight:300;">EA Professional Network Contacts</div>
+            </div>
+            <div style="background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:12px; padding:24px 20px; text-align:center;">
+              <div style="font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--gold); line-height:1; margin-bottom:8px;">6</div>
+              <div style="font-size:0.72rem; color:rgba(255,255,255,0.45); line-height:1.4; font-weight:300;">East African Countries Active</div>
+            </div>
+            <div style="background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:12px; padding:24px 20px; text-align:center;">
+              <div style="font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--gold); line-height:1; margin-bottom:8px;">5</div>
+              <div style="font-size:0.72rem; color:rgba(255,255,255,0.45); line-height:1.4; font-weight:300;">Industry Sectors with Active Pipelines</div>
+            </div>
+            <div style="background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:12px; padding:24px 20px; text-align:center;">
+              <div style="font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--gold); line-height:1; margin-bottom:8px;">10+</div>
+              <div style="font-size:0.72rem; color:rgba(255,255,255,0.45); line-height:1.4; font-weight:300;">International Expos Coordinated</div>
+            </div>
+          </div>
+          <!-- Active badge -->
+          <div style="background:rgba(74,222,128,0.06); border:1px solid rgba(74,222,128,0.2); border-radius:12px; padding:16px 20px; display:flex; align-items:center; gap:12px;">
+            <div style="width:8px; height:8px; background:#4ADE80; border-radius:50%; flex-shrink:0; animation:pulse 2s infinite;"></div>
+            <div style="font-size:0.8rem; color:rgba(255,255,255,0.6); font-weight:300; line-height:1.5;">
+              <strong style="color:#4ADE80;">Currently active</strong> — Coordinating delegates for Egypt, South Africa, USA, China, UAE & India
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2: Services -->
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(200,169,110,0.15); border-radius:16px; padding:36px 32px;">
+        <div style="font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:24px;">02 — WHAT WE DO</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">01 DELEGATE SOURCING</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Tap our 3,000+ verified professional network to identify candidates matching your exact buyer profile.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">02 PRE-QUALIFICATION</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Every candidate screened for decision-making authority, purchasing budget, and sourcing mandate before submission.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">03 APPLICATION MANAGEMENT</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Hosted buyer forms, platform registrations, matchmaking app setups — all paperwork handled on your timeline.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">04 VISA & TRAVEL DOCS</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Official invitation letters, embassy guidance, itinerary preparation — everything delegates need to get on the plane.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">05 PRE-DEPARTURE BRIEFING</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Orientation sessions: expo navigation, meeting etiquette, obligations, goal-setting. Delegates arrive ready to work.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">06 MATCHMAKING TRAINING</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Platform walkthroughs — how to build a profile, request meetings, favourite products, and maximise the show floor.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">07 ON-GROUND SUPPORT</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">Active WhatsApp delegation group throughout the event — real-time logistics, reminders, troubleshooting.</p>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--gold); margin-bottom:6px; letter-spacing:0.5px;">08 POST-EVENT REPORTING</div>
+            <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); line-height:1.6; font-weight:300;">East Africa Delegation Report: attendance, meetings, outcomes, buyer feedback, and market intelligence for next edition.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: Industries + Footprint -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+
+        <!-- Industries -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(200,169,110,0.15); border-radius:16px; padding:36px 32px;">
+          <div style="font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:20px;">03 — INDUSTRY PIPELINES</div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:1.1rem;">🌾</span>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--white);">Agribusiness & Food</div>
+                <div style="font-size:0.73rem; color:rgba(255,255,255,0.4); font-weight:300;">Farmers, processors, importers, agri-tech</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:1.1rem;">🌿</span>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--white);">Natural & Organic Products</div>
+                <div style="font-size:0.73rem; color:rgba(255,255,255,0.4); font-weight:300;">Health, wellness, organic retail & distribution</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:1.1rem;">🏢</span>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--white);">Real Estate & Investment</div>
+                <div style="font-size:0.73rem; color:rgba(255,255,255,0.4); font-weight:300;">Developers, agents, fund managers</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:1.1rem;">🏭</span>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--white);">Trade & Manufacturing</div>
+                <div style="font-size:0.73rem; color:rgba(255,255,255,0.4); font-weight:300;">Importers, distributors, SME manufacturers</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:1.1rem;">🏥</span>
+              <div>
+                <div style="font-size:0.82rem; font-weight:700; color:var(--white);">Healthcare & Medical</div>
+                <div style="font-size:0.73rem; color:rgba(255,255,255,0.4); font-weight:300;">Clinicians, procurement, medical device importers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coordination Footprint -->
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(200,169,110,0.15); border-radius:16px; padding:36px 32px;">
+          <div style="font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:20px;">04 — COORDINATION FOOTPRINT</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇰🇪 Kenya — HQ & Primary Market</span>
+              <span style="font-size:0.68rem; font-weight:700; color:#4ADE80; background:rgba(74,222,128,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(74,222,128,0.25);">ACTIVE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇺🇬 Uganda</span>
+              <span style="font-size:0.68rem; font-weight:700; color:#4ADE80; background:rgba(74,222,128,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(74,222,128,0.25);">ACTIVE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇹🇿 Tanzania</span>
+              <span style="font-size:0.68rem; font-weight:700; color:#4ADE80; background:rgba(74,222,128,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(74,222,128,0.25);">ACTIVE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇷🇼 Rwanda</span>
+              <span style="font-size:0.68rem; font-weight:700; color:var(--gold-light); background:rgba(200,169,110,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(200,169,110,0.25);">PIPELINE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇪🇹 Ethiopia</span>
+              <span style="font-size:0.68rem; font-weight:700; color:var(--gold-light); background:rgba(200,169,110,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(200,169,110,0.25);">PIPELINE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇧🇮 Burundi</span>
+              <span style="font-size:0.68rem; font-weight:700; color:var(--gold-light); background:rgba(200,169,110,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(200,169,110,0.25);">PIPELINE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:0.82rem; color:rgba(255,255,255,0.75); font-weight:300;">🇨🇳 China · 🇦🇪 UAE · 🇮🇳 India</span>
+              <span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; border:1px solid rgba(96,165,250,0.25);">INT'L PARTNER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 4: Expos Table -->
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(200,169,110,0.15); border-radius:16px; padding:36px 32px;">
+        <div style="font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:20px;">05 — EXPOS COORDINATED & IN PIPELINE</div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
+            <thead>
+              <tr style="background:rgba(200,169,110,0.1); border-bottom:1px solid rgba(200,169,110,0.25);">
+                <th style="text-align:left; padding:10px 14px; font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold);">Expo</th>
+                <th style="text-align:left; padding:10px 14px; font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold);">Location</th>
+                <th style="text-align:left; padding:10px 14px; font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold);">Status</th>
+                <th style="text-align:left; padding:10px 14px; font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold);">Sector</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Sahara International Agricultural Exhibition</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇪🇬 Cairo, Egypt</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#4ADE80; background:rgba(74,222,128,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">LIVE 2026</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Agribusiness & Food</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.02);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Africa Food Show</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇿🇦 Cape Town, South Africa</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:var(--gold-light); background:rgba(200,169,110,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">PIPELINE 2027</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Food & Beverage</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Natural Products Expo West</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇺🇸 Anaheim, USA</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:var(--gold-light); background:rgba(200,169,110,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">PIPELINE 2027</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Natural & Organic Products</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.02);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Canton Fair</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇨🇳 Guangzhou, China</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">COORDINATED</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Trade & Manufacturing</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Hometex China</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇨🇳 Shenzhen, China</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">COORDINATED</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Home Textiles & Imports</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.02);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">ITB China</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇨🇳 Shanghai, China</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">COORDINATED</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Tourism & Hospitality</td>
+              </tr>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">Food Africa Egypt</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇪🇬 Cairo, Egypt</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">COORDINATED</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Food & Beverage</td>
+              </tr>
+              <tr style="background:rgba(255,255,255,0.02);">
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.85); font-weight:500;">GITEX Global</td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300;">🇦🇪 Dubai, UAE</td>
+                <td style="padding:11px 14px;"><span style="font-size:0.68rem; font-weight:700; color:#60A5FA; background:rgba(96,165,250,0.12); padding:3px 10px; border-radius:100px; white-space:nowrap;">COORDINATED</span></td>
+                <td style="padding:11px 14px; color:rgba(255,255,255,0.45); font-weight:300; font-size:0.77rem;">Technology & Innovation</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ROW 5: Download Deck CTA -->
+      <div style="background:linear-gradient(135deg, rgba(200,169,110,0.12), rgba(200,169,110,0.04)); border:1px solid rgba(200,169,110,0.3); border-radius:16px; padding:36px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+        <div>
+          <div style="font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px;">DOWNLOAD</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--white); font-weight:600; margin-bottom:8px; letter-spacing:-0.02em;">Take Our Capabilities Deck With You</h3>
+          <p style="font-size:0.83rem; color:rgba(255,255,255,0.5); font-weight:300; max-width:480px; line-height:1.65; margin:0;">A full 7-page PDF overview of SAIS Events — who we are, what we do, every expo we've coordinated, our 10 key value propositions, and real delegate outcomes. Built to share with your team.</p>
+        </div>
+        <a href="/SAIS-Events-Capabilities-Deck.pdf" download style="background:var(--gold); color:var(--forest); padding:16px 32px; border-radius:10px; font-size:0.88rem; font-weight:700; text-decoration:none; letter-spacing:0.5px; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:10px; transition:all 0.2s;">
+          📄 Download PDF Deck
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 10 REASONS TO WORK WITH SAIS EVENTS -->
+<section style="background:var(--cream); padding:100px 48px;" id="why-sais">
+  <div class="section-inner">
+    <div class="section-eyebrow">Why Expo Organisers Choose Us</div>
+    <h2 class="section-title">10 reasons serious expo organisers<br>partner with <em>SAIS Events</em></h2>
+    <p class="section-sub" style="margin-bottom:64px;">
+      Most regional coordinators offer logistics. We offer outcomes. Here is exactly what we bring to your programme — and why it matters to your bottom line.
+    </p>
+
+    <!-- REASON 1 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">01</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">📊</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Make Your Country Count Bigger</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">International expos live and die by the <strong style="color:var(--forest);">"participating countries"</strong> metric. It's your most powerful marketing asset — the number that attracts exhibitors, justifies stand prices, and signals global reach. East Africa is 6 countries in one partnership call. One agreement with SAIS Events adds Kenya, Uganda, Tanzania, Rwanda, Ethiopia, and Burundi to your headline statistics.</p>
+        <div style="background:var(--forest); color:var(--gold-light); padding:14px 20px; border-radius:10px; font-size:0.82rem; font-weight:500; display:inline-block;">💡 <em>"One SAIS Events partnership = up to 6 new countries on your programme map."</em></div>
+      </div>
+    </div>
+
+    <!-- REASON 2 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">02</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🌱</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Open East Africa — The Next Big Buyer Market</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Your current buyer cohort is probably 80% Europe, Asia, and Middle East. East Africa is the frontier your exhibitors are trying to reach but have no route into. 450M+ population. The fastest-growing middle class on the continent. Governments actively pushing import diversification. Billions flowing into infrastructure and food security.</p>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300;">We are the direct route into this market. No other coordinator brings you verified, purchase-ready East African buyers across agribusiness, food, healthcare, technology, and manufacturing.</p>
+      </div>
+    </div>
+
+    <!-- REASON 3 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">03</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🔁</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Deliver a Year-Round Pipeline — Not a One-Off</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">The worst thing for a hosted buyer programme is starting from scratch every edition. Most coordinators disappear after the event. SAIS Events maintains, grows, and refreshes our East Africa delegate pipeline 365 days a year — continuously identifying, nurturing, and qualifying professionals across our 3,000+ network.</p>
+        <div style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.2); border-radius:10px; padding:16px 20px; font-size:0.82rem; color:var(--forest-mid); font-weight:500;">✅ Your programme gets stronger with every edition. Our pipeline grows. Your numbers improve. Year on year.</div>
+      </div>
+    </div>
+
+    <!-- REASON 4 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">04</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🛡️</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Take Full Accountability — No Passengers</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Hosted buyer programmes are destroyed by two things: <strong style="color:var(--forest);">no-shows and under-qualified delegates.</strong> They embarrass you in front of exhibitors and erode trust in your programme. Every delegate we submit has been personally vetted by our team. We screen for decision-making authority, purchasing budget, sourcing mandate, and genuine business intent.</p>
+        <div style="background:var(--gold-pale); border:1px solid var(--border-dark); border-radius:10px; padding:16px 20px; font-size:0.85rem; color:#6B4C00; font-weight:600; font-style:italic;">"We would rather send you 5 serious delegates than 20 passengers. Quality over quota. Always."</div>
+      </div>
+    </div>
+
+    <!-- REASON 5 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">05</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">💰</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Directly Improve Your Exhibitors' ROI</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Exhibitors pay $10,000 to $100,000+ for stand space. Their renewal decision depends entirely on meeting quality. When you bring East African buyers who arrive with specific sourcing mandates — tonnes of product needed, machinery specifications, JV requirements — your exhibitors get meetings worth having. That translates directly to exhibitor satisfaction and stand renewal rates.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--forest);">✓</div>
+            <div style="font-size:0.72rem; color:var(--muted); font-weight:400; line-height:1.4;">Delegates arrive with specific buying mandates</div>
+          </div>
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--forest);">✓</div>
+            <div style="font-size:0.72rem; color:var(--muted); font-weight:400; line-height:1.4;">Pre-briefed on matchmaking — no wasted meetings</div>
+          </div>
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--forest);">✓</div>
+            <div style="font-size:0.72rem; color:var(--muted); font-weight:400; line-height:1.4;">Decision-makers with real purchasing authority</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 6 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">06</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">📣</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Market Your Expo Inside East Africa</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Reaching East African professionals through traditional channels costs organisers thousands in paid campaigns with poor conversion. When we coordinate for your programme, we actively promote your expo across our entire EA ecosystem — WhatsApp communities spanning 3,000+ professionals, social media channels, and professional group networks.</p>
+        <div style="background:var(--forest); border-radius:10px; padding:18px 22px; display:flex; gap:20px; flex-wrap:wrap;">
+          <div style="text-align:center; flex:1; min-width:100px;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--gold);">3K+</div>
+            <div style="font-size:0.72rem; color:rgba(255,255,255,0.5); margin-top:4px;">WhatsApp reach</div>
+          </div>
+          <div style="text-align:center; flex:1; min-width:100px;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--gold);">6</div>
+            <div style="font-size:0.72rem; color:rgba(255,255,255,0.5); margin-top:4px;">Countries promoted in</div>
+          </div>
+          <div style="text-align:center; flex:1; min-width:100px;">
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--gold);">£0</div>
+            <div style="font-size:0.72rem; color:rgba(255,255,255,0.5); margin-top:4px;">Cost to you</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 7 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">07</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🤝</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Bridge the Cultural Gap — Both Ways</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">East African business culture is distinct. Trust is built differently. Decisions move differently. An organiser running a matchmaking app with no EA cultural context gets poor engagement from EA delegates — and confused exhibitors. We translate in both directions: preparing delegates for how international expos work, and helping organisers understand what East African buyers need to engage authentically and do business confidently.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:var(--cream); border-radius:8px; padding:14px 16px; border:1px solid var(--border);">
+            <div style="font-size:0.78rem; font-weight:700; color:var(--forest); margin-bottom:4px;">For Your Delegates</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.5; font-weight:300;">How to engage at international expos, professional norms, meeting etiquette, follow-up expectations</div>
+          </div>
+          <div style="background:var(--cream); border-radius:8px; padding:14px 16px; border:1px solid var(--border);">
+            <div style="font-size:0.78rem; font-weight:700; color:var(--forest); margin-bottom:4px;">For Your Programme</div>
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.5; font-weight:300;">How to communicate with EA buyers, what motivates them, how to structure onboarding for this market</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 8 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">08</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">🏛️</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Have Government & Trade Body Reach</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Most regional coordinators work through personal networks alone. SAIS Events has established working relationships with government trade agencies, embassies, export promotion boards, and industry associations across East Africa. This means our delegations can carry <strong style="color:var(--forest);">official trade mission status</strong> — which elevates your programme's standing with exhibitors, sponsors, and government partners.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+          <span style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.25); color:var(--forest-mid); font-size:0.73rem; font-weight:600; padding:6px 14px; border-radius:100px;">🇰🇪 KEPROBA Kenya</span>
+          <span style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.25); color:var(--forest-mid); font-size:0.73rem; font-weight:600; padding:6px 14px; border-radius:100px;">🏛️ Export Promotion Bodies</span>
+          <span style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.25); color:var(--forest-mid); font-size:0.73rem; font-weight:600; padding:6px 14px; border-radius:100px;">🌍 Industry Associations</span>
+          <span style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.25); color:var(--forest-mid); font-size:0.73rem; font-weight:600; padding:6px 14px; border-radius:100px;">🏢 Agribusiness Councils</span>
+          <span style="background:var(--forest-pale); border:1px solid rgba(61,122,87,0.25); color:var(--forest-mid); font-size:0.73rem; font-weight:600; padding:6px 14px; border-radius:100px;">🤝 Trade Missions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 9 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0; border-bottom:1px solid var(--border);">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">09</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">📱</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Move Faster Than Any Other Coordinator</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:16px;">Most regions need 6–9 months to build a credible delegate pipeline. Traditional coordinators rely on email campaigns and conference calls with slow response rates. East Africa runs on WhatsApp — and so do we. Because our 3,000+ contacts are warm, direct relationships, we can mobilise, qualify, and deliver a shortlist of vetted delegates faster than any other coordinator working this region.</p>
+        <div style="background:var(--forest); color:var(--white); border-radius:10px; padding:18px 24px; display:flex; align-items:center; gap:20px;">
+          <div style="font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:700; color:var(--gold); line-height:1; flex-shrink:0;">2<span style="font-size:1.4rem;">wks</span></div>
+          <div style="font-size:0.83rem; color:rgba(255,255,255,0.7); line-height:1.6; font-weight:300;">From criteria agreement to a qualified EA delegate shortlist in your inbox. No other East Africa coordinator delivers this fast.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASON 10 -->
+    <div style="display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; padding:40px 0;">
+      <div style="font-family:'Playfair Display',serif; font-size:4rem; font-weight:700; color:rgba(200,169,110,0.18); line-height:1; text-align:center;">10</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:44px; height:44px; background:var(--gold-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">📈</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.25rem; font-weight:700; color:var(--forest); letter-spacing:-0.02em;">We Give You East Africa Market Intelligence</h3>
+        </div>
+        <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; font-weight:300; margin-bottom:20px;">After every programme we coordinate, we deliver a structured <strong style="color:var(--forest);">East Africa Delegation Report</strong> — attendance confirmed, meetings held, outcomes achieved, and buyer feedback. This gives your team qualitative market intelligence you simply cannot get anywhere else: what East African buyers want, what gaps exist on your expo floor, which product categories are in active demand across the region.</p>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center;">
+            <div style="font-size:1.2rem; margin-bottom:8px;">📋</div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--forest); line-height:1.4;">Attendance & meeting completion report</div>
+          </div>
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center;">
+            <div style="font-size:1.2rem; margin-bottom:8px;">💬</div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--forest); line-height:1.4;">Delegate feedback & satisfaction data</div>
+          </div>
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center;">
+            <div style="font-size:1.2rem; margin-bottom:8px;">🎯</div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--forest); line-height:1.4;">Product demand insights from EA buyers</div>
+          </div>
+          <div style="background:var(--cream); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center;">
+            <div style="font-size:1.2rem; margin-bottom:8px;">📊</div>
+            <div style="font-size:0.72rem; font-weight:700; color:var(--forest); line-height:1.4;">Recommendations for next edition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 10 REASONS TO PARTNER -->
+<section style="background:var(--cream); padding:100px 48px;">
+  <div class="section-inner">
+    <div class="section-eyebrow">Why Smart Organisers Choose SAIS Events</div>
+    <h2 class="section-title">10 reasons to make us your<br><em>official East Africa coordinator</em></h2>
+    <p class="section-sub" style="margin-bottom:64px;">These aren't talking points. They're the strategic reasons why partnering with SAIS Events directly improves your programme metrics, your exhibitor satisfaction, and your global reach.</p>
+
+    <!-- ROW 1 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">01</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🌍</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">We Make Your Country Count Look Global</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">International expos market themselves on geographic diversity. "60 participating countries" is a headline stat that attracts exhibitors and justifies premium stand prices. One partnership with SAIS Events adds up to 6 East African nations to your programme — Kenya, Uganda, Tanzania, Rwanda, Ethiopia, and Burundi — in a single coordinated delegation. That's a continent's worth of diversity, delivered.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">02</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🌱</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">We Open the World's Next Big Buyer Market</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">Your current hosted buyer cohort is probably 80% Europe, Asia, and Middle East. East Africa — 450M+ population, fastest-growing middle class on the continent, governments actively pushing import diversification — is the market your exhibitors are desperately trying to reach but have no route into. We are that route. Bringing EA buyers to your expo gives your exhibitors access to a frontier market no other regional coordinator can open for you.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">03</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🔁</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">A Pipeline That Grows Year on Year</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">The worst thing for a hosted buyer programme is starting from scratch every edition. We don't disappear after the expo. We maintain and actively grow our EA delegate pipeline year-round — adding new professionals, refreshing existing contacts, and building deeper relationships across sectors. Every edition of your programme gets stronger EA representation than the last. We are a long-term partner, not a one-time vendor.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">04</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🛡️</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">We Take Full Accountability for Delegate Quality</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">Hosted buyer programmes are killed by no-shows and under-qualified delegates. These embarrass organisers in front of paying exhibitors and damage long-term credibility. We take full accountability for every delegate we submit. If they don't meet your criteria precisely, they don't go. We'd rather send you 5 serious, prepared delegates than 20 passengers filling seats. Quality over volume — always.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 3 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+      <div style="background:var(--forest); border-radius:18px; padding:40px 36px; display:flex; gap:24px; align-items:flex-start;">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.2); line-height:1; flex-shrink:0; min-width:60px;">05</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">💰</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--white); letter-spacing:-0.01em;">We Directly Improve Your Exhibitor ROI</h4>
+          </div>
+          <p style="font-size:0.83rem; color:rgba(255,255,255,0.6); line-height:1.75; font-weight:300;">Exhibitors pay $10,000–$100,000+ for stands. Their ROI depends entirely on meeting quality buyers. The East African delegates we bring don't browse — they arrive with specific mandates: X tonnes of a product, Y type of machinery, Z category of supplier. When your exhibitors meet our delegates, they meet buyers with real intent and real budgets. That improves exhibitor satisfaction, renewal rates, and your reputation as a programme worth exhibiting at.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--forest); border-radius:18px; padding:40px 36px; display:flex; gap:24px; align-items:flex-start;">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.2); line-height:1; flex-shrink:0; min-width:60px;">06</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">📣</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--white); letter-spacing:-0.01em;">Free Regional Marketing — Inside East Africa</h4>
+          </div>
+          <p style="font-size:0.83rem; color:rgba(255,255,255,0.6); line-height:1.75; font-weight:300;">When we coordinate for your programme, we actively promote your expo across our 3,000+ professional WhatsApp network, social channels, and industry communities. Your event gets regional visibility and brand awareness inside East Africa — a market you'd otherwise spend thousands trying to penetrate through agencies and media buys. Our coordination comes with built-in marketing reach you can't buy separately.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 4 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">07</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🤝</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">We Are the Cultural Bridge You Don't Have</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">East African business culture is distinct. The way professionals build trust, make decisions, and engage at international expos differs significantly from European or Asian norms. A matchmaking app with no EA context gets poor engagement from EA delegates. We don't just logistics-coordinate — we culturally translate. We prepare delegates for how your programme works, and we help your team understand what East African buyers need to feel confident doing business on your show floor.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">08</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">🏛️</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">Government & Trade Body Institutional Access</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">We work with government trade bodies, export promotion councils, embassies, and industry associations across East Africa. This gives us access to officially sanctioned trade delegations — not just private individuals. When we bring a delegation carrying official trade mission status, it elevates your programme's standing with exhibitors, sponsors, and government stakeholders in ways that ordinary regional coordinators simply cannot deliver.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 5 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:48px;">
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">09</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">⚡</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">The Fastest Mobilisation in the Region</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">Most regional coordinators need 6–9 months to build a credible delegate pipeline. Because our 3,000+ contacts are warm, direct, and WhatsApp-accessible — the native professional communication channel of East Africa — we can have a qualified shortlist in your inbox within 2 weeks of agreeing criteria. When your programme has a tight timeline, SAIS Events is the only East African coordinator that can actually move at your speed.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--white); border-radius:18px; padding:40px 36px; border:1px solid var(--border); display:flex; gap:24px; align-items:flex-start; transition:box-shadow 0.25s;" onmouseover="this.style.boxShadow='0 20px 60px rgba(26,58,42,0.1)'" onmouseout="this.style.boxShadow='none'">
+        <div style="font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; color:rgba(200,169,110,0.15); line-height:1; flex-shrink:0; min-width:60px;">10</div>
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+            <span style="font-size:1.4rem;">📈</span>
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--forest); letter-spacing:-0.01em;">We Give You Market Intelligence, Not Just Attendance</h4>
+          </div>
+          <p style="font-size:0.83rem; color:var(--muted); line-height:1.75; font-weight:300;">After every programme, we deliver a structured East Africa Delegation Report — attendance confirmation, meetings held, business outcomes, and detailed buyer feedback. This is qualitative market intelligence your team can use to improve the next edition: what EA buyers want, what gaps exist in your exhibitor floor, what products are in demand across the region. We turn your EA cohort into a data asset, not just a headcount.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM CALLOUT -->
+    <div style="background:linear-gradient(135deg, var(--forest), var(--forest-mid)); border-radius:20px; padding:48px 52px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center;">
+      <div>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--white); font-weight:600; margin-bottom:12px; letter-spacing:-0.02em;">Still evaluating? Send us your programme brief.</h3>
+        <p style="font-size:0.88rem; color:rgba(255,255,255,0.55); line-height:1.7; font-weight:300; max-width:540px;">We'll respond within 48 hours with a clear, honest assessment of how many qualified East African delegates we can source for your event, your timeline, and what a coordination partnership looks like in practice.</p>
+      </div>
+      <div style="flex-shrink:0; display:flex; flex-direction:column; gap:12px; align-items:center;">
+        <a href="#contact" style="background:var(--gold); color:var(--forest); padding:16px 36px; border-radius:8px; font-size:0.88rem; font-weight:700; text-decoration:none; white-space:nowrap; display:block; text-align:center;">Partner With Us →</a>
+        <span style="font-size:0.72rem; color:rgba(255,255,255,0.35);">⏱ 48-hour response guaranteed</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUALIFIER -->
+<section class="qualifier-section">
+  <div class="qualifier-inner">
+    <div class="section-eyebrow" style="justify-content:center;color:var(--gold);">We're Selective Too</div>
+    <h2 class="section-title">We partner with organisers<br>who meet <em>our criteria</em></h2>
+    <p class="section-sub">
+      We invest heavily in building and preparing our EA delegate pipeline. In return, we work with programmes that offer real value and serious infrastructure for the professionals we represent.
+    </p>
+
+    <div class="qualifier-grid">
+      <div class="q-card">
+        <div class="q-check">✓</div>
+        <div class="q-text"><strong>A defined hosted buyer or delegation programme</strong> with clear qualifying criteria for delegates</div>
+      </div>
+      <div class="q-card">
+        <div class="q-check">✓</div>
+        <div class="q-text"><strong>Genuine benefits for East African delegates</strong> — whether hosted costs, matchmaking access, or credentialed programme status</div>
+      </div>
+      <div class="q-card">
+        <div class="q-check">✓</div>
+        <div class="q-text"><strong>A B2B or trade focus</strong> — not consumer shows. Our network is made up of professional buyers and decision-makers</div>
+      </div>
+      <div class="q-card">
+        <div class="q-check">✓</div>
+        <div class="q-text"><strong>Willingness to recognise SAIS Events</strong> as the official East Africa coordination point for your programme</div>
+      </div>
+    </div>
+
+    <div class="qualifier-cta-box">
+      <div class="qcb-title">If that's your programme — let's talk.</div>
+      <p class="qcb-desc">Send us your programme brief and qualifying criteria. We'll come back to you within 48 hours with a clear assessment of whether we can source qualified East African delegates for your event — and how many.</p>
+      <a href="#contact" class="btn-primary" style="justify-content:center;">Send Us Your Programme Brief →</a>
+      <div class="qcb-promise">⏱ 48-hour response. Always.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title">Ready to fill your<br>East Africa <em>seats?</em></h2>
+    <p class="cta-sub">
+      Reach out directly. Tell us about your programme, your buyer criteria, and your timeline. We'll take it from there.
+    </p>
+
+    <div class="contact-cards">
+      <a href="https://wa.me/254722170385?text=Hi%20Kate%2C%20I%27d%20like%20to%20discuss%20an%20East%20Africa%20delegation%20coordination%20partnership%20with%20SAIS%20Events" class="contact-card" target="_blank">
+        <span class="cc-icon">📱</span>
+        <div class="cc-label">WhatsApp (Kenya)</div>
+        <div class="cc-value">+254 722 170 385</div>
+      </a>
+      <a href="https://wa.me/971507687653?text=Hi%20Kate%2C%20I%27d%20like%20to%20discuss%20an%20East%20Africa%20delegation%20coordination%20partnership%20with%20SAIS%20Events" class="contact-card" target="_blank">
+        <span class="cc-icon">📱</span>
+        <div class="cc-label">WhatsApp (UAE)</div>
+        <div class="cc-value">+971 50 768 7653</div>
+      </a>
+      <a href="mailto:kate@saisleads.com?subject=East%20Africa%20Delegation%20Coordination%20Enquiry&body=Hi%20Catherine%2C%0A%0AI%27d%20like%20to%20discuss%20a%20coordination%20partnership%20for%20our%20programme.%0A%0AEvent%20Name%3A%0AEvent%20Date%3A%0ALocation%3A%0ATarget%20Delegate%20Profile%3A%0A%0AThank%20you." class="contact-card">
+        <span class="cc-icon">✉️</span>
+        <div class="cc-label">Email</div>
+        <div class="cc-value">kate@saisleads.com</div>
+      </a>
+    </div>
+
+    <a href="mailto:kate@saisleads.com?subject=East%20Africa%20Delegation%20Coordination%20Enquiry&body=Hi%20Catherine%2C%0A%0AI%27d%20like%20to%20discuss%20a%20coordination%20partnership%20for%20our%20programme.%0A%0AEvent%20Name%3A%0AEvent%20Date%3A%0ALocation%3A%0ATarget%20Delegate%20Profile%3A%0A%0AThank%20you." class="btn-primary" style="font-size:0.95rem; padding:16px 40px;">
+      📩 Send Your Programme Brief
+    </a>
+
+    <p class="cta-48hr">We respond to every serious enquiry within 48 hours.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SAIS <span>Events</span></div>
+  <p>Official Industry Expos Coordinators for East Africa Region · Nairobi, Kenya</p>
+  <a href="https://saisevents.com">saisevents.com</a>
+</footer>
+
+<script>
+  // Scroll-triggered fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stagger children in grids
+  document.querySelectorAll('.services-grid .fade-up, .industries-grid .fade-up, .proof-grid .fade-up').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 80}ms`;
+  });
+</script>
+
+</body>
+</html>
