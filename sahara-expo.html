@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahara Expo 2026 — East Africa Delegation | SAIS Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #C8A96E;
+    --sand-light: #E8D5A3;
+    --sand-pale: #F5EDD8;
+    --nile: #1A3A2A;
+    --nile-mid: #2C5C3F;
+    --nile-light: #3D7A57;
+    --cream: #FAF7F0;
+    --charcoal: #1C1C1C;
+    --muted: #6B6B5A;
+    --white: #FFFFFF;
+    --danger: #C0392B;
+    --success: #27AE60;
+    --border: rgba(200,169,110,0.3);
+    --shadow: 0 20px 60px rgba(26,58,42,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ======= HERO HEADER ======= */
+  .hero {
+    background: var(--nile);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 80% 0%, rgba(200,169,110,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 100%, rgba(61,122,87,0.2) 0%, transparent 50%);
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: 
+      repeating-linear-gradient(45deg, var(--sand) 0, var(--sand) 1px, transparent 0, transparent 50%);
+    background-size: 20px 20px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px 50px;
+    text-align: center;
+  }
+
+  .expo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.15);
+    border: 1px solid rgba(200,169,110,0.4);
+    border-radius: 100px;
+    padding: 6px 18px;
+    margin-bottom: 28px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sand-light);
+  }
+
+  .expo-badge .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--sand);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span {
+    color: var(--sand);
+    font-style: italic;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 560px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .event-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+
+  .meta-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--sand-light);
+    font-weight: 600;
+  }
+
+  .fcfs-banner {
+    background: linear-gradient(135deg, rgba(192,57,43,0.9), rgba(142,27,13,0.9));
+    border: 1px solid rgba(255,100,80,0.3);
+    border-radius: 12px;
+    padding: 14px 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 auto;
+  }
+
+  .fcfs-banner .icon { font-size: 1.2rem; }
+
+  .fcfs-text {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.95);
+    font-weight: 500;
+  }
+
+  .fcfs-text strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ======= ORGANIZER STRIP ======= */
+  .organizer-strip {
+    background: var(--sand);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .organizer-strip span {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--nile);
+  }
+
+  .org-divider {
+    width: 4px;
+    height: 4px;
+    background: var(--nile);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  /* ======= MAIN LAYOUT ======= */
+  .main-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* ======= INFO CARDS ======= */
+  .info-stack { display: flex; flex-direction: column; gap: 24px; }
+
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .card-header {
+    background: var(--nile);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card-header.gold { background: linear-gradient(135deg, #8B6914, #C8A96E); }
+  .card-header.red { background: linear-gradient(135deg, #7B2D2D, #C0392B); }
+  .card-header.teal { background: linear-gradient(135deg, #1A3A2A, #2C5C3F); }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .card-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+  }
+
+  .card-header p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  .card-body { padding: 28px; }
+
+  /* ======= MATCHMAKING SECTION ======= */
+  .approval-notice {
+    background: linear-gradient(135deg, #FFF8E8, #FFF3D6);
+    border: 1.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .approval-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+
+  .approval-text h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #7A5C00;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+
+  .approval-text p {
+    font-size: 0.85rem;
+    color: #5C4400;
+    line-height: 1.6;
+  }
+
+  .includes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .include-item {
+    background: #F8FCF9;
+    border: 1px solid rgba(61,122,87,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .include-check {
+    width: 20px;
+    height: 20px;
+    background: var(--nile-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .include-check svg {
+    width: 10px;
+    height: 10px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .include-item span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--nile);
+    line-height: 1.4;
+  }
+
+  /* ======= PROGRAMS SECTION ======= */
+  .programs-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .program-item {
+    border-left: 3px solid var(--sand);
+    padding: 14px 18px;
+    background: #FAFAF7;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .program-item h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--nile);
+    margin-bottom: 4px;
+  }
+
+  .program-item p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ======= FEE SECTION ======= */
+  .fee-box {
+    background: var(--nile);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fee-box::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 120px;
+    height: 120px;
+    background: rgba(200,169,110,0.1);
+    border-radius: 50%;
+  }
+
+  .fee-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .fee-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--sand);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .fee-currency {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  .fee-badge {
+    display: inline-block;
+    background: rgba(192,57,43,0.3);
+    border: 1px solid rgba(192,57,43,0.5);
+    color: #FF9980;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+
+  .fee-includes {
+    margin-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 16px;
+  }
+
+  .fee-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .fee-row:last-child { border-bottom: none; }
+
+  .fee-row .ficon { font-size: 0.9rem; width: 20px; }
+
+  .fee-row span {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+  }
+
+  .fee-row span strong {
+    color: var(--sand-light);
+    font-weight: 600;
+  }
+
+  /* ======= CONTACT SIDEBAR ======= */
+  .sidebar { display: flex; flex-direction: column; gap: 24px; }
+
+  .contact-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 30px;
+  }
+
+  .contact-header {
+    background: linear-gradient(135deg, #8B6914, #C8A96E);
+    padding: 24px 28px;
+    text-align: center;
+  }
+
+  .contact-avatar {
+    width: 64px;
+    height: 64px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+
+  .contact-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .contact-header .contact-title {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .contact-body { padding: 24px 28px; }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(200,169,110,0.15);
+  }
+
+  .contact-item:last-child { border-bottom: none; }
+
+  .cicon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .cicon.green { background: #E8F5EE; }
+  .cicon.gold { background: #FFF5E0; }
+  .cicon.blue { background: #E8F0FF; }
+  .cicon.red { background: #FFE8E8; }
+
+  .contact-info { display: flex; flex-direction: column; }
+
+  .contact-info .clabel {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .contact-info a, .contact-info span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--nile);
+    text-decoration: none;
+    line-height: 1.5;
+  }
+
+  .contact-info a:hover { color: var(--nile-light); text-decoration: underline; }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    background: var(--nile);
+    color: var(--white);
+    text-align: center;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    margin-top: 20px;
+    transition: all 0.2s ease;
+    border: 1.5px solid var(--nile-light);
+  }
+
+  .cta-btn:hover {
+    background: var(--nile-mid);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(26,58,42,0.25);
+  }
+
+  .wa-btn {
+    display: block;
+    width: 100%;
+    background: #25D366;
+    color: var(--white);
+    text-align: center;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .wa-btn:hover {
+    background: #1ebe5b;
+    transform: translateY(-1px);
+  }
+
+  /* ======= FORM ======= */
+  .form-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .form-header {
+    background: linear-gradient(135deg, var(--nile), var(--nile-mid));
+    padding: 26px 32px;
+  }
+
+  .form-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .form-header p {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+  }
+
+  .form-body { padding: 36px 32px; }
+
+  .form-section-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sand);
+    font-weight: 700;
+    margin-bottom: 16px;
+    margin-top: 28px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(200,169,110,0.2);
+  }
+
+  .form-section-label:first-child { margin-top: 0; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-row.single { grid-template-columns: 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+
+  .field label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    letter-spacing: 0.3px;
+  }
+
+  .field label .req { color: var(--danger); margin-left: 2px; }
+
+  .field input, .field select, .field textarea {
+    padding: 12px 16px;
+    border: 1.5px solid #E5E0D8;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--charcoal);
+    background: #FAFAF8;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--nile-light);
+    box-shadow: 0 0 0 3px rgba(61,122,87,0.12);
+    background: var(--white);
+  }
+
+  .field textarea { resize: vertical; min-height: 90px; }
+
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B5A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  /* Checkbox styles */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .cb-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 2px solid #E5E0D8;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #FAFAF8;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cb-item:hover { border-color: var(--nile-light); background: #F5FCF8; }
+
+  .cb-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    accent-color: var(--nile);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .cb-item span {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.4;
+    pointer-events: none;
+  }
+
+  /* Radio styles */
+  .radio-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+  .rb-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 2px solid #E5E0D8;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #FAFAF8;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .rb-item:hover { border-color: var(--nile-light); background: #F5FCF8; }
+
+  .rb-item input[type="radio"] {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    accent-color: var(--nile);
+    cursor: pointer;
+  }
+
+  .rb-item span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.5;
+    pointer-events: none;
+  }
+
+  .rb-item small {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 300;
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* Agree checkbox */
+  .agree-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: #F5F5F0;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+
+  .agree-block input { 
+    margin-top: 3px; 
+    width: 20px; 
+    height: 20px; 
+    flex-shrink: 0; 
+    accent-color: var(--nile);
+    cursor: pointer;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+  }
+
+  .agree-block span {
+    font-size: 0.82rem;
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+
+  .agree-block strong { font-weight: 700; color: var(--nile); }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--nile), var(--nile-mid));
+    color: var(--white);
+    border: none;
+    padding: 18px 32px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .submit-btn:hover::before { opacity: 1; }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(26,58,42,0.35); }
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* ======= SUCCESS STATE ======= */
+  .success-overlay {
+    display: none;
+    padding: 60px 32px;
+    text-align: center;
+  }
+
+  .success-overlay.show { display: block; }
+
+  .success-check {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--nile), var(--nile-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 1.8rem;
+  }
+
+  .success-overlay h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--nile);
+    margin-bottom: 12px;
+  }
+
+  .success-overlay p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* ======= STATS BAR ======= */
+  .stats-bar {
+    background: var(--nile-mid);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+    padding: 0 40px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--sand);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+
+  /* ======= FOOTER ======= */
+  .footer {
+    background: var(--nile);
+    text-align: center;
+    padding: 28px 40px;
+  }
+
+  .footer p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+  }
+
+  .footer strong { color: rgba(255,255,255,0.7); }
+
+  /* ======= RESPONSIVE ======= */
+  @media (max-width: 900px) {
+    .main-wrapper {
+      grid-template-columns: 1fr;
+      padding: 40px 20px 60px;
+    }
+
+    .sidebar { order: -1; }
+    .contact-card { position: static; }
+    .includes-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .checkbox-item { min-height: 52px; }
+    .hero-content { padding: 50px 24px 40px; }
+    .event-meta { gap: 20px; }
+    .stat-item { padding: 12px 20px; }
+    .stats-bar { gap: 0; }
+    .form-body { padding: 28px 24px; }
+  }
+
+  /* ======= PAYMENT BOX ======= */
+  .payment-box {
+    background: linear-gradient(135deg, #0A2A1A, #1A4A2A);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(200,169,110,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .payment-box::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(200,169,110,0.08);
+    border-radius: 50%;
+  }
+
+  .payment-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .payment-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .payment-header h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--sand-light);
+    margin-bottom: 4px;
+  }
+
+  .payment-header p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+  }
+
+  .mpesa-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .mpesa-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    background: rgba(200,169,110,0.2);
+    border: 1px solid rgba(200,169,110,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--sand);
+    flex-shrink: 0;
+  }
+
+  .mpesa-step span {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .mpesa-step span strong {
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .mpesa-number {
+    color: var(--sand) !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px;
+  }
+
+  .payment-note {
+    background: rgba(200,169,110,0.1);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  .payment-note strong {
+    color: var(--sand-light);
+    font-weight: 600;
+  }
+
+  /* ======= UPLOAD BOX ======= */
+  .upload-box {
+    border: 2px dashed rgba(200,169,110,0.5);
+    border-radius: 12px;
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    background: #FAFAF8;
+    transition: all 0.2s ease;
+  }
+
+  .upload-box:hover {
+    border-color: var(--nile-light);
+    background: #F5FCF8;
+  }
+
+  .upload-box.uploaded {
+    border-color: var(--nile-light);
+    background: #F0FAF4;
+    border-style: solid;
+  }
+
+  .upload-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+  .upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .upload-text strong {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--nile);
+  }
+
+  .upload-text span {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .upload-text span.success-file {
+    color: var(--nile-light);
+    font-weight: 600;
+  }
+
+  /* Animations */
+  .card, .form-card, .contact-card {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======= HERO ======= -->
+<header class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="expo-badge">
+      <div class="dot"></div>
+      Registrations Now Open · Sept 22–24, 2026
+    </div>
+    <h1>Sahara Expo 2026<br><span>East Africa Delegation</span></h1>
+    <p class="hero-sub">
+      Your gateway to Egypt's premier agricultural exhibition — curated, coordinated, and fully supported by your Official Industry Expos Coordinators for East Africa Region.
+    </p>
+    <div class="event-meta">
+      <div class="meta-item">
+        <span class="meta-label">Venue</span>
+        <span class="meta-value">EIEC, Cairo</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Edition</span>
+        <span class="meta-value">38th Annual</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Attendees</span>
+        <span class="meta-value">21,000+</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Countries</span>
+        <span class="meta-value">25+</span>
+      </div>
+    </div>
+    <div class="fcfs-banner">
+      <span class="icon">⚡</span>
+      <span class="fcfs-text"><strong>LIMITED SLOTS — First Come, First Served.</strong> Secure your place before spots close.</span>
+    </div>
+  </div>
+</header>
+
+<!-- ======= ORGANIZER STRIP ======= -->
+<div class="organizer-strip">
+  <span>Official Industry Expos Coordinators for East Africa Region</span>
+  <div class="org-divider"></div>
+  <span>SAIS Events</span>
+  <div class="org-divider"></div>
+  <span>Nairobi, Kenya</span>
+</div>
+
+<!-- ======= STATS BAR ======= -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">Hosted Buyers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">450+</div>
+    <div class="stat-label">1-on-1 Meetings</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">$1.9M+</div>
+    <div class="stat-label">Deals Closed</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">350+</div>
+    <div class="stat-label">Exhibitors</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">8+</div>
+    <div class="stat-label">Gov't Patronages</div>
+  </div>
+</div>
+
+<!-- ======= MAIN CONTENT ======= -->
+<div class="main-wrapper">
+
+  <!-- ======= INFO STACK (LEFT) ======= -->
+  <div class="info-stack">
+
+    <!-- MATCHMAKING -->
+    <div class="card">
+      <div class="card-header gold">
+        <div class="card-icon">🤝</div>
+        <div>
+          <h2>Matchmaking Programme</h2>
+          <p>The most critical step in your delegation journey</p>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="approval-notice">
+          <span class="approval-icon">⚠️</span>
+          <div class="approval-text">
+            <h4>Industry Expos Coordinator Approval Required</h4>
+            <p>
+              All East Africa delegates must be <strong>vetted and approved through us</strong> — SAIS Events, your Official Industry Expos Coordinators for East Africa Region. This is not optional. A professionally curated matchmaking profile is what qualifies delegates for the <strong>Hosted Buyer Programme</strong>, VIP access, and priority meeting slots. Unregistered delegates will not receive these benefits.
+            </p>
+          </div>
+        </div>
+
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:20px;">
+          Sahara's matchmaking platform uses your business profile to pre-arrange high-value, targeted meetings with exhibitors, investors, and buyers — so you arrive knowing exactly who to meet, when, and why.
+        </p>
+
+        <div class="form-section-label" style="margin-top:0;">What's Included in Your Matchmaking Package</div>
+
+        <div class="includes-grid">
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Curated exhibitor & buyer meeting schedule</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Pre-matched business connections by sector</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Access to the Sahara matchmaking app</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Hosted Buyer Programme qualification pathway</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>VIP Business Lounge access & refreshments</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Fast-track entry to EIEC venue</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>Official invitation letter for visa application</span>
+          </div>
+          <div class="include-item">
+            <div class="include-check"><svg viewBox="0 0 12 10"><polyline points="1 5 4 8 11 1"/></svg></div>
+            <span>East Africa delegation coordination support</span>
+          </div>
+        </div>
+
+        <div class="approval-notice" style="background: linear-gradient(135deg,#F0F8FF,#E8F4FF); border-color: #4A90D9;">
+          <span class="approval-icon">🏆</span>
+          <div class="approval-text">
+            <h4 style="color:#1A4A7A;">Hosted Buyer Programme — The Gold Standard</h4>
+            <p style="color:#1A3A5C;">
+              Qualifying delegates may be elevated to the <strong>Hosted Buyer Programme</strong> — Sahara's invitation-only tier. Past hosted buyers received <strong>complimentary round-trip flights, 3 nights hotel, airport transfers, VIP lounge access, and pre-scheduled meetings</strong> with senior agribusiness decision-makers. Over 450 meetings were held and <strong>$1.9M+ in international deals were closed</strong> in the last edition alone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPOWERMENT PROGRAMS -->
+    <div class="card">
+      <div class="card-header teal">
+        <div class="card-icon">🌿</div>
+        <div>
+          <h2>Special Programmes & Conferences</h2>
+          <p>Exclusive empowerment sessions for delegates</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:22px;">
+          As part of your delegation, you'll have access to curated empowerment programmes running alongside the main exhibition. These are not generic add-ons — they're targeted sessions for agribusiness professionals.
+        </p>
+        <div class="programs-list">
+          <div class="program-item">
+            <h4>🎤 Sahara Conference</h4>
+            <p>High-level agribusiness conference featuring ministers, government officials, and industry leaders from Egypt, Africa, and the MENA region. Real policy. Real connections.</p>
+          </div>
+          <div class="program-item">
+            <h4>💡 Sahara Seminar Powered by AHDO</h4>
+            <p>Hands-on professional development seminars co-powered by AHDO, covering modern agriculture, sustainability, and capacity building for African agribusiness operators.</p>
+          </div>
+          <div class="program-item">
+            <h4>👩‍🌾 The Women in Agri Networking Event</h4>
+            <p>A dedicated empowerment forum for women professionals in agriculture — networking, mentorship, and leadership across the Africa-MENA corridor.</p>
+          </div>
+          <div class="program-item">
+            <h4>🇨🇳 Zhejiang's Agricultural Workshop</h4>
+            <p>Exclusive deep-dive on Chinese agricultural innovation and technology transfer opportunities — especially relevant for East African importers and farm technology seekers.</p>
+          </div>
+          <div class="program-item">
+            <h4>🌍 Agribusiness Trade Opportunities Forum</h4>
+            <p>EU-Africa and cross-border agribusiness trade session. Strategic entry points, import/export frameworks, and live deal facilitation for serious operators.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACILITATION FEE -->
+    <div class="card">
+      <div class="card-header red">
+        <div class="card-icon">💳</div>
+        <div>
+          <h2>Facilitation Fee</h2>
+          <p>Transparent pricing — no surprises</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="fee-box">
+          <p class="fee-label">Industry Expo Coordination Fee</p>
+          <div class="fee-amount">KES 15,000</div>
+          <p class="fee-currency">Per Delegate · One-Time Payment</p>
+          <div class="fee-badge">NON-REFUNDABLE</div>
+          <div class="fee-includes">
+            <div class="fee-row">
+              <span class="ficon">✅</span>
+              <span><strong>Included:</strong> Delegation coordination & onboarding</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">✅</span>
+              <span><strong>Included:</strong> Matchmaking profile submission & curation</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">✅</span>
+              <span><strong>Included:</strong> Official invitation letter for visa purposes</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">✅</span>
+              <span><strong>Included:</strong> Pre-departure briefing & logistics support</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">✅</span>
+              <span><strong>Included:</strong> Exhibition registration facilitation</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">❌</span>
+              <span><strong>Excludes:</strong> Visa application fees (paid directly to embassy)</span>
+            </div>
+            <div class="fee-row">
+              <span class="ficon">❌</span>
+              <span><strong>Excludes:</strong> Flights, accommodation, personal expenses</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="approval-notice" style="background: #FFF8E8; border-color: var(--sand);">
+          <span class="approval-icon">📋</span>
+          <div class="approval-text">
+            <h4>Invitation Letters — We Handle It</h4>
+            <p>Every registered delegate will receive an <strong>official invitation letter</strong> from the expo organisers, processed through us. This letter is essential for your Egyptian visa application. Do <em>not</em> attempt to register directly with the expo without going through us — your matchmaking profile and letter processing will not be coordinated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end info-stack -->
+
+  <!-- ======= SIDEBAR (RIGHT) ======= -->
+  <div class="sidebar">
+
+    <!-- CONTACT CARD -->
+    <div class="contact-card">
+      <div class="contact-header">
+        <div class="contact-avatar">🌍</div>
+        <h3>Catherine Kinyanjui</h3>
+        <div class="contact-title">
+          CEO, SAIS Events<br>
+          Official Industry Expos Coordinators for East Africa Region
+        </div>
+      </div>
+      <div class="contact-body">
+        <div class="contact-item">
+          <div class="cicon green">📞</div>
+          <div class="contact-info">
+            <span class="clabel">Phone / WhatsApp</span>
+            <a href="tel:+254722170385">+254 722 170 385</a><br>
+            <a href="tel:+971507687653">+971 50 768 7653</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="cicon gold">✉️</div>
+          <div class="contact-info">
+            <span class="clabel">Email</span>
+            <a href="mailto:kate@saisleads.com">kate@saisleads.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="cicon blue">🌐</div>
+          <div class="contact-info">
+            <span class="clabel">Website</span>
+            <a href="https://saisevents.com" target="_blank">saisevents.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="cicon red">📍</div>
+          <div class="contact-info">
+            <span class="clabel">Location</span>
+            <span>Nairobi, Kenya</span>
+          </div>
+        </div>
+
+        <a href="mailto:kate@saisleads.com" class="cta-btn">
+          📧 Send Me an Email
+        </a>
+        <a href="https://wa.me/254722170385?text=Hi%20Kate%2C%20I%27m%20interested%20in%20the%20Sahara%20Expo%202026%20East%20Africa%20Delegation" class="wa-btn" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.524 5.843L.057 24l6.305-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.877 9.877 0 01-5.03-1.378l-.36-.214-3.742.981 1-3.645-.235-.374A9.861 9.861 0 012.106 12C2.106 6.58 6.58 2.106 12 2.106S21.894 6.58 21.894 12 17.42 21.894 12 21.894z"/></svg>
+          WhatsApp Me Now
+        </a>
+      </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card" id="registration-form">
+      <div class="form-header">
+        <h2>Register Your Interest</h2>
+        <p>Complete the form — we'll be in touch within 24 hours to confirm your slot.</p>
+      </div>
+
+      <div class="form-body" id="form-content">
+
+        <!-- PERSONAL INFO -->
+        <div class="form-section-label">Personal Information</div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" placeholder="Jane" id="fname">
+          </div>
+          <div class="field">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" placeholder="Mwangi" id="lname">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Phone / WhatsApp <span class="req">*</span></label>
+            <input type="tel" placeholder="+254 7XX XXX XXX" id="phone">
+          </div>
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" placeholder="jane@company.com" id="email">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Country of Residence <span class="req">*</span></label>
+          <select id="country">
+            <option value="">— Select Country —</option>
+            <option>Kenya</option>
+            <option>Uganda</option>
+            <option>Tanzania</option>
+            <option>Rwanda</option>
+            <option>Ethiopia</option>
+            <option>Burundi</option>
+            <option>South Sudan</option>
+            <option>DR Congo</option>
+            <option>Mozambique</option>
+            <option>Zimbabwe</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <!-- BUSINESS INFO -->
+        <div class="form-section-label">Business Information</div>
+
+        <div class="field">
+          <label>Company / Organisation Name <span class="req">*</span></label>
+          <input type="text" placeholder="Your company name" id="company">
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Job Title / Role <span class="req">*</span></label>
+            <input type="text" placeholder="e.g. CEO, Farm Manager" id="role">
+          </div>
+          <div class="field">
+            <label>Business Type <span class="req">*</span></label>
+            <select id="biztype">
+              <option value="">— Select —</option>
+              <option>Farm Owner / Large-scale Farmer</option>
+              <option>Agribusiness Investor</option>
+              <option>Importer / Distributor</option>
+              <option>Government / Procurement Official</option>
+              <option>Agri-tech Company</option>
+              <option>NGO / Development Organisation</option>
+              <option>Researcher / Academic</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Agricultural Sector(s) of Interest</label>
+        </div>
+        <div class="checkbox-grid">
+          <label class="cb-item"><input type="checkbox"><span>🌾 Seeds & Nurseries</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🚜 Agricultural Machinery</span></label>
+          <label class="cb-item"><input type="checkbox"><span>💧 Water Management</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🏡 Greenhouses</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🧪 Fertilizers & Crop Protection</span></label>
+          <label class="cb-item"><input type="checkbox"><span>📦 Post Harvest</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🌱 Sustainable Agriculture</span></label>
+          <label class="cb-item"><input type="checkbox"><span>💻 Agri-Tech</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🐄 Animal Health & Feed</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🔧 Services & Consulting</span></label>
+        </div>
+
+        <!-- PROGRAMME INTEREST -->
+        <div class="form-section-label">Programme Preferences</div>
+
+        <div class="field">
+          <label>Which programmes are you most interested in? <span class="req">*</span></label>
+        </div>
+        <div class="checkbox-grid" style="grid-template-columns:1fr;">
+          <label class="cb-item"><input type="checkbox"><span>🤝 Matchmaking Programme (Required for Hosted Buyer consideration)</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🏆 Hosted Buyer Programme (subject to qualification)</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🎤 Sahara Conference</span></label>
+          <label class="cb-item"><input type="checkbox"><span>💡 Sahara Seminar Powered by AHDO</span></label>
+          <label class="cb-item"><input type="checkbox"><span>👩‍🌾 Women in Agri Networking Event</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🇨🇳 Zhejiang Agricultural Workshop</span></label>
+          <label class="cb-item"><input type="checkbox"><span>🌍 Agribusiness Trade Opportunities Forum</span></label>
+        </div>
+
+        <!-- COMPANY CREDENTIALS -->
+        <div class="form-section-label">Company Credentials & Online Presence</div>
+
+        <div class="approval-notice" style="background: linear-gradient(135deg,#F0F8FF,#E8F4FF); border-color:#4A90D9; margin-bottom:20px;">
+          <span class="approval-icon">🔍</span>
+          <div class="approval-text">
+            <h4 style="color:#1A4A7A;">Vetting Requirement</h4>
+            <p style="color:#1A3A5C;">All delegation applicants are individually vetted by SAIS Events before confirmation. Please provide at least <strong>one verifiable business credential</strong> below. This is required for matchmaking profile curation and hosted buyer qualification.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Company Website URL</label>
+          <input type="url" placeholder="https://yourcompany.com" id="website">
+        </div>
+
+        <div class="field">
+          <label>LinkedIn Profile or Company Page URL</label>
+          <input type="url" placeholder="https://linkedin.com/in/yourname or /company/yourcompany" id="linkedin">
+        </div>
+
+        <div class="field">
+          <label>Company Profile / Brochure <span class="req">*</span></label>
+          <div class="upload-box" onclick="document.getElementById('companyProfile').click()">
+            <input type="file" id="companyProfile" accept=".pdf,.doc,.docx,.ppt,.pptx" style="display:none;" onchange="handleFileUpload(this, 'profile-name')">
+            <div class="upload-icon">📎</div>
+            <div class="upload-text">
+              <strong>Click to upload your Company Profile</strong>
+              <span id="profile-name">PDF, Word, or PowerPoint · Max 10MB</span>
+            </div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:6px;">If you don't have a formal profile, a LinkedIn URL above is acceptable as an alternative.</p>
+        </div>
+
+        <!-- VISA & PASSPORT -->
+        <div class="form-section-label">Passport Bio Data & Visa Request</div>
+
+        <div class="approval-notice" style="background:#FFF0F0; border-color:#C0392B; margin-bottom:20px;">
+          <span class="approval-icon">🛂</span>
+          <div class="approval-text">
+            <h4 style="color:#7A0000;">Official Invitation Letter — Required for Egyptian Visa</h4>
+            <p style="color:#5C0000;">We process official Sahara Expo invitation letters for all registered delegates. To generate your letter accurately, <strong>all passport details below must match your travel document exactly</strong>. Errors may delay or invalidate your visa application.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Do you have a valid passport? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="rb-item"><input type="radio" name="passport" value="yes"><span>Yes — valid for at least 6 months beyond September 2026</span></label>
+            <label class="rb-item"><input type="radio" name="passport" value="renewing"><span>Renewing / in progress</span></label>
+            <label class="rb-item"><input type="radio" name="passport" value="no"><span>No — I need guidance on obtaining one</span></label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Full Name as on Passport <span class="req">*</span></label>
+            <input type="text" placeholder="Exactly as printed on passport" id="passportName">
+          </div>
+          <div class="field">
+            <label>Passport Number <span class="req">*</span></label>
+            <input type="text" placeholder="e.g. A12345678" id="passportNo">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Nationality (as on passport) <span class="req">*</span></label>
+            <input type="text" placeholder="e.g. Kenyan" id="nationality">
+          </div>
+          <div class="field">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" id="dob">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Gender <span class="req">*</span></label>
+            <select id="gender">
+              <option value="">— Select —</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Place of Birth <span class="req">*</span></label>
+            <input type="text" placeholder="City, Country" id="pob">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Passport Issue Date <span class="req">*</span></label>
+            <input type="date" id="passportIssue">
+          </div>
+          <div class="field">
+            <label>Passport Expiry Date <span class="req">*</span></label>
+            <input type="date" id="passportExpiry">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Issuing Country / Authority <span class="req">*</span></label>
+          <input type="text" placeholder="e.g. Government of Kenya / Department of Immigration" id="issuingAuth">
+        </div>
+
+        <div class="field">
+          <label>Upload Passport Bio Data Page <span class="req">*</span></label>
+          <div class="upload-box" onclick="document.getElementById('passportUpload').click()">
+            <input type="file" id="passportUpload" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleFileUpload(this, 'passport-name')">
+            <div class="upload-icon">🛂</div>
+            <div class="upload-text">
+              <strong>Click to upload passport bio data page</strong>
+              <span id="passport-name">PDF, JPG, or PNG · Clear scan or photo · Max 5MB</span>
+            </div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:6px;">Must show your photo, full name, passport number, and expiry date clearly. This is used solely for invitation letter processing.</p>
+        </div>
+
+        <div class="field">
+          <label>Will you require an Egyptian Visa? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="rb-item"><input type="radio" name="visa" value="yes"><span>Yes — please process my official invitation letter for Egyptian visa application<br><small>Visa fee paid separately at the Egyptian embassy</small></span></label>
+            <label class="rb-item"><input type="radio" name="visa" value="no"><span>No — I already hold a valid Egyptian visa or am visa-exempt</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Current Residential Address (for visa documentation) <span class="req">*</span></label>
+          <textarea placeholder="Full address: Street, City, Country, Postal Code" id="address" style="min-height:70px;"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Additional Notes / Objectives for Attending</label>
+          <textarea placeholder="Tell us what you're hoping to achieve, who you'd like to meet, or any specific goals for the expo..." id="notes"></textarea>
+        </div>
+
+        <!-- FEE DECLARATION -->
+        <div class="fee-declaration">
+          <h4>💳 Facilitation Fee Declaration — KES 15,000</h4>
+          <ul>
+            <li>The coordination fee of <strong>KES 15,000 is non-refundable</strong> once paid.</li>
+            <li>This fee covers delegation coordination, matchmaking profile curation, and your official invitation letter processing.</li>
+            <li>It <strong>does NOT include</strong> visa application fees, flights, hotel, or personal expenses.</li>
+            <li>All delegates will receive an official Sahara Expo invitation letter to support their Egyptian visa application.</li>
+            <li>Your slot is only <strong>confirmed upon receipt of payment</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- PAYMENT METHOD -->
+        <div class="payment-box">
+          <div class="payment-header">
+            <span class="payment-icon">📱</span>
+            <div>
+              <h4>How to Pay — M-PESA</h4>
+              <p>Send your facilitation fee via M-PESA using the details below</p>
+            </div>
+          </div>
+          <div class="mpesa-steps">
+            <div class="mpesa-step">
+              <div class="step-num">1</div>
+              <span>Go to <strong>M-PESA</strong> on your phone → <strong>Send Money</strong></span>
+            </div>
+            <div class="mpesa-step">
+              <div class="step-num">2</div>
+              <span>Enter number: <strong class="mpesa-number">0722 170 385</strong></span>
+            </div>
+            <div class="mpesa-step">
+              <div class="step-num">3</div>
+              <span>Confirm name: <strong class="mpesa-number">CATHERINE KINYANJUI</strong></span>
+            </div>
+            <div class="mpesa-step">
+              <div class="step-num">4</div>
+              <span>Amount: <strong class="mpesa-number">KES 15,000</strong></span>
+            </div>
+            <div class="mpesa-step">
+              <div class="step-num">5</div>
+              <span>Send the <strong>M-PESA confirmation SMS</strong> to +254 722 170 385 on WhatsApp</span>
+            </div>
+          </div>
+          <div class="payment-note">
+            ⚠️ <strong>Always confirm the name before sending.</strong> Your slot is activated only after payment is verified. Screenshot your M-PESA confirmation and send it to us on WhatsApp.
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:8px;">
+          <label>M-PESA Transaction Code <span class="req">*</span></label>
+          <input type="text" placeholder="e.g. RGH7X4K2QP — enter after making payment" id="mpesaCode" style="font-weight:600;letter-spacing:1px;">
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:5px;">Found in your M-PESA confirmation SMS. Submit this to confirm your payment.</p>
+        </div>
+
+        <label class="agree-block">
+          <input type="checkbox" id="agree">
+          <span>
+            I confirm that the information provided is accurate. I understand that the <strong>KES 15,000 facilitation fee is non-refundable</strong>, excludes visa fees, and that my slot is only confirmed upon payment verification. I agree to the delegation terms set by <strong>SAIS Events</strong> as the Official Industry Expos Coordinators for East Africa Region.
+          </span>
+        </label>
+
+        <button class="submit-btn" onclick="handleSubmit()">
+          🚀 Submit My Registration
+        </button>
+
+        <p class="submit-note">We'll verify your payment and confirm your slot within 24 hours. Slots are strictly limited — <strong>first come, first served.</strong></p>
+      </div>
+
+      <div class="success-overlay" id="success-state">
+        <div class="success-check">✅</div>
+        <h3>Registration Submitted!</h3>
+        <p>
+          Your registration and M-PESA payment details have been received. Catherine will <strong>verify your payment and confirm your slot within 24 hours</strong> via WhatsApp or email.<br><br>
+          Please also send your <strong>M-PESA confirmation SMS screenshot</strong> to WhatsApp: <strong>+254 722 170 385</strong><br><br>
+          <em>Slots are limited. If you haven't heard back in 24hrs, WhatsApp us directly.</em>
+        </p>
+      </div>
+    </div><!-- end form-card -->
+
+  </div><!-- end sidebar -->
+
+</div><!-- end main-wrapper -->
+
+<!-- ======= FOOTER ======= -->
+<footer class="footer">
+  <p>
+    <strong>SAIS Events</strong> — Official Industry Expos Coordinators for East Africa Region, Sahara International Agricultural Exhibition 2026<br>
+    Egypt International Exhibition Centre (EIEC), Cairo · 22–24 September 2026<br>
+    <br>
+    <strong>Contact:</strong> kate@saisleads.com &nbsp;|&nbsp; +254 722 170 385 &nbsp;|&nbsp; +971 50 768 7653 &nbsp;|&nbsp; <a href="https://saisevents.com" style="color:var(--sand);">saisevents.com</a><br><br>
+    This is an official East Africa delegation coordination form managed by SAIS Events.
+    The KES 15,000 facilitation fee is non-refundable. Visa fees are separate and paid directly to the relevant embassy.
+  </p>
+</footer>
+
+<script>
+  // Highlight selected radio item border
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.rb-item input[type="radio"]').forEach(function(input) {
+      input.addEventListener('change', function() {
+        var name = this.getAttribute('name');
+        document.querySelectorAll('.rb-item input[name="' + name + '"]').forEach(function(r) {
+          r.closest('.rb-item').style.borderColor = '#E5E0D8';
+          r.closest('.rb-item').style.background = '#FAFAF8';
+        });
+        this.closest('.rb-item').style.borderColor = '#3D7A57';
+        this.closest('.rb-item').style.background = '#F0FAF4';
+      });
+    });
+
+    document.querySelectorAll('.cb-item input[type="checkbox"]').forEach(function(input) {
+      input.addEventListener('change', function() {
+        if (this.checked) {
+          this.closest('.cb-item').style.borderColor = '#3D7A57';
+          this.closest('.cb-item').style.background = '#F0FAF4';
+        } else {
+          this.closest('.cb-item').style.borderColor = '#E5E0D8';
+          this.closest('.cb-item').style.background = '#FAFAF8';
+        }
+      });
+    });
+  });
+
+  function handleFileUpload(input, labelId) {
+    var label = document.getElementById(labelId);
+    if (input.files && input.files[0]) {
+      var file = input.files[0];
+      var sizeMB = (file.size / 1024 / 1024).toFixed(1);
+      label.textContent = '✅ ' + file.name + ' (' + sizeMB + 'MB) — uploaded';
+      label.classList.add('success-file');
+      input.closest('.upload-box').classList.add('uploaded');
+    }
+  }
+
+  function handleSubmit() {
+    var fname = document.getElementById('fname').value.trim();
+    var lname = document.getElementById('lname').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var country = document.getElementById('country').value;
+    var company = document.getElementById('company').value.trim();
+    var role = document.getElementById('role').value.trim();
+    var biztype = document.getElementById('biztype').value;
+    var agree = document.getElementById('agree').checked;
+    var passportName = document.getElementById('passportName').value.trim();
+    var passportNo = document.getElementById('passportNo').value.trim();
+    var nationality = document.getElementById('nationality').value.trim();
+    var dob = document.getElementById('dob').value;
+    var gender = document.getElementById('gender').value;
+    var pob = document.getElementById('pob').value.trim();
+    var passportIssue = document.getElementById('passportIssue').value;
+    var passportExpiry = document.getElementById('passportExpiry').value;
+    var issuingAuth = document.getElementById('issuingAuth').value.trim();
+    var address = document.getElementById('address').value.trim();
+    var mpesaCode = document.getElementById('mpesaCode').value.trim();
+    var website = document.getElementById('website').value.trim();
+    var linkedin = document.getElementById('linkedin').value.trim();
+    var profileFile = document.getElementById('companyProfile').files.length > 0;
+
+    if (!fname || !lname || !phone || !email || !country || !company || !role || !biztype) {
+      alert('Please fill in all required fields in the Personal & Business Information sections.');
+      return;
+    }
+    if (!website && !linkedin && !profileFile) {
+      alert('Please provide at least one company credential: website URL, LinkedIn, or company profile upload.');
+      return;
+    }
+    if (!passportName || !passportNo || !nationality || !dob || !gender || !pob || !passportIssue || !passportExpiry || !issuingAuth || !address) {
+      alert('Please complete all passport bio data fields required for your invitation letter.');
+      return;
+    }
+    var passport = document.querySelector('input[name="passport"]:checked');
+    var visa = document.querySelector('input[name="visa"]:checked');
+    if (!passport) { alert('Please select your passport status.'); return; }
+    if (!visa) { alert('Please indicate whether you require an Egyptian visa.'); return; }
+    if (!mpesaCode) { alert('Please enter your M-PESA transaction code to confirm payment.'); return; }
+    if (!agree) { alert('Please read and agree to the delegation terms before submitting.'); return; }
+
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-state').classList.add('show');
+    document.getElementById('registration-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>
