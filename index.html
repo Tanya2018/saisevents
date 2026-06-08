@@ -44,6 +44,9 @@ nav{
   width:8px;height:8px;background:var(--gold);border-radius:50%;
   animation:blink 3s ease-in-out infinite;
 }
+  .nav-logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .nav-logo-name{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700;color:var(--white);}
+    .nav-logo-slogan{font-family:'DM Sans',sans-serif;font-size:0.6rem;font-weight:500;letter-spacing:0.04em;color:var(--gold);text-transform:uppercase;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 .nav-links{display:flex;align-items:center;gap:32px;}
 .nav-links a{
@@ -489,8 +492,11 @@ footer a{font-size:0.72rem;color:var(--gold);text-decoration:none;}
 <nav>
 <a href="/" class="nav-logo">
         <div class="dot"></div>
-        <img src="/sais-globe-icon.png" alt="SAIS" style="height:38px;width:auto;margin-right:2px;">
-        SAIS Events
+        <img src="/sais-globe-icon.png" alt="SAIS" style="height:46px;width:auto;margin-right:8px;">
+        <span class="nav-logo-text">
+          <span class="nav-logo-name">SAIS Events</span>
+          <span class="nav-logo-slogan">Delegate Sourcing · Global Trade Missions</span>
+        </span>
       </a>
   <div class="nav-links">
     <a href="#who">Who We Are</a>
