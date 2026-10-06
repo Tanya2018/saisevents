@@ -220,6 +220,13 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 .foot-links a{color:var(--gold);text-decoration:none;font-weight:600;font-size:15px}
 .copy{margin-top:28px;font-size:13px;color:rgba(246,240,226,.62)}
 .reg-line{margin-top:28px;padding-top:20px;border-top:1px solid var(--cream-line);font-size:15px;color:rgba(4,33,26,.82)}
+.expo-status{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px;border:1px solid rgba(246,240,226,.5);color:var(--cream)}
+.expo-status.is-ongoing{background:var(--cream);color:var(--jungle);border-color:var(--cream)}
+.expo-status.is-ongoing::before{content:"";width:8px;height:8px;border-radius:50%;background:#1F9D55}
+.expo-status.is-ended{color:rgba(246,240,226,.7);border-color:rgba(246,240,226,.3)}
+.expo.ended{opacity:.62}
+.expo.ended .expo-actions{display:none}
+.expo.ended .expo-sector{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -328,7 +335,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <h2>Expos we are sourcing delegates for</h2>
     <p class="sub">Want to attend or exhibit? Tap Join the delegation and we take it from there.</p>
     <div class="expos" id="expo-list">
-      <article class="expo">
+      <article class="expo" data-start="2026-10-06" data-end="2026-10-08">
         <div class="expo-top"><span class="expo-date">6 to 8 October 2026</span><span class="expo-tag">Hosted buyer programme</span></div>
         <h3>Global Food Week 2026</h3>
         <p class="expo-place">ADNEC, Abu Dhabi, UAE</p>
@@ -337,7 +344,16 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="global-food-week-2026.html">See our programme</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-11-03" data-end="2026-11-05">
+        <div class="expo-top"><span class="expo-date">3 to 5 November 2026</span></div>
+        <h3>Private Label Middle East 2026</h3>
+        <p class="expo-place">Dubai World Trade Centre, UAE</p>
+        <p class="expo-sector">Private label food and FMCG <span class="nw">&middot; <a class="expo-link" href="https://www.prime-expo.com/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Private%20Label%20Middle%20East%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2026-11-05" data-end="2026-11-10">
         <div class="expo-top"><span class="expo-date">5 to 10 November 2026</span></div>
         <h3>CIIE 2026</h3>
         <p class="expo-place">National Exhibition and Convention Center, Shanghai</p>
@@ -346,7 +362,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20CIIE%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-11-10" data-end="2026-11-12">
         <div class="expo-top"><span class="expo-date">10 to 12 November 2026</span></div>
         <h3>FHC China 2026</h3>
         <p class="expo-place">SNIEC, Shanghai, China</p>
@@ -355,7 +371,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20FHC%20China%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-11-16" data-end="2026-11-18">
         <div class="expo-top"><span class="expo-date">16 to 18 November 2026</span></div>
         <h3>Organic &amp; Natural Expo 2026</h3>
         <p class="expo-place">Dubai World Trade Centre, UAE</p>
@@ -364,7 +380,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Organic%20%26%20Natural%20Expo%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-11-17" data-end="2026-11-19">
         <div class="expo-top"><span class="expo-date">17 to 19 November 2026</span></div>
         <h3>Fi Europe 2026</h3>
         <p class="expo-place">Messe Frankfurt, Germany</p>
@@ -373,7 +389,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Fi%20Europe%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-12-07" data-end="2026-12-10">
         <div class="expo-top"><span class="expo-date">7 to 10 December 2026</span><span class="expo-tag">Hosted buyer programme</span></div>
         <h3>Food Africa 2026</h3>
         <p class="expo-place">Egypt International Exhibition Center, Cairo</p>
@@ -382,7 +398,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="food-africa-2026.html">See our programme</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-12-15" data-end="2026-12-18">
         <div class="expo-top"><span class="expo-date">15 to 18 December 2026</span></div>
         <h3>WorldFood Istanbul 2026</h3>
         <p class="expo-place">Istanbul Expo Center, T&uuml;rkiye</p>
@@ -391,7 +407,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20WorldFood%20Istanbul%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2026-12-17" data-end="2026-12-21">
         <div class="expo-top"><span class="expo-date">17 to 21 December 2026</span></div>
         <h3>Global Tea Fair 2026</h3>
         <p class="expo-place">Shenzhen Convention &amp; Exhibition Center, China</p>
@@ -400,7 +416,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Global%20Tea%20Fair%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-01-06" data-end="2027-01-09">
         <div class="expo-top"><span class="expo-date">6 to 9 January 2027</span></div>
         <h3>CES 2027</h3>
         <p class="expo-place">Las Vegas, USA</p>
@@ -409,7 +425,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20CES%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-01-26" data-end="2027-01-28">
         <div class="expo-top"><span class="expo-date">26 to 28 January 2027</span></div>
         <h3>IPPE 2027</h3>
         <p class="expo-place">Georgia World Congress Center, Atlanta, USA</p>
@@ -418,7 +434,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20IPPE%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-01-26" data-end="2027-01-28">
         <div class="expo-top"><span class="expo-date">26 to 28 January 2027</span></div>
         <h3>Cosmoprof Miami 2027</h3>
         <p class="expo-place">Miami Beach Convention Center, USA</p>
@@ -427,7 +443,25 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Cosmoprof%20Miami%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-01-26" data-end="2027-01-28">
+        <div class="expo-top"><span class="expo-date">26 to 28 January 2027</span></div>
+        <h3>World of Coffee Dubai 2027</h3>
+        <p class="expo-place">Dubai World Trade Centre, UAE</p>
+        <p class="expo-sector">Specialty coffee <span class="nw">&middot; <a class="expo-link" href="https://dubai.worldofcoffee.org/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20World%20of%20Coffee%20Dubai%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-02-03" data-end="2027-02-05">
+        <div class="expo-top"><span class="expo-date">3 to 5 February 2027</span></div>
+        <h3>Fruit Logistica 2027</h3>
+        <p class="expo-place">Messe Berlin, Germany</p>
+        <p class="expo-sector">Fresh produce <span class="nw">&middot; <a class="expo-link" href="https://www.fruitlogistica.com/en/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Fruit%20Logistica%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-02-07" data-end="2027-02-08">
         <div class="expo-top"><span class="expo-date">7 to 8 February 2027</span></div>
         <h3>Premiere Anaheim 2027</h3>
         <p class="expo-place">Anaheim Convention Center, USA</p>
@@ -436,7 +470,16 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Premiere%20Anaheim%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-02-21" data-end="2027-02-23">
+        <div class="expo-top"><span class="expo-date">21 to 23 February 2027</span></div>
+        <h3>Beer&amp;Food Attraction 2027</h3>
+        <p class="expo-place">Rimini Expo Centre, Italy</p>
+        <p class="expo-sector">Beer, beverages and foodservice <span class="nw">&middot; <a class="expo-link" href="https://www.beerandfoodattraction.it/en" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Beer%26Food%20Attraction%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-03-02" data-end="2027-03-05">
         <div class="expo-top"><span class="expo-date">2 to 5 March 2027</span></div>
         <h3>Expo West 2027</h3>
         <p class="expo-place">Anaheim Convention Center, USA</p>
@@ -445,7 +488,70 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Expo%20West%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
         </div>
       </article>
-      <article class="expo">
+      <article class="expo" data-start="2027-03-03" data-end="2027-03-06">
+        <div class="expo-top"><span class="expo-date">3 to 6 March 2027</span></div>
+        <h3>India Mattresstech Expo 2027</h3>
+        <p class="expo-place">India Expo Mart, Greater Noida, Delhi NCR, India</p>
+        <p class="expo-sector">Mattress and upholstery machinery and supplies <span class="nw">&middot; <a class="expo-link" href="https://www.indiamattresstechexpo.com/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20India%20Mattresstech%20Expo%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-03-30" data-end="2027-04-02">
+        <div class="expo-top"><span class="expo-date">30 March to 2 April 2027</span></div>
+        <h3>HOTELEX Shanghai 2027</h3>
+        <p class="expo-place">National Exhibition and Convention Center, Shanghai</p>
+        <p class="expo-sector">Hospitality and foodservice <span class="nw">&middot; <a class="expo-link" href="https://www.hotelex.cn/en" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20HOTELEX%20Shanghai%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-04-15" data-end="2027-04-17">
+        <div class="expo-top"><span class="expo-date">15 to 17 April 2027</span></div>
+        <h3>Inter FoodTech 2027</h3>
+        <p class="expo-place">Bombay Exhibition Centre, Mumbai, India</p>
+        <p class="expo-sector">Food processing and packaging <span class="nw">&middot; <a class="expo-link" href="https://www.interfoodtech.com/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Inter%20FoodTech%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-04-27" data-end="2027-04-29">
+        <div class="expo-top"><span class="expo-date">27 to 29 April 2027</span></div>
+        <h3>SIAL Canada 2027</h3>
+        <p class="expo-place">Enercare Centre, Toronto, Canada</p>
+        <p class="expo-sector">Food and beverage <span class="nw">&middot; <a class="expo-link" href="https://sialcanada.com/en/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20SIAL%20Canada%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-06-01" data-end="2027-06-03">
+        <div class="expo-top"><span class="expo-date">1 to 3 June 2027</span></div>
+        <h3>Fi Africa 2027</h3>
+        <p class="expo-place">Egypt International Exhibition Center, Cairo</p>
+        <p class="expo-sector">Food ingredients <span class="nw">&middot; <a class="expo-link" href="https://www.figlobal.com/africa/en/home.html" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Fi%20Africa%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-06-22" data-end="2027-06-24">
+        <div class="expo-top"><span class="expo-date">22 to 24 June 2027</span></div>
+        <h3>Africa Food Show 2027</h3>
+        <p class="expo-place">CTICC, Cape Town, South Africa</p>
+        <p class="expo-sector">Food and beverage <span class="nw">&middot; <a class="expo-link" href="https://www.africafoodshow.com/" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Africa%20Food%20Show%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-06-22" data-end="2027-06-24">
+        <div class="expo-top"><span class="expo-date">22 to 24 June 2027</span></div>
+        <h3>ProPak China 2027</h3>
+        <p class="expo-place">National Exhibition and Convention Center, Shanghai</p>
+        <p class="expo-sector">Processing and packaging <span class="nw">&middot; <a class="expo-link" href="https://www.propakchina.com/en" target="_blank" rel="noopener">Official site</a></span></p>
+        <div class="expo-actions">
+          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20ProPak%20China%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+        </div>
+      </article>
+      <article class="expo" data-start="2027-07-13" data-end="2027-07-15">
         <div class="expo-top"><span class="expo-date">13 to 15 July 2027</span></div>
         <h3>Cosmoprof Las Vegas 2027</h3>
         <p class="expo-place">Mandalay Bay Convention Center, Las Vegas, USA</p>
@@ -586,7 +692,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
         <div class="side-box">
           <h3>Prefer email?</h3>
           <p>Send your details by email and we will reply within 24 hours.</p>
-          <p><a class="side-mail" href="mailto:kate@saisevents.com?subject=Registration%20from%20saisevents.com">kate@saisevents.com</a></p>
+          <p><a class="side-mail" href="mailto:hello@saisleads.com?subject=Registration%20from%20saisevents.com">hello@saisleads.com</a></p>
         </div>
         <div class="side-box">
           <h3>Seats are limited</h3>
@@ -623,9 +729,9 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
         <span class="ct-num">+86 134 3422 2445</span>
         <button type="button" class="btn btn-dark btn-sm" data-copy="+8613434222445" data-copy-done="Copied">Copy WeChat number</button>
       </div>
-      <a class="ct" href="mailto:kate@saisevents.com">
+      <a class="ct" href="mailto:hello@saisleads.com">
         <span class="ct-label">Email</span>
-        <b>kate@saisevents.com</b>
+        <b>hello@saisleads.com</b>
         <span class="ct-role">Documents and formal enquiries</span>
         <span class="ct-go">Send an email</span>
       </a>
@@ -654,6 +760,30 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <p class="copy">&copy; 2026 SAIS Events</p>
   </div>
 </footer>
+
+<script>
+/* Expo status: Upcoming, Ongoing or Ended, worked out from the dates */
+(function () {
+  var list = document.getElementById('expo-list');
+  if (!list) return;
+  var n = new Date();
+  function pad(x) { return (x < 10 ? '0' : '') + x; }
+  var today = n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+  var ended = [];
+  list.querySelectorAll('.expo').forEach(function (c) {
+    var st = c.getAttribute('data-start'), en = c.getAttribute('data-end');
+    if (!st || !en) return;
+    var label = 'Upcoming', cls = 'is-upcoming';
+    if (today > en) { label = 'Ended'; cls = 'is-ended'; c.classList.add('ended'); ended.push(c); }
+    else if (today >= st) { label = 'Ongoing'; cls = 'is-ongoing'; }
+    var b = document.createElement('span');
+    b.className = 'expo-status ' + cls;
+    b.textContent = label;
+    c.querySelector('.expo-top').appendChild(b);
+  });
+  ended.forEach(function (c) { list.appendChild(c); });
+})();
+</script>
 
 <script>
 /* Registration: send the details to SAIS Events on WhatsApp */
@@ -688,9 +818,9 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     var doneText = document.getElementById('reg-done-text');
     var link = document.getElementById('reg-wa-link');
     if (mode === 'email') {
-      var mail = 'mailto:kate@saisevents.com?subject=' + encodeURIComponent('New registration from saisevents.com') + '&body=' + encodeURIComponent(msg);
+      var mail = 'mailto:hello@saisleads.com?subject=' + encodeURIComponent('New registration from saisevents.com') + '&body=' + encodeURIComponent(msg);
       link.href = mail; link.removeAttribute('target');
-      link.textContent = 'Email did not open? Write to kate@saisevents.com';
+      link.textContent = 'Email did not open? Write to hello@saisleads.com';
       doneText.innerHTML = 'Your email app has opened with your details. Press <strong>send</strong> so they reach us, and we will reply within 24 hours.';
       window.location.href = mail;
     } else {
