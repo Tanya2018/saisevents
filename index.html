@@ -227,6 +227,32 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 .expo.ended{opacity:.62}
 .expo.ended .expo-actions{display:none}
 .expo.ended .expo-sector{margin-bottom:0}
+.deleg-box{margin-top:24px;background:var(--cream-2);border:1px solid var(--cream-line);border-left:4px solid var(--gold);border-radius:16px;padding:20px 20px 6px;max-width:760px}
+.deleg-title{font-weight:700;color:var(--jungle)}
+.deleg-ticks{margin:14px 0 16px}
+@media(min-width:760px){.deleg-ticks{grid-template-columns:1fr 1fr;gap:12px 28px}}
+.light .deleg-ticks li::before{border-color:var(--gold-deep)}
+.hb{background:var(--jungle-2);border-top:1px solid rgba(217,180,73,.22);border-bottom:1px solid rgba(217,180,73,.22)}
+.hb-why{display:grid;gap:14px;margin-top:30px}
+@media(min-width:760px){.hb-why{grid-template-columns:repeat(3,1fr);gap:18px}}
+.hb-card{background:var(--jungle);border:1px solid var(--jungle-line);border-radius:18px;padding:24px 22px}
+.hb-card h3{color:var(--gold);font-size:1.22rem}
+.hb-card p{margin-top:8px;font-size:15.5px;color:rgba(246,240,226,.9)}
+.hb-sub{margin-top:44px;font-size:1.55rem}
+.hb-flow{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:14px;counter-reset:hb}
+@media(min-width:760px){.hb-flow{grid-template-columns:1fr 1fr;gap:18px}}
+@media(min-width:1000px){.hb-flow{grid-template-columns:repeat(4,1fr)}}
+.hb-flow li{counter-increment:hb;background:var(--jungle);border:1px solid var(--jungle-line);border-radius:18px;padding:22px 20px}
+.hb-flow li::before{content:counter(hb);display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--jungle);font-weight:800;font-size:15px;margin-bottom:12px}
+.hb-flow b{display:block;font-family:'Fraunces',Georgia,serif;font-size:1.12rem}
+.hb-flow span{display:block;margin-top:6px;font-size:15px;color:rgba(246,240,226,.88)}
+.hb-who{margin-top:44px;display:grid;gap:22px;align-items:center;border-top:1px solid var(--jungle-line);padding-top:32px}
+@media(min-width:900px){.hb-who{grid-template-columns:1.5fr auto;gap:40px}}
+.hb-who h3{font-size:1.55rem}
+.hb-who p{margin-top:10px;color:rgba(246,240,226,.9);max-width:620px}
+.hb-who .hb-note{font-size:14px;color:rgba(246,240,226,.7)}
+.hb-who .hb-note a{color:var(--gold)}
+.hb-who .btn{justify-self:start}
 </style>
 </head>
 <body>
@@ -333,7 +359,16 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
   <div class="wrap">
     <p class="eyebrow">Sourcing now</p>
     <h2>Expos we are sourcing delegates for</h2>
-    <p class="sub">Want to attend or exhibit? Tap Join the delegation and we take it from there.</p>
+    <p class="sub">Whether you are attending as a buyer or exhibiting, tap Join the delegation on any expo and our team will support you from application to arrival.</p>
+    <div class="deleg-box">
+      <p class="deleg-title">When you join a delegation, we assist with:</p>
+      <ul class="ticks deleg-ticks">
+        <li>Matchmaking programmes that connect you with the right exhibitors and buyers</li>
+        <li>Travel planning and official visa invitation letters</li>
+        <li>One on one consultations for exhibitors and VIP buyers</li>
+        <li>Hosted buyer programme applications</li>
+      </ul>
+    </div>
     <div class="expos" id="expo-list">
       <article class="expo" data-start="2026-10-06" data-end="2026-10-08">
         <div class="expo-top"><span class="expo-date">6 to 8 October 2026</span><span class="expo-tag">Hosted buyer programme</span></div>
@@ -566,6 +601,44 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 </section>
 
 <!-- SECTORS -->
+<section class="sec dark hb" id="hosted-buyers">
+  <div class="wrap">
+    <p class="eyebrow">Hosted Buyers Programme</p>
+    <h2>Why join the Hosted Buyers Programme?</h2>
+    <div class="hb-why">
+      <article class="hb-card">
+        <h3>Tailored networking</h3>
+        <p>Meet directly with industry leaders and peers relevant to your business.</p>
+      </article>
+      <article class="hb-card">
+        <h3>Pre-scheduled meetings</h3>
+        <p>Secure one on one meetings with exhibitors that match your business needs.</p>
+      </article>
+      <article class="hb-card">
+        <h3>Exclusive access</h3>
+        <p>Enjoy dedicated lounges, matchmaking services and invite-only networking events.</p>
+      </article>
+    </div>
+
+    <h3 class="hb-sub">How it works</h3>
+    <ol class="hb-flow">
+      <li><b>Apply</b><span>Submit your Hosted Buyer application.</span></li>
+      <li><b>Get matched</b><span>We curate a list of relevant exhibitors based on your needs and buying priorities.</span></li>
+      <li><b>Confirm meetings</b><span>Lock in one to one meetings in advance so your time onsite is focused and productive.</span></li>
+      <li><b>Attend</b><span>Travel, join your scheduled meetings and explore the show with a guided tour.</span></li>
+    </ol>
+
+    <div class="hb-who">
+      <div>
+        <h3>Who qualifies?</h3>
+        <p>Senior decision-makers and professionals with purchasing power across the food and hospitality ecosystem.</p>
+        <p class="hb-note">Selection and benefits are decided by each event organiser. See our <a href="terms.html">terms and conditions</a>.</p>
+      </div>
+      <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20have%20a%20hosted%20buyer%20enquiry%20for%20SAIS%20Events." target="_blank" rel="noopener">Contact us for a hosted buyer enquiry</a>
+    </div>
+  </div>
+</section>
+
 <section class="sec dark" id="sectors">
   <div class="wrap">
     <p class="eyebrow">Sectors</p>
@@ -751,7 +824,6 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       </div>
       <nav class="foot-links" aria-label="More">
         <a href="partner.html">For expo organisers</a>
-        <a href="global-food-week-2026.html">Global Food Week 2026</a>
         <a href="food-africa-2026.html">Food Africa 2026</a>
         <a href="terms.html">Terms and conditions</a>
         <a href="#contact">Contact</a>
