@@ -196,7 +196,11 @@ blockquote cite{display:block;margin-top:8px;font-family:'DM Sans',sans-serif;fo
 /* Contact */
 .contacts{display:grid;gap:14px;margin-top:32px}
 @media(min-width:640px){.contacts{grid-template-columns:1fr 1fr}}
-@media(min-width:980px){.contacts{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1040px){.contacts{grid-template-columns:repeat(4,1fr)}}
+.ct .ct-go,.ct .btn{margin-top:auto}
+.ct .ct-role{margin-bottom:14px}
+.ct .ct-role+.ct-num{margin-top:0}
+.ct .ct-num,.ct .ct-role:last-of-type{margin-bottom:14px}
 .ct{display:flex;flex-direction:column;align-items:flex-start;background:var(--cream-2);border:1px solid var(--cream-line);border-radius:18px;padding:22px;text-decoration:none;color:var(--jungle);transition:border-color .2s,transform .15s}
 a.ct:hover{border-color:var(--jungle);transform:translateY(-2px)}
 .ct-label{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
@@ -246,6 +250,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 .hero-photo.wide img{aspect-ratio:4/3}
 .nav .btn{flex-shrink:0}
 .brand{min-width:0}
+.reg-line{margin-top:28px;padding-top:20px;border-top:1px solid var(--cream-line);font-size:15px;color:rgba(4,33,26,.82)}
 </style>
 </head>
 <body>
@@ -422,6 +427,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
         <span class="ct-go">Send an email</span>
       </a>
     </div>
+    <p class="reg-line">Registered business name: <b>SAIS Expo Coordinators</b><br>Business registration number: <b>BN-B8S62LOV</b></p>
   </div>
 </section>
 
