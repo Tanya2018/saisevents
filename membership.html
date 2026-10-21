@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#04211A">
+<title>Delegates Whitelist and Membership | SAIS Events</title>
+<meta name="description" content="Join the SAIS Events delegates whitelist. Get matched with suppliers, buyers and partners, and apply for hosted buyer programs at upcoming expos.">
+<style>
+  :root{
+    --ink:#10231d; --ink-soft:#4b5a55; --bg:#f4f7f5; --card:#ffffff;
+    --brand:#04211A; --brand2:#0a3a2d; --accent:#d6a63c; --accent-dark:#9c7416; --line:#dfe6e2; --ok:#1f7a4d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-text-size-adjust:100%}
+  a{color:inherit}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 18px}
+  header.top{background:var(--brand);color:#fff;padding:12px 0}
+  header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  header.top a{text-decoration:none;font-weight:700}
+  header.top img{height:34px;width:auto;display:block}
+  header.top .back{font-weight:500;font-size:14px;opacity:.85}
+  .hero{background:linear-gradient(160deg,#04211A 0%,#0a3a2d 100%);color:#fff;padding:44px 0 54px}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#f0d28a;margin-bottom:12px;font-weight:700}
+  .hero h1{font-size:clamp(28px,6vw,44px);line-height:1.15;max-width:760px;margin-bottom:14px}
+  .hero p{font-size:clamp(16px,2.6vw,19px);max-width:680px;color:#d5e3dd;margin-bottom:24px}
+  .btn{display:inline-block;background:var(--accent);color:#04211A;font-weight:700;padding:14px 24px;border-radius:10px;text-decoration:none;border:0;font-size:16px;cursor:pointer;min-height:48px;font-family:inherit}
+  .btn:hover{background:#e2b54e}
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);margin-left:8px}
+  .btn.line{background:#fff;color:var(--ink);border:1px solid #c5cfca}
+  .btn.line:hover{background:#f0f4f2}
+  .btn.wa{background:#1f9d57;color:#fff}
+  .btn.wa:hover{background:#198a4c}
+  .btn[disabled]{opacity:.6;cursor:default}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px;max-width:640px}
+  .stats div{background:rgba(255,255,255,.08);border-radius:10px;padding:12px 14px}
+  .stats strong{display:block;font-size:22px;color:#f0d28a}
+  .stats span{font-size:13px;color:#cfe0d8}
+  section{padding:44px 0}
+  h2{font-size:clamp(22px,4.5vw,30px);margin-bottom:8px}
+  .lead{color:var(--ink-soft);max-width:680px;margin-bottom:26px}
+  .grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:760px){.grid.three{grid-template-columns:repeat(3,1fr)}.grid.two{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{font-size:19px;margin-bottom:4px}
+  .card .tag{font-size:13px;color:var(--accent-dark);font-weight:700;margin-bottom:12px;display:block}
+  .card ul{list-style:none}
+  .card li{padding:8px 0 8px 22px;position:relative;border-top:1px solid var(--line);font-size:15px}
+  .card li:first-child{border-top:0}
+  .card li:before{content:"";position:absolute;left:2px;top:15px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .steps{counter-reset:s}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 20px 20px 64px;position:relative}
+  .step:before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:18px;width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .step h3{font-size:17px;margin-bottom:2px}
+  .step p{font-size:15px;color:var(--ink-soft)}
+
+  /* form */
+  .formcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 30px rgba(4,33,26,.07)}
+  @media(min-width:760px){.formcard{padding:32px}}
+  .progress{display:flex;gap:6px;margin-bottom:6px}
+  .progress i{flex:1;height:6px;border-radius:4px;background:#e3e9e6}
+  .progress i.on{background:var(--accent)}
+  .stepname{font-size:13px;color:var(--ink-soft);margin-bottom:18px;font-weight:600}
+  .pane{display:none}
+  .pane.show{display:block}
+  .pane h3{font-size:20px;margin-bottom:4px}
+  .pane .sub{color:var(--ink-soft);font-size:15px;margin-bottom:18px}
+  .row{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+  @media(min-width:640px){.row.two{grid-template-columns:1fr 1fr}}
+  label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+  label .opt{font-weight:400;color:var(--ink-soft)}
+  input[type=text],input[type=email],input[type=tel],input[type=search],select,textarea{width:100%;padding:13px 14px;border:1px solid #c9d3ce;border-radius:10px;font:inherit;font-size:16px;background:#fff;color:var(--ink);min-height:48px}
+  textarea{min-height:96px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  fieldset{border:0;margin-bottom:16px}
+  legend{font-weight:600;font-size:14px;margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips label{margin:0;font-weight:500}
+  .chips input{position:absolute;opacity:0;pointer-events:none}
+  .chips span{display:inline-block;padding:10px 14px;border:1px solid #c9d3ce;border-radius:999px;font-size:14px;cursor:pointer;background:#fff;min-height:42px}
+  .chips input:checked + span{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .chips input:focus-visible + span{outline:2px solid var(--accent)}
+  .checklist{display:grid;grid-template-columns:1fr;gap:4px 18px}
+  @media(min-width:640px){.checklist{grid-template-columns:1fr 1fr}}
+  .ck{display:flex;align-items:center;gap:12px;font-weight:500;padding:10px 4px;margin:0;cursor:pointer;position:relative;font-size:15px;min-height:46px}
+  .ck input{position:absolute;opacity:0;pointer-events:none}
+  .ck .sq{flex:none;width:22px;height:22px;border:2px solid #9fb0a8;border-radius:5px;background:#fff;position:relative}
+  .ck input:checked + .sq{background:var(--brand);border-color:var(--brand)}
+  .ck input:checked + .sq:after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .ck input:focus-visible + .sq{outline:2px solid var(--accent)}
+  .nav{display:flex;gap:10px;justify-content:space-between;margin-top:22px}
+  .nav .btn{flex:1}
+  @media(min-width:640px){.nav .btn{flex:0 0 auto;min-width:160px}.nav{justify-content:flex-end}}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-soft);margin:8px 0 6px}
+  .consent input{margin-top:4px;width:20px;height:20px;flex:none}
+  .note{font-size:13px;color:var(--ink-soft);margin-top:14px}
+  .err{display:none;background:#fdeeee;border:1px solid #f1c2c2;color:#8a1f1f;border-radius:10px;padding:10px 12px;font-size:14px;margin-top:12px}
+  .hp{position:absolute;left:-9999px}
+
+  /* expo picker */
+  .tools{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+  @media(min-width:640px){.tools{flex-direction:row;align-items:center}.tools input{flex:1}}
+  .seg{display:flex;gap:6px}
+  .seg button{padding:10px 14px;border:1px solid #c9d3ce;background:#fff;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;min-height:42px}
+  .seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .count{font-size:14px;color:var(--ink-soft);margin:6px 0 10px}
+  .expos{display:grid;grid-template-columns:1fr;gap:10px;max-height:none}
+  @media(min-width:760px){.expos{grid-template-columns:1fr 1fr}}
+  .expo{position:relative}
+  .expo input{position:absolute;opacity:0;pointer-events:none}
+  .expo .box{display:block;border:1px solid #c9d3ce;border-radius:12px;padding:14px 14px 14px 46px;background:#fff;cursor:pointer;position:relative;min-height:84px}
+  .expo .box:before{content:"";position:absolute;left:14px;top:16px;width:20px;height:20px;border:2px solid #9fb0a8;border-radius:6px;background:#fff}
+  .expo input:checked + .box{border-color:var(--brand);background:#f1f8f4;box-shadow:inset 0 0 0 1px var(--brand)}
+  .expo input:checked + .box:before{background:var(--brand);border-color:var(--brand)}
+  .expo input:checked + .box:after{content:"";position:absolute;left:21px;top:21px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .expo input:focus-visible + .box{outline:2px solid var(--accent)}
+  .expo .d{font-size:12px;font-weight:700;color:var(--accent-dark);letter-spacing:.3px;text-transform:uppercase}
+  .expo .n{font-weight:700;font-size:16px;line-height:1.3;margin:2px 0}
+  .expo .m{font-size:13px;color:var(--ink-soft)}
+  .badge{display:inline-block;background:#e7f4ec;color:var(--ok);font-weight:700;font-size:11px;padding:3px 8px;border-radius:999px;margin-top:6px}
+  .empty{display:none;padding:14px;color:var(--ink-soft);font-size:15px}
+
+  #thanks{display:none;text-align:center;padding:10px 0}
+  #thanks h3{font-size:24px;margin-bottom:8px;color:var(--ok)}
+  #thanks p{color:var(--ink-soft);max-width:520px;margin:0 auto 18px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+  summary{font-weight:600;cursor:pointer}
+  details p{margin-top:10px;color:var(--ink-soft);font-size:15px}
+  footer{background:var(--brand);color:#cfe0d8;padding:28px 0;font-size:14px}
+  footer a{color:#f0d28a}
+  .wa-float{position:fixed;right:16px;bottom:16px;background:#1f9d57;color:#fff;text-decoration:none;font-weight:700;padding:13px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:20;font-size:15px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="/"><img src="sais-events-logo-full-light.png" alt="SAIS Events"></a>
+    <a class="back" href="/#expos">Upcoming expos</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Delegates whitelist and membership</span>
+    <h1>Get on the list that gets called first for the next expo.</h1>
+    <p>Members are matched with the right suppliers, buyers and partners before registration opens, and hear first about hosted buyer programs. Join the whitelist and choose the expos you want to attend.</p>
+    <a class="btn" href="#join">Join the whitelist</a>
+    <a class="btn ghost" href="#benefits">See the benefits</a>
+    <div class="stats">
+      <div><strong>3K+</strong><span>professional contacts</span></div>
+      <div><strong>10+</strong><span>expo programmes</span></div>
+      <div><strong>Since 2018</strong><span>sourcing delegates</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="benefits">
+  <div class="wrap">
+    <h2>What members get</h2>
+    <p class="lead">One membership, three sides of the table. Pick the one that fits you when you apply.</p>
+    <div class="grid three">
+
+      <div class="card">
+        <h3>Delegates and buyers</h3>
+        <span class="tag">For importers, distributors and sourcing teams</span>
+        <ul>
+          <li>Priority place on the whitelist for every upcoming expo in your industry</li>
+          <li>Supplier and manufacturer matchmaking before you travel</li>
+          <li>B2B meetings arranged ahead of the expo</li>
+          <li>Hosted buyer program applications prepared and sent to the organiser</li>
+          <li>Access to the easier sourcing forum</li>
+          <li>Introductions to joint venture and distribution partners</li>
+          <li>Invitation letters and visa guidance</li>
+          <li>Group trips and customised factory visits</li>
+          <li>First alert on new expos on WhatsApp</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exhibitors</h3>
+        <span class="tag">For manufacturers and suppliers entering Africa and the Middle East</span>
+        <ul>
+          <li>Introductions to vetted buyers by industry and country</li>
+          <li>Buyer profiles with planned purchase budgets</li>
+          <li>Matchmaking with importers who buy direct from manufacturers</li>
+          <li>Early notice of booth offers at partner expos</li>
+          <li>Joint venture and local distributor introductions</li>
+          <li>East Africa market entry consultation</li>
+          <li>Promotion through our WhatsApp channel and business communities</li>
+          <li>Support from the first conversation to the booth booking</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Event organisers</h3>
+        <span class="tag">For organisers and coordinators looking for delegates</span>
+        <ul>
+          <li>Pre vetted delegate lists with purchase budget plans</li>
+          <li>Hosted buyer shortlists for your program</li>
+          <li>A dedicated registration link with tracking</li>
+          <li>Promotion through pavilions, mall booths and our channels</li>
+          <li>One on one pitching visits to qualified businesses</li>
+          <li>Exhibitor sourcing for East Africa</li>
+          <li>Delegate contact data after every closed registration</li>
+          <li>A steady pipeline for future editions</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lead">Four simple steps. Most members are on the whitelist within 48 hours.</p>
+    <div class="grid two steps">
+      <div class="step"><h3>Send your application</h3><p>Fill the form below and choose the expos you want. It takes about 5 minutes on your phone.</p></div>
+      <div class="step"><h3>We review it</h3><p>Our team checks your details and sees where we can place you.</p></div>
+      <div class="step"><h3>We contact you</h3><p>We reply on your email or WhatsApp within 24 hours with the next steps and a consultation time.</p></div>
+      <div class="step"><h3>Get matched</h3><p>You join the whitelist and start getting matches, expo alerts and hosted buyer opportunities.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <h2>Apply to join</h2>
+    <p class="lead">Four short steps. We reply on your email or WhatsApp.</p>
+
+    <div class="formcard">
+      <form id="joinForm" name="whitelist" method="POST" action="/" data-netlify="true" netlify-honeypot="company_site" novalidate>
+        <input type="hidden" name="form-name" value="whitelist">
+        <input type="hidden" name="expos" value="">
+        <input type="hidden" name="markets" value="">
+        <input type="hidden" name="looking_for" value="">
+        <input type="hidden" name="wants" value="">
+        <input type="hidden" name="services" value="">
+        <p class="hp"><label>Leave this empty <input name="company_site" tabindex="-1" autocomplete="off"></label></p>
+
+        <div class="progress" id="progress"><i></i><i></i><i></i><i></i></div>
+        <div class="stepname" id="stepname"></div>
+
+        <!-- STEP 1 -->
+        <div class="pane show" data-step="1">
+          <h3>1. Personal information</h3>
+          <p class="sub">Please provide your personal and contact details.</p>
+          <div class="row two">
+            <div><label for="name">Full name</label><input type="text" id="name" name="name" autocomplete="name" required></div>
+            <div><label for="jobtitle">Job title</label><input type="text" id="jobtitle" name="jobtitle" autocomplete="organization-title" required></div>
+          </div>
+          <div class="row two">
+            <div><label for="company">Company name</label><input type="text" id="company" name="company" autocomplete="organization" required></div>
+            <div><label for="country">Country</label><input type="text" id="country" name="country" autocomplete="country-name" required></div>
+          </div>
+          <div class="row two">
+            <div><label for="whatsapp">WhatsApp number</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="+254 7XX XXX XXX" autocomplete="tel" required></div>
+            <div><label for="email">Email address</label><input type="email" id="email" name="email" autocomplete="email" required></div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="category">I am joining as</label>
+              <select id="category" name="category" required>
+                <option value="">Select one</option>
+                <option>Delegate or buyer</option>
+                <option>Exhibitor or supplier</option>
+                <option>Event organiser</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="pane" data-step="2">
+          <h3>2. Company information</h3>
+          <p class="sub">Tell us more about your organisation. This helps us match you with the right exhibitors, suppliers and partners.</p>
+          <div class="row two">
+            <div>
+              <label for="biztype">Business type</label>
+              <select id="biztype" name="biztype" required>
+                <option value="">Select one</option>
+                <option>Importer</option><option>Distributor</option><option>Wholesaler or retailer</option>
+                <option>Manufacturer</option><option>Exporter or supplier</option><option>Trading agent</option>
+                <option>Government or association</option><option>Investor</option><option>Event organiser or coordinator</option><option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="sector">Main sector</label>
+              <select id="sector" name="sector" required>
+                <option value="">Select one</option>
+                <option>Agribusiness and Food</option><option>Natural and Organic Products</option><option>Healthcare and Medical</option>
+                <option>Beauty, Cosmetics and Personal Care</option><option>Trade and Manufacturing</option><option>Real Estate and Investment</option>
+                <option>AI, Fintech and Investment</option><option>Education and Skills Development</option><option>Tourism and Hospitality (MICE)</option>
+                <option>Fashion, Textiles and Apparel</option><option>Energy and Construction</option><option>Automotive and Spare Parts</option>
+                <option>Plastics, Packaging and Machinery</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div><label for="products">Products you buy, sell or want to source</label><input type="text" id="products" name="products" placeholder="Example: tea, mattress machines, food packaging" required></div>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="importing">Do you import or source from abroad today? <span class="opt">(optional)</span></label>
+              <select id="importing" name="importing">
+                <option value="">Select one</option>
+                <option>Yes, regularly</option>
+                <option>Yes, but only occasionally</option>
+                <option>Not yet, but planning to</option>
+                <option>No, first time exploring</option>
+              </select>
+            </div>
+          </div>
+          <fieldset>
+            <legend>What are you looking for? <span class="opt" style="font-weight:400">(optional)</span></legend>
+            <div class="chips" data-group="looking_for">
+              <label><input type="checkbox" value="OEM"><span>OEM</span></label>
+              <label><input type="checkbox" value="ODM"><span>ODM</span></label>
+              <label><input type="checkbox" value="Ready products"><span>Ready products</span></label>
+              <label><input type="checkbox" value="Custom manufacturing"><span>Custom manufacturing</span></label>
+              <label><input type="checkbox" value="Government procurement"><span>Government procurement</span></label>
+              <label><input type="checkbox" value="Long term supplier"><span>Long term supplier</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="pane" data-step="3">
+          <h3>3. Preferred upcoming expos</h3>
+          <p class="sub">Tap every expo you want to attend. Hosted buyer programs are marked. Organisers decide who is approved, and we never promise approval.</p>
+          <div class="tools">
+            <input type="search" id="expoSearch" placeholder="Search by name, city or sector" aria-label="Search expos">
+            <div class="seg" role="group" aria-label="Filter">
+              <button type="button" data-f="all" class="on">All expos</button>
+              <button type="button" data-f="hb">Hosted buyer</button>
+            </div>
+          </div>
+          <div class="count" id="expoCount"></div>
+          <div class="expos" id="expos"></div>
+          <div class="empty" id="expoEmpty">No expo matches your search.</div>
+          <div class="row" style="margin-top:16px">
+            <div><label for="otherexpo">Another expo not on the list? <span class="opt">(optional)</span></label><input type="text" id="otherexpo" name="otherexpo" placeholder="Expo name, city and year"></div>
+          </div>
+          <fieldset>
+            <legend>Other markets you want alerts for <span class="opt" style="font-weight:400">(optional)</span></legend>
+            <div class="chips" data-group="markets">
+              <label><input type="checkbox" value="China"><span>China</span></label>
+              <label><input type="checkbox" value="UAE"><span>UAE</span></label>
+              <label><input type="checkbox" value="Turkey"><span>Turkey</span></label>
+              <label><input type="checkbox" value="India"><span>India</span></label>
+              <label><input type="checkbox" value="Egypt"><span>Egypt</span></label>
+              <label><input type="checkbox" value="South Africa"><span>South Africa</span></label>
+              <label><input type="checkbox" value="Europe"><span>Europe</span></label>
+              <label><input type="checkbox" value="USA"><span>USA</span></label>
+            </div>
+          </fieldset>
+          <h3 style="margin-top:26px">Your budget</h3>
+          <p class="sub">This helps us match you with the right suppliers and programs. It stays private.</p>
+          <div class="row two">
+            <div>
+              <label for="buybudget">Estimated yearly buying budget</label>
+              <select id="buybudget" name="buybudget" required>
+                <option value="">Choose</option>
+                <option>Less than USD 5,000</option>
+                <option>USD 5,000 to 50,000</option>
+                <option>USD 50,000 to 200,000</option>
+                <option>USD 200,000 to 500,000</option>
+                <option>USD 500,000 to 1 million</option>
+                <option>More than USD 1 million</option>
+              </select>
+            </div>
+            <div>
+              <label for="tripbudget">Travel budget per delegate, for each trip</label>
+              <select id="tripbudget" name="tripbudget" required>
+                <option value="">Choose</option>
+                <option>Less than USD 1,500</option>
+                <option>USD 1,500 to 3,000</option>
+                <option>USD 3,000 to 5,000</option>
+                <option>More than USD 5,000</option>
+                <option>I need a hosted buyer program that covers my travel</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="pane" data-step="4">
+          <h3>4. Business matching services</h3>
+          <p class="sub">What would you like our team to help you with?</p>
+          <fieldset>
+            <legend>What do you want from membership</legend>
+            <div class="chips" data-group="wants">
+              <label><input type="checkbox" value="Matchmaking"><span>Matchmaking</span></label>
+              <label><input type="checkbox" value="B2B meetings"><span>B2B meetings</span></label>
+              <label><input type="checkbox" value="Joint venture partners"><span>Joint venture partners</span></label>
+              <label><input type="checkbox" value="Hosted buyer programs"><span>Hosted buyer programs</span></label>
+              <label><input type="checkbox" value="Sourcing forum"><span>Sourcing forum</span></label>
+              <label><input type="checkbox" value="Expo alerts"><span>Expo alerts</span></label>
+              <label><input type="checkbox" value="Delegate or exhibitor sourcing"><span>Delegate or exhibitor sourcing</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Select the services you need <span class="opt" style="font-weight:400">(optional)</span></legend>
+            <div class="checklist" data-group="services">
+              <label class="ck"><input type="checkbox" value="Registration support"><span class="sq"></span><span>Registration support</span></label>
+              <label class="ck"><input type="checkbox" value="Invitation letter"><span class="sq"></span><span>Invitation letter</span></label>
+              <label class="ck"><input type="checkbox" value="Business matching"><span class="sq"></span><span>Business matching</span></label>
+              <label class="ck"><input type="checkbox" value="Supplier matching"><span class="sq"></span><span>Supplier matching</span></label>
+              <label class="ck"><input type="checkbox" value="Factory visits"><span class="sq"></span><span>Factory visits</span></label>
+              <label class="ck"><input type="checkbox" value="Interpreter"><span class="sq"></span><span>Interpreter</span></label>
+              <label class="ck"><input type="checkbox" value="Hotel recommendation"><span class="sq"></span><span>Hotel recommendation</span></label>
+              <label class="ck"><input type="checkbox" value="Airport pickup"><span class="sq"></span><span>Airport pickup</span></label>
+              <label class="ck"><input type="checkbox" value="City or trade centre tour"><span class="sq"></span><span>City or trade centre tour</span></label>
+              <label class="ck"><input type="checkbox" value="Government cooperation"><span class="sq"></span><span>Government cooperation</span></label>
+              <label class="ck"><input type="checkbox" value="Investment opportunities"><span class="sq"></span><span>Investment opportunities</span></label>
+              <label class="ck"><input type="checkbox" value="Technology company visits"><span class="sq"></span><span>Technology company visits</span></label>
+            </div>
+            <div class="row" style="margin-top:10px"><div><label for="servicesother">Other</label><input type="text" id="servicesother" name="servicesother" placeholder="Anything else you need"></div></div>
+          </fieldset>
+          <div class="row two">
+            <div>
+              <label for="travelling">Will you travel to the expos?</label>
+              <select id="travelling" name="travelling" required>
+                <option value="">Select one</option>
+                <option>Yes</option><option>No</option><option>Not confirmed</option>
+              </select>
+            </div>
+            <div>
+              <label for="delegates">Number of delegates travelling</label>
+              <select id="delegates" name="delegates" required>
+                <option value="">Select one</option>
+                <option>1</option><option>2 to 5</option><option>6 to 10</option><option>More than 10</option>
+              </select>
+            </div>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="slot">Best time to talk (Nairobi time)</label>
+              <select id="slot" name="slot" required>
+                <option value="">Select one</option>
+                <option>Morning, 9am to 12pm</option>
+                <option>Afternoon, 12pm to 5pm</option>
+                <option>Evening, 5pm to 8pm</option>
+              </select>
+            </div>
+            <div>
+              <label for="contactvia">Reply to me on</label>
+              <select id="contactvia" name="contactvia" required>
+                <option>WhatsApp</option><option>Email</option><option>Phone call</option>
+              </select>
+            </div>
+          </div>
+          <div class="row two">
+            <div>
+              <label for="heard">How did you hear about us? <span class="opt">(optional)</span></label>
+              <select id="heard" name="heard">
+                <option value="">Select one</option>
+                <option>Facebook</option><option>LinkedIn</option><option>TikTok</option><option>WhatsApp</option>
+                <option>Email</option><option>Industry association</option><option>Government or chamber of commerce</option>
+                <option>Friend recommendation</option><option>Other</option>
+              </select>
+            </div>
+            <div></div>
+          </div>
+          <div class="row">
+            <div><label for="notes">Target suppliers, products or any other requirement <span class="opt">(optional)</span></label><textarea id="notes" name="notes" placeholder="Tell us anything that helps us prepare for you"></textarea></div>
+          </div>
+          <h3 style="margin:22px 0 6px">5. Privacy statement</h3>
+          <p class="sub" style="margin-bottom:10px">We value your privacy and are committed to protecting your personal information.</p>
+          <label class="consent"><input type="checkbox" id="consent" name="consent" value="yes">
+            <span>I confirm the information is accurate. SAIS Events may use it for registration, matching and contacting me about events and opportunities. I agree to the <a href="/terms" target="_blank" rel="noopener">terms</a>.</span></label>
+          <p class="note">SAIS Events coordinates consultation, registration, matchmaking and paperwork. Hosted buyer approvals and partnership outcomes are decided by the organisers and partners involved. We do not guarantee approvals. Your details stay private and are used only to support your registration.</p>
+        </div>
+
+        <div class="err" id="err" role="alert"></div>
+        <div class="nav">
+          <button type="button" class="btn line" id="backBtn" style="visibility:hidden">Back</button>
+          <button type="button" class="btn" id="nextBtn">Next</button>
+        </div>
+      </form>
+
+      <div id="thanks">
+        <h3>Application received</h3>
+        <p id="thanksText">Thank you. We will contact you on your email or WhatsApp within 24 hours with the next steps.</p>
+        <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">Send the same details on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <h2>Common questions</h2>
+    <details><summary>What happens after I apply?</summary><p>Our team reviews your details and contacts you on your email or WhatsApp within 24 hours. We share the next steps and agree a time for your consultation.</p></details>
+    <details><summary>Does membership guarantee a hosted buyer place?</summary><p>No. We prepare your profile and help with the application. The organisers alone decide hosted buyer approvals.</p></details>
+    <details><summary>Does SAIS Events organise the expos?</summary><p>No. We are delegate and exhibitor sourcing agents. We work with organisers and coordinators and prepare delegates to get the most from each event.</p></details>
+    <details><summary>Can I choose more than one expo?</summary><p>Yes. Choose every expo you may attend. You can also tell us about an expo that is not on the list.</p></details>
+    <details><summary>Is my information private?</summary><p>Yes. Your details are used only to support your registration and matching.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>SAIS Events &middot; <a href="mailto:info@saisevents.com">info@saisevents.com</a> &middot; <a href="/terms">Terms</a> &middot; <a href="https://whatsapp.com/channel/0029VbB97FCISTkRZscbs42b" target="_blank" rel="noopener">WhatsApp channel</a></p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/254722170385?text=Hello%20SAIS%20Events%2C%20I%20want%20to%20join%20the%20delegates%20whitelist." target="_blank" rel="noopener">WhatsApp us</a>
+
+<script>
+var WA_NUMBER = "254722170385";
+
+/* EXPO LIST. hb: true marks a hosted buyer program. Add or remove lines here. */
+var EXPOS = [
+  {n:"Private Label Middle East 2026", d:"3 to 5 Nov 2026", p:"Dubai World Trade Centre, UAE", s:"Private label food and FMCG"},
+  {n:"CIIE 2026", d:"5 to 10 Nov 2026", p:"Shanghai, China", s:"China International Import Expo, all sectors"},
+  {n:"FHC China 2026", d:"10 to 12 Nov 2026", p:"SNIEC, Shanghai, China", s:"Food and hospitality"},
+  {n:"Fi Europe 2026", d:"17 to 19 Nov 2026", p:"Frankfurt, Germany", s:"Food ingredients"},
+  {n:"Zhejiang Yiwu International Intelligent Manufacturing Equipment Expo", d:"20 to 22 Nov 2026", p:"Yiwu, Zhejiang, China", s:"Robots, CNC machine tools, agricultural, sewing and printing machinery"},
+  {n:"Food Africa 2026", d:"7 to 10 Dec 2026", p:"Egypt International Exhibition Center, Cairo", s:"Food and beverage", hb:true},
+  {n:"WorldFood Istanbul 2026", d:"15 to 18 Dec 2026", p:"Istanbul Expo Center, Turkey", s:"Food products and processing"},
+  {n:"Global Tea Fair 2026", d:"17 to 21 Dec 2026", p:"Shenzhen, China", s:"Tea, tea drinks and teaware"},
+  {n:"CES 2027", d:"6 to 9 Jan 2027", p:"Las Vegas, USA", s:"Consumer technology"},
+  {n:"AFROPLAST 2027", d:"9 to 12 Jan 2027", p:"Egypt International Exhibition Center, Cairo", s:"Plastics, rubber and non woven", hb:true},
+  {n:"IPPE 2027", d:"26 to 28 Jan 2027", p:"Atlanta, USA", s:"Meat, poultry and animal feed"},
+  {n:"Cosmoprof Miami 2027", d:"26 to 28 Jan 2027", p:"Miami Beach, USA", s:"Beauty"},
+  {n:"World of Coffee Dubai 2027", d:"26 to 28 Jan 2027", p:"Dubai World Trade Centre, UAE", s:"Specialty coffee"},
+  {n:"Agroexpo Izmir 2027", d:"2 to 6 Feb 2027", p:"Fuar Izmir, Turkey", s:"Agriculture and livestock", hb:true},
+  {n:"Fruit Logistica 2027", d:"3 to 5 Feb 2027", p:"Berlin, Germany", s:"Fresh produce"},
+  {n:"Premiere Anaheim 2027", d:"7 to 8 Feb 2027", p:"Anaheim, USA", s:"Professional beauty: hair, nails, skin"},
+  {n:"Beer&Food Attraction 2027", d:"21 to 23 Feb 2027", p:"Rimini, Italy", s:"Beer, beverages and foodservice"},
+  {n:"Expo West 2027", d:"2 to 5 Mar 2027", p:"Anaheim, USA", s:"Natural and organic products"},
+  {n:"India Mattresstech Expo 2027", d:"3 to 6 Mar 2027", p:"India Expo Mart, Greater Noida, Delhi NCR, India", s:"Mattress and upholstery machinery and supplies", hb:true},
+  {n:"HOTELEX Shanghai 2027", d:"30 Mar to 2 Apr 2027", p:"Shanghai, China", s:"Hospitality and foodservice"},
+  {n:"Inter FoodTech 2027", d:"15 to 17 Apr 2027", p:"Bombay Exhibition Centre, Mumbai, India", s:"Food processing and packaging"},
+  {n:"SIAL Canada 2027", d:"27 to 29 Apr 2027", p:"Toronto, Canada", s:"Food and beverage"},
+  {n:"Fi Africa 2027", d:"1 to 3 Jun 2027", p:"Egypt International Exhibition Center, Cairo", s:"Food ingredients"},
+  {n:"ProPak China 2027", d:"22 to 24 Jun 2027", p:"Shanghai, China", s:"Processing and packaging"},
+  {n:"Cosmoprof Las Vegas 2027", d:"13 to 15 Jul 2027", p:"Las Vegas, USA", s:"Beauty"}
+];
+
+var form = document.getElementById("joinForm");
+var panes = form.querySelectorAll(".pane");
+var bars = document.querySelectorAll("#progress i");
+var names = ["Step 1 of 4: Personal information","Step 2 of 4: Company information","Step 3 of 4: Expos and budget","Step 4 of 4: Business matching services"];
+var cur = 1;
+var filter = "all";
+
+/* build expo cards */
+var box = document.getElementById("expos");
+EXPOS.forEach(function(e, i){
+  var l = document.createElement("label");
+  l.className = "expo";
+  l.setAttribute("data-text", (e.n + " " + e.p + " " + e.s + " " + e.d).toLowerCase());
+  l.setAttribute("data-hb", e.hb ? "1" : "0");
+  l.innerHTML = '<input type="checkbox" value="' + e.n.replace(/"/g,"&quot;") + ' (' + e.d + ')">' +
+    '<span class="box"><span class="d">' + e.d + '</span><span class="n" style="display:block">' + e.n + '</span>' +
+    '<span class="m" style="display:block">' + e.p + '</span><span class="m" style="display:block">' + e.s + '</span>' +
+    (e.hb ? '<span class="badge">Hosted buyer program</span>' : '') + '</span>';
+  box.appendChild(l);
+});
+
+function selectedExpos(){
+  return Array.prototype.map.call(box.querySelectorAll("input:checked"), function(i){ return i.value; });
+}
+function groupVals(name){
+  return Array.prototype.map.call(document.querySelectorAll('[data-group="' + name + '"] input:checked'), function(i){ return i.value; });
+}
+function updateCount(){
+  var n = selectedExpos().length;
+  document.getElementById("expoCount").textContent = n === 0 ? "No expo selected yet." : n + (n === 1 ? " expo selected." : " expos selected.");
+}
+function applyFilter(){
+  var q = document.getElementById("expoSearch").value.trim().toLowerCase();
+  var shown = 0;
+  box.querySelectorAll(".expo").forEach(function(el){
+    var okText = !q || el.getAttribute("data-text").indexOf(q) > -1;
+    var okHb = filter === "all" || el.getAttribute("data-hb") === "1";
+    var show = okText && okHb;
+    el.style.display = show ? "" : "none";
+    if(show) shown++;
+  });
+  document.getElementById("expoEmpty").style.display = shown ? "none" : "block";
+}
+box.addEventListener("change", updateCount);
+document.getElementById("expoSearch").addEventListener("input", applyFilter);
+document.querySelectorAll(".seg button").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll(".seg button").forEach(function(x){ x.classList.remove("on"); });
+    b.classList.add("on"); filter = b.getAttribute("data-f"); applyFilter();
+  });
+});
+updateCount();
+
+/* stepper */
+var err = document.getElementById("err");
+function showErr(msg){ err.textContent = msg; err.style.display = "block"; }
+function clearErr(){ err.style.display = "none"; }
+
+function show(step, first){
+  cur = step;
+  panes.forEach(function(p){ p.classList.toggle("show", +p.getAttribute("data-step") === step); });
+  bars.forEach(function(b, i){ b.classList.toggle("on", i < step); });
+  document.getElementById("stepname").textContent = names[step - 1];
+  document.getElementById("backBtn").style.visibility = step === 1 ? "hidden" : "visible";
+  document.getElementById("nextBtn").textContent = step === 4 ? "Submit my application" : "Next";
+  clearErr();
+  if(!first){ document.getElementById("join").scrollIntoView({behavior:"smooth", block:"start"}); }
+}
+
+function validStep(step){
+  var pane = form.querySelector('.pane[data-step="' + step + '"]');
+  var fields = pane.querySelectorAll("input[required], select[required], textarea[required]");
+  for(var i = 0; i < fields.length; i++){
+    if(!fields[i].checkValidity()){
+      fields[i].reportValidity();
+      showErr("Please complete the highlighted field.");
+      return false;
+    }
+  }
+  if(step === 3 && selectedExpos().length === 0 && !document.getElementById("otherexpo").value.trim()){
+    showErr("Please choose at least one expo, or tell us which other expo you want.");
+    return false;
+  }
+  if(step === 4){
+    if(groupVals("wants").length === 0){ showErr("Please choose what you want from membership."); return false; }
+    if(!document.getElementById("consent").checked){ showErr("Please tick the box to confirm your details and agree to the terms."); return false; }
+  }
+  clearErr();
+  return true;
+}
+
+document.getElementById("backBtn").addEventListener("click", function(){ if(cur > 1) show(cur - 1); });
+document.getElementById("nextBtn").addEventListener("click", function(){
+  if(!validStep(cur)) return;
+  if(cur < 4){ show(cur + 1); } else { submitForm(); }
+});
+show(1, true);
+
+/* submit */
+function submitForm(){
+  var btn = document.getElementById("nextBtn");
+  btn.disabled = true; btn.textContent = "Sending...";
+
+  form.elements["expos"].value = selectedExpos().join("; ");
+  form.elements["markets"].value = groupVals("markets").join(", ");
+  form.elements["looking_for"].value = groupVals("looking_for").join(", ");
+  form.elements["wants"].value = groupVals("wants").join(", ");
+  var svcs = groupVals("services"); var svcOther = form.elements["servicesother"].value.trim(); if(svcOther){ svcs.push("Other: " + svcOther); }
+  form.elements["services"].value = svcs.join(", ");
+
+  var body = new URLSearchParams();
+  new FormData(form).forEach(function(v, k){ body.append(k, v); });
+
+  var other = form.elements["otherexpo"].value.trim();
+  var msg = "Hello SAIS Events, I want to join the delegates whitelist.\n" +
+    "Name: " + form.elements["name"].value + "\n" +
+    "Company: " + form.elements["company"].value + "\n" +
+    "Joining as: " + form.elements["category"].value + "\n" +
+    "Country: " + form.elements["country"].value + "\n" +
+    "Sector: " + form.elements["sector"].value + "\n" +
+    "Products: " + form.elements["products"].value + "\n" +
+    "Expos: " + (selectedExpos().join("; ") || "None selected") + (other ? "\nOther expo: " + other : "") + "\n" +
+    "Buying budget: " + form.elements["buybudget"].value + "\n" +
+    "Travel budget per delegate: " + form.elements["tripbudget"].value + "\n" +
+    "Wants: " + groupVals("wants").join(", ") + "\n" +
+    "Best time: " + form.elements["slot"].value;
+  var wa = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+
+  function done(ok){
+    form.style.display = "none";
+    document.getElementById("progress").style.display = "none";
+    document.getElementById("stepname").style.display = "none";
+    var t = document.getElementById("thanks");
+    t.style.display = "block";
+    if(!ok){
+      document.getElementById("thanksText").textContent = "Please tap the button below to send your details on WhatsApp so we can confirm your application.";
+    }
+    document.getElementById("waLink").href = wa;
+    t.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body: body.toString() })
+    .then(function(r){ done(r.ok); })
+    .catch(function(){ done(false); });
+}
+</script>
+</body>
+</html>

@@ -269,6 +269,8 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <nav class="nav-links" aria-label="Main">
       <a href="#what">What we do</a>
       <a href="#expos">Expos</a>
+      <a href="#past-expos">Past expos</a>
+      <a href="membership.html">Membership</a>
       <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -404,7 +406,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       <article class="expo" data-start="2026-11-17" data-end="2026-11-19">
         <div class="expo-top"><span class="expo-date">17 to 19 November 2026</span></div>
         <h3>Fi Europe 2026</h3>
-        <p class="expo-place">Messe Frankfurt, Germany</p>
+        <p class="expo-place">Frankfurt, Germany</p>
         <p class="expo-sector">Food ingredients <span class="nw">&middot; <a class="expo-link" href="https://www.figlobal.com/europe/" target="_blank" rel="noopener">Official site</a></span></p>
         <div class="expo-actions">
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Fi%20Europe%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
@@ -476,7 +478,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       <article class="expo" data-start="2027-02-03" data-end="2027-02-05">
         <div class="expo-top"><span class="expo-date">3 to 5 February 2027</span></div>
         <h3>Fruit Logistica 2027</h3>
-        <p class="expo-place">Messe Berlin, Germany</p>
+        <p class="expo-place">Berlin, Germany</p>
         <p class="expo-sector">Fresh produce <span class="nw">&middot; <a class="expo-link" href="https://www.fruitlogistica.com/en/" target="_blank" rel="noopener">Official site</a></span></p>
         <div class="expo-actions">
           <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20Fruit%20Logistica%202027%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
@@ -583,6 +585,123 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       </article>
     </div>
     <button type="button" class="btn btn-dark more-expos" id="more-expos" hidden>Show all expos</button>
+  </div>
+</section>
+
+<!-- PAST EXPOS -->
+<style>
+  #past-expos{background:#f4f7f5;padding:56px 0;border-top:1px solid #dfe6e2}
+  #past-expos .pe-wrap{max-width:1060px;margin:0 auto;padding:0 18px}
+  #past-expos .pe-eyebrow{display:inline-block;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#9c7416;font-weight:700;margin-bottom:8px}
+  #past-expos h2{font-size:clamp(24px,5vw,34px);line-height:1.2;color:#04211A;margin:0 0 10px}
+  #past-expos .pe-lead{color:#4b5a55;max-width:680px;margin:0 0 26px;font-size:16px;line-height:1.55}
+  #past-expos .pe-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:640px){#past-expos .pe-grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:980px){#past-expos .pe-grid{grid-template-columns:1fr 1fr 1fr}}
+  #past-expos .pe-card{background:#fff;border:1px solid #dfe6e2;border-radius:14px;padding:18px 18px 16px;position:relative;display:flex;flex-direction:column;gap:2px}
+  #past-expos .pe-date{font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:#9c7416}
+  #past-expos .pe-name{font-size:18px;font-weight:700;color:#04211A;line-height:1.3;margin:2px 0}
+  #past-expos .pe-meta{font-size:14px;color:#4b5a55;line-height:1.45}
+  #past-expos .pe-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  #past-expos .pe-tag{display:inline-block;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:#eceff0;color:#56635e}
+  #past-expos .pe-tag.done{background:#e7f4ec;color:#1f7a4d}
+  #past-expos .pe-tag.hb{background:#fbf1d9;color:#8a6410}
+  #past-expos .pe-wide{grid-column:1 / -1;background:#04211A;border-color:#04211A}
+  #past-expos .pe-wide .pe-name{color:#fff}
+  #past-expos .pe-wide .pe-meta{color:#cfe0d8}
+  #past-expos .pe-wide .pe-date{color:#f0d28a}
+  #past-expos .pe-cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  #past-expos .pe-btn{display:inline-block;background:#d6a63c;color:#04211A;font-weight:700;padding:14px 22px;border-radius:10px;text-decoration:none;font-size:16px;min-height:48px}
+  #past-expos .pe-btn:hover{background:#e2b54e}
+  #past-expos .pe-btn.pe-alt{background:#04211A;color:#fff}
+  #past-expos .pe-btn.pe-alt:hover{background:#0a3a2d}
+  #past-expos .pe-note{font-size:14px;color:#4b5a55}
+</style>
+
+<section id="past-expos">
+  <div class="pe-wrap">
+    <span class="pe-eyebrow">Ended events</span>
+    <h2>Expos we have already sourced delegates for</h2>
+    <p class="pe-lead">Real delegations, real shows. These are events where SAIS Events prepared buyers, handled paperwork and set up matchmaking before they travelled.</p>
+
+    <div class="pe-grid">
+
+      <div class="pe-card">
+        <span class="pe-date">6 to 8 Oct 2026</span>
+        <span class="pe-name">Global Food Week 2026</span>
+        <span class="pe-meta">ADNEC, Abu Dhabi, UAE<br>Food and beverage</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span><span class="pe-tag hb">Hosted buyer programme</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">22 to 24 Sep 2026</span>
+        <span class="pe-name">Sahara Expo 2026</span>
+        <span class="pe-meta">Cairo, Egypt<br>Agribusiness</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span><span class="pe-tag hb">Hosted buyer programme</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Delegations since 2023</span>
+        <span class="pe-name">Food Africa</span>
+        <span class="pe-meta">Cairo, Egypt<br>Food and beverage</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span><span class="pe-tag hb">Hosted buyer programme</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">Canton Fair</span>
+        <span class="pe-meta">Guangzhou, China<br>General trade and sourcing</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">Hometex</span>
+        <span class="pe-meta">China<br>Home textiles</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">Chinaplas</span>
+        <span class="pe-meta">China<br>Plastics and rubber</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">ProPak China</span>
+        <span class="pe-meta">Shanghai, China<br>Processing and packaging</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">Plastindia</span>
+        <span class="pe-meta">New Delhi, India<br>Plastics</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card">
+        <span class="pe-date">Past editions</span>
+        <span class="pe-name">interpack India</span>
+        <span class="pe-meta">Mumbai, India<br>Processing and packaging</span>
+        <div class="pe-tags"><span class="pe-tag done">Ended</span></div>
+      </div>
+
+      <div class="pe-card pe-wide">
+        <span class="pe-date">Ongoing work</span>
+        <span class="pe-name">More delegations and customised factory visits</span>
+        <span class="pe-meta">We have sent delegates to many more industry events, and run customised factory visits in many industries across China, the UAE, India, Egypt and Morocco.</span>
+      </div>
+
+    </div>
+
+    <div class="pe-cta">
+      <a class="pe-btn" href="#register">Join the next delegation</a>
+      <a class="pe-btn pe-alt" href="membership.html">Join the delegates whitelist</a>
+      <span class="pe-note">Hosted buyer approvals are decided by each organiser.</span>
+    </div>
   </div>
 </section>
 
