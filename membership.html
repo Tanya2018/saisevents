@@ -231,14 +231,14 @@
     <p class="lead">Four short steps. We reply on your email or WhatsApp.</p>
 
     <div class="formcard">
-      <form id="joinForm" name="whitelist" method="POST" action="/" data-netlify="true" netlify-honeypot="company_site" novalidate>
+      <form id="joinForm" name="whitelist" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="whitelist">
         <input type="hidden" name="expos" value="">
         <input type="hidden" name="markets" value="">
         <input type="hidden" name="looking_for" value="">
         <input type="hidden" name="wants" value="">
         <input type="hidden" name="services" value="">
-        <p class="hp"><label>Leave this empty <input name="company_site" tabindex="-1" autocomplete="off"></label></p>
+        <p class="hp" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="new-password"></label></p>
 
         <div class="progress" id="progress"><i></i><i></i><i></i><i></i></div>
         <div class="stepname" id="stepname"></div>
