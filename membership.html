@@ -118,7 +118,9 @@
   .expo .d{font-size:12px;font-weight:700;color:var(--accent-dark);letter-spacing:.3px;text-transform:uppercase}
   .expo .n{font-weight:700;font-size:16px;line-height:1.3;margin:2px 0}
   .expo .m{font-size:13px;color:var(--ink-soft)}
+  .expo.closed .box{opacity:.6;cursor:not-allowed}
   .badge{display:inline-block;background:#e7f4ec;color:var(--ok);font-weight:700;font-size:11px;padding:3px 8px;border-radius:999px;margin-top:6px}
+  .badge-closed{background:#fdecea;color:#b3261e}
   .empty{display:none;padding:14px;color:var(--ink-soft);font-size:15px}
 
   #thanks{display:none;text-align:center;padding:10px 0}
@@ -515,7 +517,7 @@ var WA_NUMBER = "254722170385";
 /* EXPO LIST. hb: true marks a hosted buyer program. Add or remove lines here. */
 var EXPOS = [
   {n:"Private Label Middle East 2026", d:"3 to 5 Nov 2026", p:"Dubai World Trade Centre, UAE", s:"Private label food and FMCG"},
-  {n:"CIIE 2026", d:"5 to 10 Nov 2026", p:"Shanghai, China", s:"China International Import Expo, all sectors"},
+  {n:"CIIE 2026", d:"5 to 10 Nov 2026", p:"Shanghai, China", s:"China International Import Expo, all sectors", closed:true},
   {n:"FHC China 2026", d:"10 to 12 Nov 2026", p:"SNIEC, Shanghai, China", s:"Food and hospitality"},
   {n:"Fi Europe 2026", d:"17 to 19 Nov 2026", p:"Frankfurt, Germany", s:"Food ingredients"},
   {n:"Zhejiang Yiwu International Intelligent Manufacturing Equipment Expo", d:"20 to 22 Nov 2026", p:"Yiwu, Zhejiang, China", s:"Robots, CNC machine tools, agricultural, sewing and printing machinery"},
@@ -552,13 +554,13 @@ var filter = "all";
 var box = document.getElementById("expos");
 EXPOS.forEach(function(e, i){
   var l = document.createElement("label");
-  l.className = "expo";
+  l.className = "expo" + (e.closed ? " closed" : "");
   l.setAttribute("data-text", (e.n + " " + e.p + " " + e.s + " " + e.d).toLowerCase());
   l.setAttribute("data-hb", e.hb ? "1" : "0");
-  l.innerHTML = '<input type="checkbox" value="' + e.n.replace(/"/g,"&quot;") + ' (' + e.d + ')">' +
+  l.innerHTML = '<input type="checkbox"' + (e.closed ? ' disabled' : '') + ' value="' + e.n.replace(/"/g,"&quot;") + ' (' + e.d + ')">' +
     '<span class="box"><span class="d">' + e.d + '</span><span class="n" style="display:block">' + e.n + '</span>' +
     '<span class="m" style="display:block">' + e.p + '</span><span class="m" style="display:block">' + e.s + '</span>' +
-    (e.hb ? '<span class="badge">Hosted buyer program</span>' : '') + '</span>';
+    (e.hb ? '<span class="badge">Hosted buyer program</span>' : '') + (e.closed ? '<span class="badge badge-closed">Registration officially closed</span>' : '') + '</span>';
   box.appendChild(l);
 });
 
