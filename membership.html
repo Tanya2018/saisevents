@@ -564,6 +564,17 @@ EXPOS.forEach(function(e, i){
   box.appendChild(l);
 });
 
+/* preselect an expo from the link, e.g. membership.html?expo=FHC%20China%202026 */
+(function(){
+  try{
+    var want = new URLSearchParams(location.search).get("expo");
+    if(!want) return;
+    Array.prototype.forEach.call(box.querySelectorAll("input"), function(i){
+      if(!i.disabled && i.value.indexOf(want + " (") === 0){ i.checked = true; }
+    });
+  }catch(err){}
+})();
+
 function selectedExpos(){
   return Array.prototype.map.call(box.querySelectorAll("input:checked"), function(i){ return i.value; });
 }
