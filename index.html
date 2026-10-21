@@ -127,6 +127,8 @@ h3{font-size:1.3rem;font-weight:700}
 .expo-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .expo-date{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--jungle);background:var(--gold);border-radius:999px;padding:5px 12px}
 .expo-tag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(217,180,73,.65);border-radius:999px;padding:4px 10px}
+.expo-tag.closed{color:#ffb4a8;border-color:rgba(255,140,120,.7)}
+.btn-closed{background:transparent;color:#ffb4a8;border-color:rgba(255,140,120,.7);cursor:not-allowed}
 .expo h3{font-size:1.4rem;margin-top:14px}
 .expo-place{margin-top:6px;color:var(--gold);font-weight:600;font-size:15.5px}
 .expo-sector{margin-top:2px;color:rgba(246,240,226,.86);font-size:15px}
@@ -386,12 +388,12 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
         </div>
       </article>
       <article class="expo" data-start="2026-11-05" data-end="2026-11-10">
-        <div class="expo-top"><span class="expo-date">5 to 10 November 2026</span></div>
+        <div class="expo-top"><span class="expo-date">5 to 10 November 2026</span><span class="expo-tag closed">Registration closed</span></div>
         <h3>CIIE 2026</h3>
         <p class="expo-place">National Exhibition and Convention Center, Shanghai</p>
         <p class="expo-sector">China International Import Expo, all sectors <span class="nw">&middot; <a class="expo-link" href="https://www.ciie.org/zbh/en/" target="_blank" rel="noopener">Official site</a></span></p>
         <div class="expo-actions">
-          <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20want%20to%20go%20to%20CIIE%202026%20with%20SAIS%20Events." target="_blank" rel="noopener">Join the delegation</a>
+          <span class="btn btn-closed" aria-disabled="true">Delegate registration officially closed</span>
         </div>
       </article>
       <article class="expo" data-start="2026-11-10" data-end="2026-11-12">
