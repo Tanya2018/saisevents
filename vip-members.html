@@ -33,6 +33,7 @@
   .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:16px 26px;font-size:17px;text-align:center;border:0;cursor:pointer;font-family:inherit}
   .btn-gold{background:var(--gold);color:var(--green)}
   .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);padding:14px 24px;margin:6px 0 0 4px}
+  .hint{display:block;font-size:13.5px;color:var(--muted);margin-top:5px}
   .other{margin:-4px 0 16px}
   .other[hidden]{display:none}
   .feebox{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:16px 18px;margin:0 0 18px;font-size:16px}
@@ -156,7 +157,7 @@
           <div class="field"><label for="country">Country</label><input type="text" id="country" name="country" autocomplete="country-name" required></div>
           <div class="field"><label for="whatsapp">WhatsApp number</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="+254 7XX XXX XXX" autocomplete="tel" required></div>
           <div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" autocomplete="email" required></div>
-          <div class="field"><label for="website">Company website or social page</label><input type="text" id="website" name="website" placeholder="Website, Facebook or Instagram page" required></div>
+          <div class="field"><label for="website">Website, social media or business profile link (required)</label><input type="text" id="website" name="website" placeholder="For example: yourcompany.com, facebook.com/yourpage, instagram.com/yourpage" required><span class="hint">We use this to vet your company. Add a website, Facebook, Instagram, LinkedIn or Google business page.</span></div>
           <div class="field"><label for="years">Years in business</label>
             <select id="years" name="years" required>
               <option value="">Choose one</option>
@@ -284,6 +285,8 @@
         if (!bad && !document.getElementById(o[0]+"_wrap").hidden && !ta.value.trim()) { bad = ta; msg = o[1]; }
       });
     }
+    var web = form.elements["website"];
+    if (!bad && !/[.@\/]/.test(web.value.trim())) { bad = web; msg = "Please add a website, social media or business profile link. This is required."; }
     var email = form.elements["email"];
     if (!bad && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) bad = email;
     if (bad) {
