@@ -34,6 +34,9 @@
   .btn-gold{background:var(--gold);color:var(--green)}
   .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);padding:14px 24px;margin:6px 0 0 4px}
   .hint{display:block;font-size:13.5px;color:var(--muted);margin-top:5px}
+  .attach input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+  .attachbtn{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--green);background:#FDFBF5;border:1.5px dashed var(--gold-ink);border-radius:10px;padding:13px 18px;cursor:pointer;max-width:100%}
+  .attachbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
   .other{margin:-4px 0 16px}
   .other[hidden]{display:none}
   .feebox{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:16px 18px;margin:0 0 18px;font-size:16px}
@@ -146,7 +149,7 @@
     <h2>Apply for VIP membership</h2>
     <p class="sub">Tell us about your business. Our team will contact you on WhatsApp or email with the next steps.</p>
     <div class="formbox">
-      <form id="vipForm" name="vip-members" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <form id="vipForm" name="vip-members" method="POST" action="/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="vip-members">
         <p class="hp" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="new-password"></label></p>
 
@@ -188,6 +191,13 @@
               <option>Above USD 1 million</option>
               <option>Not trading across borders yet</option>
             </select></div>
+        </div>
+
+        <div class="field attach">
+          <label for="profile_file">Attach your company profile (optional)</label>
+          <label class="attachbtn" for="profile_file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><span id="fileLabel">Attach file</span></label>
+          <input type="file" id="profile_file" name="profile_file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png">
+          <span class="hint">PDF, Word, PowerPoint or image. Up to 5 MB.</span>
         </div>
 
         <div class="field"><label for="products">Products you buy or sell</label><input type="text" id="products" name="products" placeholder="For example: coffee, snacks, spices, machinery, beauty products" required></div>
@@ -266,6 +276,9 @@
       if (cb.checked) w.querySelector("textarea").focus(); else w.querySelector("textarea").value = "";
     });
   });
+  document.getElementById("profile_file").addEventListener("change", function(){
+    document.getElementById("fileLabel").textContent = this.files[0] ? this.files[0].name : "Attach file";
+  });
   form.addEventListener("submit", function(ev){
     ev.preventDefault();
     err.textContent = "";
@@ -287,6 +300,8 @@
     }
     var web = form.elements["website"];
     if (!bad && !/[.@\/]/.test(web.value.trim())) { bad = web; msg = "Please add a website, social media or business profile link. This is required."; }
+    var pf = document.getElementById("profile_file");
+    if (!bad && pf.files[0] && pf.files[0].size > 5*1024*1024) { bad = pf; msg = "That file is over 5 MB. Please attach a smaller file, or send it later by email."; }
     var email = form.elements["email"];
     if (!bad && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) bad = email;
     if (bad) {
@@ -299,8 +314,7 @@
     });
     var btn = document.getElementById("submitBtn");
     btn.disabled = true; btn.textContent = "Sending...";
-    var body = new URLSearchParams();
-    new FormData(form).forEach(function(v, k){ body.append(k, v); });
+    var body = new FormData(form);
     function done(ok){
       form.hidden = true;
       var t = document.getElementById("thanks");
@@ -308,7 +322,7 @@
       if (!ok) document.getElementById("thanksText").textContent = "We could not send your details. Please email info@saisevents.com and we will register you.";
       t.scrollIntoView({behavior:"smooth", block:"center"});
     }
-    fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: body.toString()})
+    fetch("/", {method:"POST", body: body})
       .then(function(r){ done(r.ok); })
       .catch(function(){ done(false); });
   });
