@@ -32,6 +32,9 @@
   @media(min-width:700px){.hero{padding:66px 0 58px}.hero h1{font-size:46px}.facts{grid-template-columns:repeat(3,1fr)}}
   .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:16px 26px;font-size:17px;text-align:center;border:0;cursor:pointer;font-family:inherit}
   .btn-gold{background:var(--gold);color:var(--green)}
+  .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);padding:14px 24px;margin:6px 0 0 4px}
+  .feebox{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:16px 18px;margin:0 0 18px;font-size:16px}
+  .feebox b{color:var(--green)}
   section{padding:48px 0}
   section.tint{background:var(--soft)}
   h2{font-size:26px;line-height:1.25;margin:0 0 8px;letter-spacing:-.3px;color:var(--green)}
@@ -96,9 +99,9 @@
     <ul class="facts">
       <li><b>Expos</b>24 international shows, 2026 to 2027</li>
       <li><b>Markets</b>UAE, China, Egypt, Turkey, India, Europe, Americas</li>
-      <li><b>Membership</b>One time. No yearly renewal</li>
+      <li><b>Membership fee</b>USD 300, paid once. No yearly renewal</li>
     </ul>
-    <a class="btn btn-gold" href="#register">Apply for VIP membership</a>
+    <a class="btn btn-gold" href="#register">Apply for VIP membership</a> <a class="btn btn-ghost" href="terms.html#vip" target="_blank" rel="noopener">Terms and conditions</a>
   </div>
 </section>
 
@@ -220,7 +223,9 @@
         <div class="field"><label for="expos">Expos you are interested in</label><input type="text" id="expos" name="expos" placeholder="For example: Food Africa Cairo, WorldFood Istanbul, Inter FoodTech India"></div>
         <div class="field"><label for="notes">Anything else we should know</label><textarea id="notes" name="notes" placeholder="Your goals, budget or travel plans"></textarea></div>
 
-        <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I agree to be contacted by SAIS Events about VIP membership and expos.</label>
+        <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I agree to be contacted by SAIS Events about VIP membership and expos, and I accept the <a href="terms.html#vip" target="_blank" rel="noopener">terms and conditions</a> and the one-time USD 300 membership fee.</label>
+
+        <p class="feebox"><b>Membership fee: USD 300, paid once.</b> No yearly renewal. Our team sends payment details after we receive your application. <a href="terms.html#vip" target="_blank" rel="noopener">Read the terms and conditions</a>.</p>
 
         <p class="err" id="err" role="alert"></p>
         <button type="submit" class="btn submit" id="submitBtn">Apply now</button>
