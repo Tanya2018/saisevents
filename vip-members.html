@@ -33,6 +33,8 @@
   .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:16px 26px;font-size:17px;text-align:center;border:0;cursor:pointer;font-family:inherit}
   .btn-gold{background:var(--gold);color:var(--green)}
   .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);padding:14px 24px;margin:6px 0 0 4px}
+  .other{margin:-4px 0 16px}
+  .other[hidden]{display:none}
   .feebox{background:#fff;border:2px solid var(--gold);border-radius:14px;padding:16px 18px;margin:0 0 18px;font-size:16px}
   .feebox b{color:var(--green)}
   section{padding:48px 0}
@@ -154,7 +156,7 @@
           <div class="field"><label for="country">Country</label><input type="text" id="country" name="country" autocomplete="country-name" required></div>
           <div class="field"><label for="whatsapp">WhatsApp number</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="+254 7XX XXX XXX" autocomplete="tel" required></div>
           <div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" autocomplete="email" required></div>
-          <div class="field"><label for="website">Company website or social page</label><input type="text" id="website" name="website" placeholder="Optional"></div>
+          <div class="field"><label for="website">Company website or social page</label><input type="text" id="website" name="website" placeholder="Website, Facebook or Instagram page" required></div>
           <div class="field"><label for="years">Years in business</label>
             <select id="years" name="years" required>
               <option value="">Choose one</option>
@@ -191,7 +193,7 @@
         <div class="field"><label for="markets">Markets you want to buy from or sell to</label><input type="text" id="markets" name="markets" placeholder="For example: UAE, China, Turkey, India, Egypt" required></div>
 
         <fieldset>
-          <legend>Sectors you are interested in</legend>
+          <legend>Sectors you are interested in (choose at least one)</legend>
           <div class="checks" data-group="sectors">
             <label><input type="checkbox" value="Food and beverage">Food and beverage</label>
             <label><input type="checkbox" value="Coffee and tea">Coffee and tea</label>
@@ -202,13 +204,14 @@
             <label><input type="checkbox" value="Plastics">Plastics</label>
             <label><input type="checkbox" value="Hospitality">Hospitality</label>
             <label><input type="checkbox" value="Technology">Technology</label>
-            <label><input type="checkbox" value="Other">Other</label>
+            <label><input type="checkbox" value="Other" data-other="sector_other_wrap">Other</label>
           </div>
+          <div class="field other" id="sector_other_wrap" hidden><label for="sector_other">Tell us what your business is about</label><textarea id="sector_other" name="sector_other" placeholder="Describe your business, products and what you do"></textarea></div>
           <input type="hidden" name="sectors" value="">
         </fieldset>
 
         <fieldset>
-          <legend>What do you want from membership</legend>
+          <legend>What do you want from membership (choose at least one)</legend>
           <div class="checks" data-group="wants">
             <label><input type="checkbox" value="Hosted buyer programmes">Hosted buyer programmes</label>
             <label><input type="checkbox" value="Exhibiting">Exhibiting at expos</label>
@@ -216,16 +219,19 @@
             <label><input type="checkbox" value="Meet manufacturers">Meet manufacturers and suppliers</label>
             <label><input type="checkbox" value="Joint ventures">Joint venture partners</label>
             <label><input type="checkbox" value="Factory visits">Factory visits</label>
+            <label><input type="checkbox" value="Other" data-other="want_other_wrap">Other</label>
           </div>
+          <div class="field other" id="want_other_wrap" hidden><label for="want_other">Tell us what else you want from membership</label><textarea id="want_other" name="want_other" placeholder="Write what you are looking for"></textarea></div>
           <input type="hidden" name="wants" value="">
         </fieldset>
 
-        <div class="field"><label for="expos">Expos you are interested in</label><input type="text" id="expos" name="expos" placeholder="For example: Food Africa Cairo, WorldFood Istanbul, Inter FoodTech India"></div>
-        <div class="field"><label for="notes">Anything else we should know</label><textarea id="notes" name="notes" placeholder="Your goals, budget or travel plans"></textarea></div>
+        <div class="field"><label for="expos">Expos you are interested in</label><input type="text" id="expos" name="expos" placeholder="For example: Food Africa Cairo, WorldFood Istanbul, Inter FoodTech India" required></div>
+        <div class="field"><label for="notes">Your goals and travel plans</label><textarea id="notes" name="notes" placeholder="What do you want to achieve and when do you plan to travel" required></textarea></div>
 
-        <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I agree to be contacted by SAIS Events about VIP membership and expos, and I accept the <a href="terms.html#vip" target="_blank" rel="noopener">terms and conditions</a> and the one-time USD 300 membership fee.</label>
+        <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. Our team sends payment details after we receive your application. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
 
-        <p class="feebox"><b>Membership fee: USD 300, paid once.</b> No yearly renewal. Our team sends payment details after we receive your application. <a href="terms.html#vip" target="_blank" rel="noopener">Read the terms and conditions</a>.</p>
+        <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I accept the <a href="terms.html#vip" target="_blank" rel="noopener">terms and conditions</a> and the one-time USD 300 VIP membership fee, and I agree to be contacted by SAIS Events.</label>
+
 
         <p class="err" id="err" role="alert"></p>
         <button type="submit" class="btn submit" id="submitBtn">Apply now</button>
@@ -252,6 +258,13 @@
 (function(){
   var form = document.getElementById("vipForm");
   var err = document.getElementById("err");
+  Array.prototype.forEach.call(form.querySelectorAll("[data-other]"), function(cb){
+    cb.addEventListener("change", function(){
+      var w = document.getElementById(cb.getAttribute("data-other"));
+      w.hidden = !cb.checked;
+      if (cb.checked) w.querySelector("textarea").focus(); else w.querySelector("textarea").value = "";
+    });
+  });
   form.addEventListener("submit", function(ev){
     ev.preventDefault();
     err.textContent = "";
@@ -260,10 +273,21 @@
       var empty = el.type === "checkbox" ? !el.checked : !String(el.value).trim();
       if (empty && !bad) bad = el;
     });
+    var groups = {sectors:"Please choose at least one sector.", wants:"Please choose at least one thing you want from membership."};
+    var msg = "";
+    if (!bad) {
+      Object.keys(groups).forEach(function(g){
+        if (!msg && !form.querySelector('[data-group="'+g+'"] input:checked')) { msg = groups[g]; bad = form.querySelector('[data-group="'+g+'"] input'); }
+      });
+      [["sector_other","Please tell us what your business is about."],["want_other","Please tell us what else you want from membership."]].forEach(function(o){
+        var ta = document.getElementById(o[0]);
+        if (!bad && !document.getElementById(o[0]+"_wrap").hidden && !ta.value.trim()) { bad = ta; msg = o[1]; }
+      });
+    }
     var email = form.elements["email"];
     if (!bad && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) bad = email;
     if (bad) {
-      err.textContent = bad.id === "consent" ? "Please tick the box to agree to be contacted." : "Please fill in all the fields marked above, with a valid email.";
+      err.textContent = msg || (bad.id === "consent" ? "Please tick the box to accept the terms and conditions and the USD 300 fee." : "Please fill in every field above, with a valid email.");
       bad.focus();
       return;
     }
