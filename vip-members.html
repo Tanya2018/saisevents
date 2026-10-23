@@ -33,6 +33,7 @@
   .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:999px;padding:16px 26px;font-size:17px;text-align:center;border:0;cursor:pointer;font-family:inherit}
   .btn-gold{background:var(--gold);color:var(--green)}
   .btn-ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);padding:14px 24px;margin:6px 0 0 4px}
+  .btn-ghost-dark{background:transparent;color:var(--green);border:2px solid var(--green);padding:11px 20px;margin-top:10px;font-size:15px}
   .hint{display:block;font-size:13.5px;color:var(--muted);margin-top:5px}
   .attach input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
   .attachbtn{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--green);background:#FDFBF5;border:1.5px dashed var(--gold-ink);border-radius:10px;padding:13px 18px;cursor:pointer;max-width:100%}
@@ -236,7 +237,9 @@
           <input type="hidden" name="wants" value="">
         </fieldset>
 
-        <div class="field"><label for="expos">Expos you are interested in</label><input type="text" id="expos" name="expos" placeholder="For example: Food Africa Cairo, WorldFood Istanbul, Inter FoodTech India" required></div>
+        <div class="field"><label for="expos">Expos you are interested in</label><input type="text" id="expos" name="expos" placeholder="For example: Food Africa Cairo, WorldFood Istanbul, Inter FoodTech India" required>
+          <a class="btn btn-ghost-dark" href="index.html#expos" target="_blank" rel="noopener">See our full expo list</a>
+          <span class="hint">Opens in a new tab, so your answers here stay safe.</span></div>
         <div class="field"><label for="notes">Your goals and travel plans</label><textarea id="notes" name="notes" placeholder="What do you want to achieve and when do you plan to travel" required></textarea></div>
 
         <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. Our team sends payment details after we receive your application. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
