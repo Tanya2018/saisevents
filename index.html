@@ -77,6 +77,8 @@ h3{font-size:1.3rem;font-weight:700}
 @media(max-width:400px){.brand small{letter-spacing:.1em}}
 .nav-links{display:none;gap:28px}
 .nav-links a{text-decoration:none;font-size:15px;font-weight:600;color:var(--jungle)}
+.nav-new{position:relative}
+.nav-new::after{content:"New";position:absolute;top:-11px;right:-22px;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--gold);color:var(--jungle);border-radius:999px;padding:1px 6px}
 .nav-links a:hover{color:var(--gold-deep)}
 @media(min-width:900px){.nav-links{display:flex}}
 
@@ -259,6 +261,26 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 .hb-who .hb-note{font-size:14px;color:rgba(246,240,226,.7)}
 .hb-who .hb-note a{color:var(--gold)}
 .hb-who .btn{justify-self:start}
+
+/* MatchMarket */
+.mm{background:var(--gold);color:var(--jungle)}
+.mm .eyebrow{color:var(--jungle)}
+.mm-badge{display:inline-flex;align-items:center;gap:8px;background:var(--jungle);color:var(--gold);border-radius:999px;padding:6px 14px 6px 10px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+.mm-badge i{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:mmPulse 1.6s ease-in-out infinite}
+@keyframes mmPulse{50%{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.mm-badge i{animation:none}}
+.mm h2{max-width:18ch}
+.mm h2 em{font-style:italic}
+.mm-lead{font-size:1.15rem;max-width:58ch;margin-top:18px}
+.mm-grid{display:grid;gap:14px;margin:34px 0 30px}
+@media(min-width:760px){.mm-grid{grid-template-columns:repeat(2,1fr)}}
+.mm-item{background:var(--jungle);color:var(--cream);border-radius:16px;padding:20px 22px}
+.mm-item b{display:block;font-family:'Fraunces',Georgia,serif;font-size:1.2rem;color:var(--gold);margin-bottom:4px}
+.mm-item p{font-size:15.5px;color:rgba(246,240,226,.86)}
+.mm-fomo{font-weight:700;font-size:1.05rem;max-width:56ch;border-left:4px solid var(--jungle);padding-left:14px}
+.mm-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;align-items:center}
+.mm .btn-dark{background:var(--jungle);color:var(--gold)}
+.mm-note{font-size:14px;font-weight:600}
 </style>
 </head>
 <body>
@@ -272,6 +294,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       <a href="#what">What we do</a>
       <a href="#expos">Expos</a>
       <a href="#past-expos">Past expos</a>
+      <a href="#matchmarket" class="nav-new">MatchMarket</a>
       <a href="membership.html">Membership</a>
       <a href="#team">Team</a>
       <a href="#contact">Contact</a>
@@ -322,6 +345,28 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       </article>
     </div>
     <p class="note">We place them at expos and hosted buyer programmes around the world.</p>
+  </div>
+</section>
+
+<!-- MATCHMARKET -->
+<section class="sec mm" id="matchmarket">
+  <div class="wrap">
+    <span class="mm-badge"><i></i>New. Founding members now open</span>
+    <h2>SAIS MatchMarket. <em>Where buyers find you first.</em></h2>
+    <p class="mm-lead">A private B2B marketplace for buyers, suppliers, manufacturers, importers, exporters and expo organisers. Exhibitors meet serious buyers before the show opens, and organisers fill their hosted buyer programmes with vetted names in days. Our AI matchmaker reads every vetted company on the platform and introduces you to the ones ready to trade with you. You never see the deals you missed. That is exactly why you should be inside.</p>
+    <div class="mm-grid">
+      <div class="mm-item"><b>AI matches, with the reason</b><p>Every match shows a score and why that company fits you. No cold calls, no guesswork.</p></div>
+      <div class="mm-item"><b>Chat, meet and close in one place</b><p>Message buyers, book meetings and agree prices in your own deal room.</p></div>
+      <div class="mm-item"><b>For organisers: fill your hosted buyer programme</b><p>Find vetted importers and buyers who match your show, invite them, and book their meetings with your exhibitors.</p></div>
+      <div class="mm-item"><b>For exhibitors: buyers before the doors open</b><p>Reach potential buyers in your category, book meetings ahead of the expo, and arrive with a full diary.</p></div>
+      <div class="mm-item"><b>Vetted by SAIS</b><p>Every company is checked before it can trade. You only meet real businesses.</p></div>
+      <div class="mm-item"><b>First in line at our trade fairs</b><p>Members get VIP buyer meetings at the international expos we work with.</p></div>
+    </div>
+    <p class="mm-fomo">Buyers choose partners fast. Founding members are the first names they see, and once a buyer has a supplier, the conversation is over.</p>
+    <div class="mm-cta">
+      <a class="btn btn-dark" href="market.html">Claim your founding spot</a>
+      <span class="mm-note">Takes 3 minutes. Approved within 1 working day.</span>
+    </div>
   </div>
 </section>
 
@@ -961,6 +1006,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       <nav class="foot-links" aria-label="More">
         <a href="partner.html">For expo organisers</a>
         <a href="food-africa-2026.html">Food Africa 2026</a>
+        <a href="market.html">SAIS MatchMarket</a>
         <a href="vip-members.html">VIP Members Programme</a>
         <a href="sais-events-upcoming-expos-2026-2027.pdf" target="_blank" rel="noopener">Expo brochure (PDF)</a>
         <a href="terms.html">Terms and conditions</a>
