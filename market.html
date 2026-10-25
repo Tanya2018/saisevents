@@ -560,7 +560,8 @@ function subscribe(){
 }
 
 let booted=false;
-sb.auth.onAuthStateChange(async(ev,session)=>{
+sb.auth.onAuthStateChange((ev,session)=>{setTimeout(()=>handleAuth(ev,session),0)});
+async function handleAuth(ev,session){
  if(ev==='PASSWORD_RECOVERY'){S.recovery=true;S.user=session.user;S.loading=false;render();return}
  const uid=session&&session.user&&session.user.id;
  if(booted&&uid===(S.user&&S.user.id)&&ev!=='SIGNED_OUT')return;
@@ -569,7 +570,8 @@ sb.auth.onAuthStateChange(async(ev,session)=>{
  else{S.me=null;S.loading=false;if(channel){sb.removeChannel(channel);channel=null}}
  const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin'].includes(h))S.view=h;
  render();
-});
+}
+setTimeout(()=>{if(S.loading){$('#view').innerHTML='<div class="card empty">This is taking longer than usual. <button class="link" onclick="location.reload()">Tap to reload</button></div>'}},15000);
 })();
 
 </script>
