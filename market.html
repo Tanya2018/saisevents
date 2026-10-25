@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAIS Trade Market</title>
+<meta name="description" content="SAIS Trade Market. Meet vetted buyers, suppliers, manufacturers, importers, exporters and expo organisers, matched by AI.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/sais-events-icon.png">
+<link rel="apple-touch-icon" href="/sais-events-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: app shell. Deep green brand bar on top, side nav on wide screens, bottom tab bar on phones. */
+:root{
+  --brand:#04211A; --brand-2:#0B3A2E; --gold:#C9962E; --gold-ink:#7A5A0E;
+  --bg:#F6F3EA; --surface:#FFFDF8; --surface-2:#EFEADB; --line:#E0D6BC;
+  --fg:#0D1411; --muted:#4E5A54; --on-brand:#F7F2E6;
+  --good:#1F7A4D; --good-bg:#E2F2E9; --warn:#9A6A00; --warn-bg:#FBF0D6; --bad:#B3261E; --bad-bg:#FBE4E2;
+  --f-display:'Fraunces',Georgia,serif; --f-body:'DM Sans',system-ui,-apple-system,Segoe UI,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A1612; --surface:#10211B; --surface-2:#16302A; --line:#26443A;
+  --fg:#EDE8DA; --muted:#A9B7AF; --gold-ink:#E2B54E;
+  --good:#6FD39E; --good-bg:#123426; --warn:#F0C25A; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1714; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A1612; --surface:#10211B; --surface-2:#16302A; --line:#26443A;
+  --fg:#EDE8DA; --muted:#A9B7AF; --gold-ink:#E2B54E;
+  --good:#6FD39E; --good-bg:#123426; --warn:#F0C25A; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1714; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--brand);color:var(--on-brand);padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top img{height:34px;width:auto}
+.top .name{font-family:var(--f-display);font-size:18px;font-weight:700;letter-spacing:.2px}
+.demo{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;border:1px solid var(--gold);color:#F0D28A;border-radius:999px;padding:3px 9px}
+.who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+.who select{background:var(--brand-2);border:1px solid #2E5A4C;color:var(--on-brand);border-radius:8px;padding:6px 8px;max-width:58vw}
+.shell{display:grid;grid-template-columns:220px 1fr;min-height:calc(100% - 56px)}
+nav.side{background:var(--surface);border-right:1px solid var(--line);padding:18px 10px;display:flex;flex-direction:column;gap:4px}
+nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;font-weight:600;color:var(--muted)}
+nav button svg{width:20px;height:20px;flex:none}
+nav button[aria-current="page"]{background:var(--surface-2);color:var(--fg)}
+nav button .n{margin-left:auto;background:var(--gold);color:var(--brand);font-size:11px;font-weight:700;border-radius:999px;padding:1px 7px}
+main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.head h1{font-size:28px}
+.head p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold-ink)}
+.agent{display:flex;gap:12px;align-items:flex-start;background:var(--brand);color:var(--on-brand);border-radius:14px;padding:14px 16px}
+.agent .dot{width:34px;height:34px;border-radius:50%;background:var(--gold);display:grid;place-items:center;flex:none;color:var(--brand)}
+.agent b{color:#F0D28A}
+.agent p{margin:2px 0 0;font-size:14px;color:#D5DED9}
+.pulse{animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.co{display:flex;gap:12px;align-items:center}
+.av{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:15px;flex:none;color:#fff}
+.co h3{font-family:var(--f-body);font-size:16px;font-weight:700}
+.co small{color:var(--muted);font-size:13px}
+.score{margin-left:auto;text-align:right;flex:none}
+.score b{display:block;font-family:var(--f-mono);font-size:20px;color:var(--good)}
+.score span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.why{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.why .eyebrow{display:block;margin-bottom:2px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.tag.role{background:var(--warn-bg);color:var(--warn)}
+.tag.ok{background:var(--good-bg);color:var(--good)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px;background:var(--surface-2);color:var(--fg)}
+.btn.pri{background:var(--brand);color:var(--on-brand)}
+:root:not([data-theme="light"]) .btn.pri{background:var(--gold);color:var(--brand)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn.pri{background:var(--brand);color:var(--on-brand)}}
+:root[data-theme="light"] .btn.pri{background:var(--brand);color:var(--on-brand)}
+.btn.gold{background:var(--gold);color:var(--brand)}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--muted)}
+.btn:disabled{opacity:.5;cursor:default}
+/* messages */
+.chat{display:grid;grid-template-columns:280px 1fr;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:480px}
+.threads{border-right:1px solid var(--line);overflow:auto}
+.thread{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 14px}
+.thread[aria-current="true"]{background:var(--surface-2)}
+.thread .t{min-width:0}
+.thread .t b{display:block;font-size:14px}
+.thread .t span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv{display:flex;flex-direction:column;min-width:0}
+.conv .ch{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.conv .ch .row{margin-left:auto}
+.msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:52vh}
+.m{max-width:78%;padding:9px 12px;border-radius:12px;font-size:14px}
+.m.them{background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:4px}
+.m.me{background:var(--brand);color:var(--on-brand);align-self:flex-end;border-bottom-right-radius:4px}
+.m.ai{align-self:center;background:var(--warn-bg);color:var(--warn);font-size:13px;max-width:92%;text-align:center}
+.m time{display:block;font-size:11px;opacity:.7;margin-top:2px}
+.compose{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.compose input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px}
+.back{display:none}
+/* lists */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.li{display:flex;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.li:last-child{border-bottom:0}
+.li .t{min-width:0;flex:1}
+.li .t b{display:block}
+.li .t span{color:var(--muted);font-size:13.5px}
+.when{font-family:var(--f-mono);font-size:13px;background:var(--surface-2);border-radius:8px;padding:6px 10px;text-align:center;min-width:76px}
+.when b{display:block;font-size:18px;font-family:var(--f-display)}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.pill.good{background:var(--good-bg);color:var(--good)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+/* deals */
+.steps{display:flex;gap:6px}
+.steps span{flex:1;height:6px;border-radius:4px;background:var(--surface-2)}
+.steps span.on{background:var(--gold)}
+.steplab{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-weight:700;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13px}
+.tbl{overflow-x:auto}
+.hist{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.hist div{display:flex;gap:8px}
+.hist time{color:var(--muted);font-family:var(--f-mono);font-size:12px;flex:none;width:58px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font-family:var(--f-display);font-size:30px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:120px 1fr 34px;gap:10px;align-items:center;font-size:13.5px}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--gold)}
+.bar em{font-style:normal;font-family:var(--f-mono);font-size:12.5px;text-align:right;color:var(--muted)}
+/* forms + modal */
+label.f{display:flex;flex-direction:column;gap:5px;font-weight:600;font-size:13.5px}
+label.f input,label.f select,label.f textarea{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font-weight:400;font-size:15px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form .full{grid-column:1/-1}
+.meter{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--good)}
+dialog{border:0;border-radius:16px;padding:0;background:var(--surface);color:var(--fg);width:min(520px,calc(100vw - 32px));max-height:calc(100% - 40px)}
+dialog::backdrop{background:rgba(4,33,26,.55)}
+.dlg{padding:20px;display:flex;flex-direction:column;gap:14px}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.slot{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 6px;text-align:center;font-size:13.5px;font-weight:600}
+.slot[aria-pressed="true"]{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;font-size:14px;z-index:50;max-width:calc(100vw - 32px)}
+.empty{color:var(--muted);text-align:center;padding:30px 10px}
+nav.tabs{display:none}
+@media (max-width:820px){
+  .shell{grid-template-columns:1fr}
+  nav.side{display:none}
+  nav.tabs{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+  nav.tabs button{flex-direction:column;gap:2px;font-size:11px;padding:6px 2px;justify-content:center;align-items:center;position:relative}
+  nav.tabs button .n{position:absolute;top:2px;right:18%;margin:0}
+  .chat{grid-template-columns:1fr}
+  .chat.open .threads{display:none}
+  .chat:not(.open) .conv{display:none}
+  .back{display:inline-block}
+  .form{grid-template-columns:1fr}
+  .bar{grid-template-columns:96px 1fr 30px}
+  .head h1{font-size:24px}
+  .who span{display:none}
+  .top{gap:8px 10px}
+  .top img{height:28px}
+  .top .name{font-size:16px}
+  .demo{font-size:10px;padding:2px 7px}
+}
+
+.acct{display:flex;align-items:center;gap:8px;font-size:13px;margin-left:auto;min-width:0}
+.acct span{opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+.btn.small{padding:6px 10px;font-size:13px}
+.top .btn.ghost{color:var(--on-brand);border-color:#2E5A4C}
+body.nonav .shell{grid-template-columns:1fr}
+body.nonav nav.side,body.nonav nav.tabs{display:none!important}
+.authbox{max-width:440px;margin:24px auto;gap:12px}
+.authbox h1{font-size:26px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.err{color:var(--bad);font-weight:600;font-size:14px;margin:0;min-height:0}
+.err:empty{display:none}
+.link{background:none;border:0;padding:0;color:var(--gold-ink);font-weight:700;text-decoration:underline;cursor:pointer}
+.banner{border-radius:12px;padding:12px 14px;font-size:14px}
+.banner.warn{background:var(--warn-bg);color:var(--warn)}
+.banner.bad{background:var(--bad-bg);color:var(--bad)}
+.h3{font-family:var(--f-body);font-size:16px;font-weight:700}
+.total{font-size:16px!important;color:var(--fg)!important}
+.additem{display:grid;grid-template-columns:2fr 1fr 1.3fr auto;gap:8px}
+.additem input{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 10px;min-width:0}
+.compose input:disabled{opacity:.6}
+@media (max-width:820px){.additem{grid-template-columns:1fr 1fr}.additem input:first-child{grid-column:1/-1}.acct span{display:none}}
+</style></head>
+<body>
+<header class="top">
+  <a href="/" aria-label="SAIS Events home"><img src="/sais-events-logo-full-light.png" alt="SAIS Events" width="77" height="34"></a>
+  <span class="name">Trade Market</span>
+  <div class="acct" id="acct"></div>
+</header>
+<div class="shell">
+  <nav class="side" id="sideNav" aria-label="Main"></nav>
+  <main><div class="wrap" id="view"><p class="empty">Loading…</p></div></main>
+</div>
+<nav class="tabs" id="tabNav" aria-label="Main"></nav>
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+const SB_URL='https://hbobppslyikleonzvzxp.supabase.co';
+const SB_KEY='sb_publishable_G-a5q9AhRKqdAWIwDUonuA_BGVupI6s';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+
+const ICON={
+ matches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5 5.6.8-4 3.9.9 5.5L12 15.6 7.1 18.2l.9-5.5-4-3.9 5.6-.8z"/></svg>',
+ messages:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+ meetings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+ deals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
+ profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+ admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
+ bot:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg>'
+};
+const ROLES=['Buyer','Importer','Exporter','Supplier','Manufacturer','Organiser','Service provider'];
+const BUY_SIDE=['Buyer','Importer'];
+const COLORS=['#0B6E4F','#7A5A0E','#2D4E8C','#8C2D4E','#4E6B2D','#5B3F8C','#8C5A2D','#2D7A8C'];
+const STEPS=['Proposed','Negotiating','Accepted','Delivered'];
+const STOP=new Set('and the for with from our your that this are have has its into per all any can new more less than also only very who what when where which their they them you we us of in on to a an or as at by be is it'.split(' '));
+
+const S={user:null,me:null,admin:false,view:'matches',filter:'All',open:null,cos:[],matches:[],convs:[],msgs:{},last:{},meetings:[],deals:[],items:{},events:{},loading:true};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ini=n=>String(n||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+const hash=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
+const av=c=>`<span class="av" style="background:${COLORS[hash(c&&c.id)%COLORS.length]}">${esc(ini(c&&c.name))}</span>`;
+const co=id=>S.cos.find(c=>c.id===id)||(S.me&&S.me.id===id?S.me:{id,name:'Company',city:'',role:''});
+const money=n=>'USD '+Math.round(n||0).toLocaleString('en-US');
+const fmtTime=d=>new Date(d).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const fmtShort=d=>{const x=new Date(d),now=new Date();return x.toDateString()===now.toDateString()?x.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):x.toLocaleDateString('en-GB',{day:'numeric',month:'short'})};
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3000)}
+function fail(e,what){console.error(e);toast((what||'That did not work')+'. Please try again.')}
+const approved=()=>S.me&&S.me.status==='approved';
+
+/* ---------- simple matching until the AI agent runs ---------- */
+const words=s=>new Set(String(s||'').toLowerCase().split(/[^a-z0-9&]+/).filter(w=>w.length>2&&!STOP.has(w)));
+function quickScore(c){
+ const m=S.me;if(!m)return 0;
+ const mySells=words(m.sells),myWants=words(m.wants+' '+m.sells),myMk=words(m.markets);
+ const theirSells=words(c.sells),theirWants=words(c.wants),theirAll=words([c.sells,c.wants,c.role,c.city,c.country].join(' '));
+ let hit=0;myWants.forEach(w=>{if(theirSells.has(w))hit++});mySells.forEach(w=>{if(theirWants.has(w))hit++});
+ let mk=0;myMk.forEach(w=>{if(theirAll.has(w))mk++});
+ const sideFit=(BUY_SIDE.includes(m.role)!==BUY_SIDE.includes(c.role))?12:0;
+ return Math.min(97,Math.round(35+hit*9+mk*6+sideFit));
+}
+function suggestions(){
+ if(!S.me)return [];
+ const fromAgent=new Map(S.matches.filter(x=>x.status!=='passed').map(x=>[x.match_company,x]));
+ const passed=new Set(S.matches.filter(x=>x.status==='passed').map(x=>x.match_company));
+ return S.cos.filter(c=>c.id!==S.me.id&&c.status==='approved'&&!passed.has(c.id)).map(c=>{
+  const a=fromAgent.get(c.id);
+  return {c,score:a?a.score:quickScore(c),why:a?a.reason:null,agent:!!a};
+ }).sort((x,y)=>(y.agent-x.agent)||(y.score-x.score));
+}
+
+/* ---------- data ---------- */
+async function loadAll(){
+ const uid=S.user.id;
+ const [me,ad]=await Promise.all([
+  sb.from('companies').select('*').eq('owner',uid).maybeSingle(),
+  sb.from('admins').select('user_id').eq('user_id',uid).maybeSingle()]);
+ S.me=me.data||null;S.admin=!!ad.data;
+ const [cos,mt,cv,mg,dl]=await Promise.all([
+  sb.from('companies').select('*').order('created_at',{ascending:false}),
+  S.me?sb.from('matches').select('*').eq('for_company',S.me.id):Promise.resolve({data:[]}),
+  sb.from('conversations').select('*'),
+  sb.from('meetings').select('*').order('starts_at'),
+  sb.from('deals').select('*').order('created_at',{ascending:false})]);
+ S.cos=cos.data||[];S.matches=mt.data||[];S.convs=cv.data||[];S.meetings=mg.data||[];S.deals=dl.data||[];
+ if(S.convs.length){const r=await sb.from('messages').select('conversation_id,body,created_at,sender_company,kind').in('conversation_id',S.convs.map(c=>c.id)).order('created_at',{ascending:false}).limit(300);
+  S.last={};(r.data||[]).forEach(m=>{if(!S.last[m.conversation_id])S.last[m.conversation_id]=m});}
+ if(S.deals.length){const ids=S.deals.map(d=>d.id);
+  const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
+  S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
+ S.loading=false;
+}
+async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('conversation_id',cid).order('created_at');S.msgs[cid]=r.data||[]}
+
+/* ---------- nav ---------- */
+function navItems(){
+ const items=[['matches','Matches'],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
+ if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length]);
+ return items;
+}
+function renderNav(){
+ const show=S.user&&S.me;
+ const html=show?navItems().map(([k,l,n])=>`<button data-go="${k}" ${S.view===k?'aria-current="page"':''}>${ICON[k]}<span>${l}</span>${n?`<span class="n">${n}</span>`:''}</button>`).join(''):'';
+ $('#sideNav').innerHTML=html;$('#tabNav').innerHTML=html;
+ document.body.classList.toggle('nonav',!show);
+ $('#acct').innerHTML=S.user?`<span>${esc(S.user.email)}</span><button class="btn ghost small" data-logout>Log out</button>`:'';
+}
+function go(v){S.view=v;if(v!=='messages')S.open=null;render();window.scrollTo(0,0)}
+
+/* ---------- views ---------- */
+function viewAuth(mode){
+ return `<div class="authbox card">
+  <span class="eyebrow">SAIS Trade Market</span>
+  <h1>${mode==='signup'?'Create your account':'Log in'}</h1>
+  <p class="muted">Meet vetted buyers, suppliers, manufacturers, importers, exporters and expo organisers. Our AI matchmaker introduces you to the right companies.</p>
+  <form id="authForm" class="stack" data-mode="${mode}">
+   <label class="f">Email<input id="a_email" type="email" autocomplete="email" required></label>
+   <label class="f">Password<input id="a_pw" type="password" minlength="8" autocomplete="${mode==='signup'?'new-password':'current-password'}" required></label>
+   ${mode==='signup'?'<p class="muted small">At least 8 characters.</p>':''}
+   <p class="err" id="authErr" role="alert"></p>
+   <button class="btn pri">${mode==='signup'?'Create account':'Log in'}</button>
+  </form>
+  <p class="small">${mode==='signup'?'Already have an account? <button class="link" data-auth="login">Log in</button>':'New here? <button class="link" data-auth="signup">Create an account</button>'}</p>
+  ${mode==='login'?'<p class="small"><button class="link" data-reset>Forgot password</button></p>':''}
+ </div>`;
+}
+
+function profileForm(m,first){
+ m=m||{};
+ return `<form class="card form" id="prof">
+  <label class="f">Company name<input id="p_name" value="${esc(m.name)}" required></label>
+  <label class="f">I am a<select id="p_role" required><option value="">Choose one</option>${ROLES.map(r=>`<option ${r===m.role?'selected':''}>${r}</option>`).join('')}</select></label>
+  <label class="f">City<input id="p_city" value="${esc(m.city)}" required></label>
+  <label class="f">Country<input id="p_country" value="${esc(m.country)}" required></label>
+  <label class="f full">What we sell or offer<textarea id="p_sells" rows="2" placeholder="For example: hotel furniture, lighting, FF&E" required>${esc(m.sells)}</textarea></label>
+  <label class="f full">What we want to buy, or who we want to meet<textarea id="p_wants" rows="2" placeholder="For example: hotel developers and interior designers in East Africa" required>${esc(m.wants)}</textarea></label>
+  <label class="f">Target markets<input id="p_markets" value="${esc(m.markets)}" placeholder="Kenya, UAE, Egypt" required></label>
+  <label class="f">Usual deal size<input id="p_deal_size" value="${esc(m.deal_size)}" placeholder="USD 10,000 to 50,000"></label>
+  <label class="f">Website or social page<input id="p_website" value="${esc(m.website)}" placeholder="yourcompany.com or facebook.com/yourpage" required></label>
+  <label class="f">WhatsApp number<input id="p_whatsapp" value="${esc(m.whatsapp)}" placeholder="+254 7XX XXX XXX"></label>
+  <p class="err full" id="profErr" role="alert"></p>
+  <div class="full row"><button class="btn pri">${first?'Submit for vetting':'Save changes'}</button></div>
+ </form>`;
+}
+function viewOnboard(){
+ return `<div class="head"><div><span class="eyebrow">Step 1 of 2</span><h1>Tell us about your company</h1><p>SAIS vets every company before it can trade. Our AI matchmaker uses these answers to find your best partners.</p></div></div>${profileForm(null,true)}`;
+}
+function pendingBanner(){
+ if(!S.me||S.me.status==='approved')return '';
+ return S.me.status==='declined'
+  ?`<div class="banner bad">Your company was not approved. Please email info@saisevents.com so we can help.</div>`
+  :`<div class="banner warn"><b>Waiting for SAIS vetting.</b> You can look around now. Messages, meetings and deals open once your company is approved, usually within 1 working day.</div>`;
+}
+
+function viewMatches(){
+ const list=suggestions().filter(x=>S.filter==='All'||x.c.role===S.filter);
+ const fromAgent=S.matches.length;
+ return `${pendingBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
+ <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
+ <div class="chips" role="group" aria-label="Filter by type">${['All',...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
+ ${list.length?`<div class="grid">${list.map(({c,score,why,agent})=>`<article class="card">
+   <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
+   <div class="tags"><span class="tag role">${esc(c.role)}</span><span class="tag ok">Vetted by SAIS</span></div>
+   <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
+   <div class="row"><button class="btn pri" data-msg="${c.id}">Message</button><button class="btn gold" data-book="${c.id}">Book meeting</button><button class="btn ghost" data-pass="${c.id}">Not now</button></div>
+ </article>`).join('')}</div>`:`<div class="card empty">No vetted companies in this group yet. SAIS adds new companies every week, and we will show them here.</div>`}`;
+}
+
+function convOther(cv){return cv.company_a===S.me.id?cv.company_b:cv.company_a}
+function viewMessages(){
+ const convs=[...S.convs].sort((a,b)=>new Date((S.last[b.id]||b).created_at)-new Date((S.last[a.id]||a).created_at));
+ const cv=convs.find(x=>x.id===S.open);const other=cv&&co(convOther(cv));
+ const msgs=cv?(S.msgs[cv.id]||[]):[];
+ return `${pendingBanner()}<div class="head"><div><span class="eyebrow">Conversations</span><h1>Messages</h1></div></div>
+ ${convs.length?`<div class="chat ${cv?'open':''}">
+  <div class="threads">${convs.map(x=>{const o=co(convOther(x)),l=S.last[x.id];return `<button class="thread" data-thread="${x.id}" aria-current="${x.id===S.open}">${av(o)}<span class="t"><b>${esc(o.name)}</b><span>${esc(l?l.body:'No messages yet')}</span></span></button>`}).join('')}</div>
+  <div class="conv">${cv?`<div class="ch"><button class="btn ghost back" data-back>Back</button>${av(other)}<div><b>${esc(other.name)}</b><br><small class="muted">${esc([other.city,other.role].filter(Boolean).join(' · '))}</small></div>
+    <div class="row"><button class="btn gold" data-book="${other.id}">Book meeting</button><button class="btn" data-newdeal="${other.id}">Open deal room</button></div></div>
+   <div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="m ${m.kind==='agent'?'ai':m.sender_company===S.me.id?'me':'them'}">${esc(m.body)}${m.kind!=='agent'?`<time>${fmtShort(m.created_at)}</time>`:''}</div>`).join(''):'<p class="empty">Say hello and introduce your company.</p>'}</div>
+   <form class="compose" id="compose"><input id="msgIn" placeholder="${approved()?'Write a message':'Available after vetting'}" autocomplete="off" aria-label="Message" ${approved()?'':'disabled'}><button class="btn pri" ${approved()?'':'disabled'}>Send</button></form>`:`<p class="empty">Choose a conversation.</p>`}</div>
+ </div>`:`<div class="card empty">No conversations yet. Go to Matches and tap Message on a company.</div>`}`;
+}
+
+function viewMeetings(){
+ const mine=S.meetings;
+ return `${pendingBanner()}<div class="head"><div><span class="eyebrow">Calendar</span><h1>Meetings</h1><p>Video calls, in person meetings and VIP meetings at trade fairs. Times show in your own time zone.</p></div></div>
+ ${mine.length?`<div class="list">${mine.map(m=>{const inbound=m.to_company===S.me.id;const o=co(inbound?m.from_company:m.to_company);const d=new Date(m.starts_at);
+  return `<div class="li"><div class="when">${d.toLocaleDateString('en-GB',{weekday:'short'})}<b>${d.getDate()}</b>${d.toLocaleDateString('en-GB',{month:'short'})}</div>
+  <div class="t"><b>${esc(o.name)}</b><span>${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})} · ${esc(m.meeting_type)}${inbound?' · they invited you':' · you invited them'}</span></div>
+  ${m.status==='pending'&&inbound?`<div class="row"><button class="btn pri" data-mconfirm="${m.id}">Confirm</button><button class="btn ghost" data-mdecline="${m.id}">Decline</button></div>`:`<span class="pill ${m.status==='confirmed'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='pending'?'Waiting for reply':m.status[0].toUpperCase()+m.status.slice(1)}</span>`}</div>`}).join('')}</div>`
+  :`<div class="card empty">No meetings yet. Book one from Matches or from a conversation.</div>`}`;
+}
+
+function dealTotals(d){const sub=(S.items[d.id]||[]).reduce((a,i)=>a+Number(i.qty)*Number(i.unit_price),0);const disc=sub*Number(d.discount||0)/100;return {sub,disc,total:sub-disc}}
+function viewDeals(){
+ return `${pendingBanner()}<div class="head"><div><span class="eyebrow">Deal rooms</span><h1>Deals</h1><p>One page per deal: the items, the price, every change, and the final yes. Payments come in a later stage.</p></div></div>
+ ${S.deals.length?S.deals.map(d=>{const iSell=d.seller_company===S.me.id;const o=co(iSell?d.buyer_company:d.seller_company);const T=dealTotals(d);const st=STEPS.indexOf(d.stage);const items=S.items[d.id]||[];
+ return `<article class="card">
+  <div class="co">${av(o)}<div><h3>${esc(d.title)}</h3><small>${iSell?'Selling to':'Buying from'} ${esc(o.name)}</small></div><div class="score"><b class="total">${money(T.total)}</b><span>${esc(d.stage)}</span></div></div>
+  <div><div class="steps">${STEPS.map((s,i)=>`<span class="${i<=st?'on':''}"></span>`).join('')}</div><div class="steplab">${STEPS.map(s=>`<span>${s}</span>`).join('')}</div></div>
+  <div class="tbl"><table><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Unit USD</th><th class="num">Total</th>${st<2?'<th></th>':''}</tr></thead><tbody>
+   ${items.map(i=>`<tr><td>${esc(i.name)}</td><td class="num">${Number(i.qty).toLocaleString('en-US')}</td><td class="num">${Number(i.unit_price).toLocaleString('en-US')}</td><td class="num">${(i.qty*i.unit_price).toLocaleString('en-US')}</td>${st<2?`<td><button class="link" data-rmitem="${i.id}" data-deal="${d.id}" aria-label="Remove ${esc(i.name)}">Remove</button></td>`:''}</tr>`).join('')||`<tr><td colspan="5" class="muted">No items yet. Add the first one below.</td></tr>`}
+   ${d.discount>0?`<tr><td colspan="3">Discount ${Number(d.discount)}%</td><td class="num">-${Math.round(T.disc).toLocaleString('en-US')}</td></tr>`:''}
+   <tr><td colspan="3"><b>Total</b></td><td class="num"><b>${Math.round(T.total).toLocaleString('en-US')}</b></td></tr></tbody></table></div>
+  ${st<2?`<form class="additem" data-additem="${d.id}"><input name="n" placeholder="Item" aria-label="Item name" required><input name="q" type="number" min="1" step="any" placeholder="Qty" aria-label="Quantity" required><input name="p" type="number" min="0" step="any" placeholder="Unit price USD" aria-label="Unit price in USD" required><button class="btn">Add item</button></form>`:''}
+  <div class="hist">${(S.events[d.id]||[]).map(e=>`<div><time>${fmtShort(e.created_at)}</time><span>${esc(e.note)}</span></div>`).join('')}</div>
+  ${st<2?`<div class="row"><button class="btn" data-discount="${d.id}">Offer a discount</button><button class="btn pri" data-accept="${d.id}">Accept deal</button></div>`
+   :st===2?`<div class="row"><span class="pill good">Deal accepted</span>${iSell?`<button class="btn" data-delivered="${d.id}">Mark as delivered</button>`:''}</div>`:`<div class="row"><span class="pill good">Delivered</span></div>`}
+ </article>`}).join(''):`<div class="card empty">No deals yet. Open a deal room from a conversation.</div>`}`;
+}
+
+function viewProfile(){
+ const m=S.me;
+ return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
+}
+
+function viewAdmin(){
+ const by=s=>S.cos.filter(c=>c.status===s);
+ const counts=ROLES.map(r=>[r,S.cos.filter(c=>c.role===r&&c.status==='approved').length]);const max=Math.max(1,...counts.map(x=>x[1]));
+ const pend=by('pending');
+ return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
+ <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
+ <div class="card"><h3 class="h3">Waiting for vetting</h3>
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Website: ${esc(p.website||'none')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+ </div>
+ <div class="card"><h3 class="h3">Vetted members by type</h3><div class="bars">${counts.map(([k,v])=>`<div class="bar"><span>${k}</span><i style="width:${v/max*100}%"></i><em>${v}</em></div>`).join('')}</div></div>
+ <div class="card"><h3 class="h3">All companies</h3><div class="list">${S.cos.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
+}
+
+function render(){
+ renderNav();
+ let html;
+ if(S.loading)html='<p class="empty">Loading…</p>';
+ else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
+ else if(!S.user)html=viewAuth(S.authMode||'signup');
+ else if(!S.me)html=viewOnboard();
+ else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches}[S.view]||viewMatches)();
+ $('#view').innerHTML=html;
+ const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
+}
+
+/* ---------- actions ---------- */
+async function openChat(otherId){
+ if(!approved()){toast('Messaging opens after SAIS vets your company');return}
+ const [a,b]=[S.me.id,otherId].sort();
+ let cv=S.convs.find(x=>x.company_a===a&&x.company_b===b);
+ if(!cv){const r=await sb.from('conversations').insert({company_a:a,company_b:b}).select().single();
+  if(r.error){const again=await sb.from('conversations').select('*').eq('company_a',a).eq('company_b',b).maybeSingle();if(!again.data)return fail(r.error,'Could not start the chat');cv=again.data}else cv=r.data;
+  S.convs.push(cv);}
+ const m=S.matches.find(x=>x.match_company===otherId);if(m&&m.status==='new'){m.status='contacted';sb.from('matches').update({status:'contacted'}).eq('id',m.id)}
+ S.open=cv.id;await loadMsgs(cv.id);go('messages');
+}
+function openBook(otherId){
+ if(!approved()){toast('Meetings open after SAIS vets your company');return}
+ const c=co(otherId);
+ const t=new Date(Date.now()+86400000);t.setMinutes(0,0,0);t.setHours(10);
+ const local=new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,16);
+ $('#dlgBody').innerHTML=`<div class="co">${av(c)}<div><h3 class="h3">Book a meeting</h3><small class="muted">with ${esc(c.name)}</small></div></div>
+  <form id="bookForm" class="stack" data-to="${otherId}">
+  <label class="f">Meeting type<select id="mType"><option>Video call</option><option>In person</option><option>VIP meeting at a trade fair</option><option>Phone call</option></select></label>
+  <label class="f">Day and time (your time zone)<input id="mWhen" type="datetime-local" value="${local}" required></label>
+  <p class="muted small">${esc(c.name)} confirms or declines from their Meetings page.</p>
+  <div class="row"><button class="btn pri">Send invite</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;
+ $('#dlg').showModal();
+}
+async function openDeal(otherId){
+ if(!approved()){toast('Deal rooms open after SAIS vets your company');return}
+ const other=co(otherId);const iBuy=BUY_SIDE.includes(S.me.role)&&!BUY_SIDE.includes(other.role);
+ $('#dlgBody').innerHTML=`<h3 class="h3">Open a deal room</h3><p class="muted" style="margin:0">with ${esc(other.name)}</p>
+  <form id="dealForm" class="stack" data-to="${otherId}">
+  <label class="f">Deal name<input id="dTitle" placeholder="For example: 120 hotel rooms, furniture" required></label>
+  <label class="f">In this deal I am<select id="dSide"><option value="sell" ${iBuy?'':'selected'}>Selling</option><option value="buy" ${iBuy?'selected':''}>Buying</option></select></label>
+  <div class="row"><button class="btn pri">Open deal room</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;
+ $('#dlg').showModal();
+}
+async function logEvent(dealId,note){const r=await sb.from('deal_events').insert({deal_id:dealId,actor_company:S.me.id,note}).select().single();if(r.data)(S.events[dealId]=S.events[dealId]||[]).push(r.data)}
+
+document.addEventListener('click',async e=>{
+ const b=e.target.closest('button');if(!b)return;const ds=b.dataset;
+ try{
+ if(ds.go)go(ds.go);
+ else if(ds.auth){S.authMode=ds.auth;render()}
+ else if('reset' in ds){const em=$('#a_email').value.trim();if(!em){$('#authErr').textContent='Type your email above first.';return}
+  const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#authErr').textContent=r.error?r.error.message:'Check your email for a reset link.'}
+ else if('logout' in ds){await sb.auth.signOut()}
+ else if('close' in ds){$('#dlg').close()}
+ else if(ds.filter){S.filter=ds.filter;render()}
+ else if(ds.pass){const id=ds.pass;const m=S.matches.find(x=>x.match_company===id);
+  if(m){m.status='passed';await sb.from('matches').update({status:'passed'}).eq('id',m.id)}else{S.matches.push({match_company:id,status:'passed',local:true})}
+  toast('Hidden from your matches');render()}
+ else if(ds.msg)await openChat(ds.msg);
+ else if(ds.thread){S.open=ds.thread;await loadMsgs(ds.thread);render()}
+ else if('back' in ds){S.open=null;render()}
+ else if(ds.book)openBook(ds.book);
+ else if(ds.newdeal)openDeal(ds.newdeal);
+ else if(ds.mconfirm||ds.mdecline){const id=ds.mconfirm||ds.mdecline,st=ds.mconfirm?'confirmed':'declined';const r=await sb.from('meetings').update({status:st}).eq('id',id);if(r.error)return fail(r.error);S.meetings.find(m=>m.id===id).status=st;toast(st==='confirmed'?'Meeting confirmed':'Meeting declined');render()}
+ else if(ds.accept||ds.delivered){const id=ds.accept||ds.delivered,stage=ds.accept?'Accepted':'Delivered';const r=await sb.from('deals').update({stage}).eq('id',id);if(r.error)return fail(r.error);
+  S.deals.find(d=>d.id===id).stage=stage;await logEvent(id,`${S.me.name} marked the deal as ${stage.toLowerCase()}`);toast('Deal '+stage.toLowerCase());render()}
+ else if(ds.discount){const d=S.deals.find(x=>x.id===ds.discount);
+  $('#dlgBody').innerHTML=`<h3 class="h3">Offer a discount</h3><p class="muted" style="margin:0">${esc(d.title)}</p><form id="discForm" class="stack" data-deal="${d.id}"><label class="f">Discount on the whole order (%)<input id="disc" type="number" min="0" max="50" step="0.5" value="${Number(d.discount)||5}" required></label><div class="row"><button class="btn pri">Send new offer</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;$('#dlg').showModal()}
+ else if(ds.rmitem){const r=await sb.from('deal_items').delete().eq('id',ds.rmitem);if(r.error)return fail(r.error);S.items[ds.deal]=(S.items[ds.deal]||[]).filter(i=>i.id!==ds.rmitem);render()}
+ else if(ds.approve||ds.decline){const id=ds.approve||ds.decline,st=ds.approve?'approved':'declined';const r=await sb.from('companies').update({status:st}).eq('id',id).select().single();if(r.error)return fail(r.error);
+  Object.assign(S.cos.find(c=>c.id===id),r.data);if(S.me&&S.me.id===id)S.me=r.data;toast(r.data.name+(st==='approved'?' approved':' declined'));render()}
+ }catch(err){fail(err)}
+});
+
+document.addEventListener('submit',async e=>{
+ e.preventDefault();const f=e.target;
+ try{
+ if(f.id==='newPw'){const r=await sb.auth.updateUser({password:$('#np').value});if(r.error){$('#npErr').textContent=r.error.message;return}S.recovery=false;toast('Password saved');render();return}
+ if(f.id==='authForm'){const email=$('#a_email').value.trim(),pw=$('#a_pw').value;const err=$('#authErr');err.textContent='';
+  const btn=f.querySelector('button');btn.disabled=true;
+  const r=f.dataset.mode==='signup'?await sb.auth.signUp({email,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password:pw});
+  btn.disabled=false;
+  if(r.error){err.textContent=/invalid login/i.test(r.error.message)?'Wrong email or password.':r.error.message;return}
+  if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
+ }
+ else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());
+  const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
+  let r;if(S.me)r=await sb.from('companies').update(v).eq('id',S.me.id).select().single();else r=await sb.from('companies').insert({...v,owner:S.user.id}).select().single();
+  if(r.error){err.textContent='Could not save: '+r.error.message;return}
+  const first=!S.me;S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
+  toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
+ else if(f.id==='compose'){const i=$('#msgIn'),body=i.value.trim();if(!body)return;i.value='';
+  const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
+  addMsg(r.data)}
+ else if(f.id==='bookForm'){const when=new Date($('#mWhen').value);if(isNaN(when)||when<new Date()){toast('Pick a future day and time');return}
+  const r=await sb.from('meetings').insert({from_company:S.me.id,to_company:f.dataset.to,starts_at:when.toISOString(),meeting_type:$('#mType').value}).select().single();if(r.error)return fail(r.error,'Invite not sent');
+  S.meetings.push(r.data);S.meetings.sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));$('#dlg').close();toast('Invite sent to '+co(f.dataset.to).name);go('meetings')}
+ else if(f.id==='dealForm'){const other=f.dataset.to,sell=$('#dSide').value==='sell';
+  const r=await sb.from('deals').insert({title:$('#dTitle').value.trim(),seller_company:sell?S.me.id:other,buyer_company:sell?other:S.me.id}).select().single();if(r.error)return fail(r.error,'Could not open the deal room');
+  S.deals.unshift(r.data);S.items[r.data.id]=[];S.events[r.data.id]=[];await logEvent(r.data.id,`${S.me.name} opened the deal room`);$('#dlg').close();go('deals')}
+ else if(f.id==='discForm'){const id=f.dataset.deal,v=Math.max(0,Math.min(50,Number($('#disc').value)||0));const d=S.deals.find(x=>x.id===id);
+  const stage=d.stage==='Proposed'?'Negotiating':d.stage;const r=await sb.from('deals').update({discount:v,stage}).eq('id',id);if(r.error)return fail(r.error);
+  d.discount=v;d.stage=stage;await logEvent(id,`${S.me.name} offered ${v}% off. New total ${money(dealTotals(d).total)}`);$('#dlg').close();toast('New offer sent');render()}
+ else if(f.dataset.additem){const id=f.dataset.additem;const row={deal_id:id,name:f.n.value.trim(),qty:Number(f.q.value),unit_price:Number(f.p.value)};
+  const r=await sb.from('deal_items').insert(row).select().single();if(r.error)return fail(r.error,'Item not added');
+  (S.items[id]=S.items[id]||[]).push(r.data);const d=S.deals.find(x=>x.id===id);if(d.stage==='Proposed'&&S.items[id].length>1){d.stage='Negotiating';await sb.from('deals').update({stage:'Negotiating'}).eq('id',id)}
+  await logEvent(id,`${S.me.name} added ${row.qty} x ${row.name} at USD ${row.unit_price.toLocaleString('en-US')}`);render()}
+ }catch(err){fail(err)}
+});
+
+function addMsg(m){
+ if(!S.msgs[m.conversation_id])S.msgs[m.conversation_id]=[];
+ if(S.msgs[m.conversation_id].some(x=>x.id===m.id))return;
+ S.msgs[m.conversation_id].push(m);S.last[m.conversation_id]=m;
+ if(S.view==='messages')render();
+}
+let channel=null;
+function subscribe(){
+ if(channel)sb.removeChannel(channel);
+ channel=sb.channel('sais-msgs').on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async p=>{
+  const m=p.new;if(!S.convs.some(c=>c.id===m.conversation_id)){const r=await sb.from('conversations').select('*').eq('id',m.conversation_id).maybeSingle();if(r.data)S.convs.push(r.data);else return}
+  addMsg(m);if(m.sender_company!==(S.me&&S.me.id)&&!(S.view==='messages'&&S.open===m.conversation_id))toast('New message from '+co(m.sender_company).name);
+ }).subscribe();
+}
+
+let booted=false;
+sb.auth.onAuthStateChange(async(ev,session)=>{
+ if(ev==='PASSWORD_RECOVERY'){S.recovery=true;S.user=session.user;S.loading=false;render();return}
+ const uid=session&&session.user&&session.user.id;
+ if(booted&&uid===(S.user&&S.user.id)&&ev!=='SIGNED_OUT')return;
+ booted=true;S.user=session?session.user:null;S.loading=true;render();
+ if(S.user){try{await loadAll();subscribe()}catch(e){S.loading=false;fail(e,'Could not load your data')}}
+ else{S.me=null;S.loading=false;if(channel){sb.removeChannel(channel);channel=null}}
+ const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin'].includes(h))S.view=h;
+ render();
+});
+})();
+
+</script>
+</body>
+</html>
