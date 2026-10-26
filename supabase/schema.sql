@@ -195,3 +195,15 @@ create policy "add deal history" on public.deal_events for insert to authenticat
 
 -- Live chat updates
 alter publication supabase_realtime add table public.messages;
+
+-- Admin list of every account with email and company (added 26 Oct 2026)
+create or replace function public.admin_users()
+returns table(user_id uuid, email text, created_at timestamptz, company text, status text)
+language sql stable security definer set search_path = public, auth as $$
+  select u.id, u.email::text, u.created_at, c.name, c.status
+  from auth.users u left join public.companies c on c.owner = u.id
+  where public.is_admin()
+  order by u.created_at desc;
+$$;
+revoke all on function public.admin_users() from public, anon;
+grant execute on function public.admin_users() to authenticated;

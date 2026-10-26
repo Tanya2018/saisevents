@@ -216,6 +216,9 @@ body.nonav nav.side,body.nonav nav.tabs{display:none!important}
 <nav class="tabs" id="tabNav" aria-label="Main"></nav>
 <dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
 <div class="toast" id="toast" role="status" hidden></div>
+<form name="matchmarket-signups" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="event"><input name="email"><input name="company"><input name="role"><input name="city"><input name="country"><input name="whatsapp"><input name="website"><textarea name="sells"></textarea><textarea name="wants"></textarea><input name="markets"><input name="bot-field">
+</form>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function(){
@@ -274,6 +277,7 @@ function suggestions(){
 }
 
 /* ---------- data ---------- */
+function notify(fields){try{const b=new URLSearchParams({'form-name':'matchmarket-signups',...fields});fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()}).catch(()=>{})}catch(e){}}
 async function loadAll(){
  const uid=S.user.id;
  const [me,ad]=await Promise.all([
@@ -292,6 +296,7 @@ async function loadAll(){
  if(S.deals.length){const ids=S.deals.map(d=>d.id);
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
+ if(S.admin){const u=await sb.rpc('admin_users');S.users=u.error?null:(u.data||[])}
  S.loading=false;
 }
 async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('conversation_id',cid).order('created_at');S.msgs[cid]=r.data||[]}
@@ -422,13 +427,18 @@ function viewAdmin(){
  const by=s=>S.cos.filter(c=>c.status===s);
  const counts=ROLES.map(r=>[r,S.cos.filter(c=>c.role===r&&c.status==='approved').length]);const max=Math.max(1,...counts.map(x=>x[1]));
  const pend=by('pending');
+ const em=id=>{const u=(S.users||[]).find(x=>x.user_id===id);return u?u.email:''};
+ const unfinished=(S.users||[]).filter(u=>!u.company);
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
-  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Website: ${esc(p.website||'none')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span><br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+ </div>
+ <div class="card"><h3 class="h3">Signed up, company form not finished</h3>
+  ${S.users===null||S.users===undefined?'<p class="muted small">Run the admin setup step in Supabase to see this list.</p>':unfinished.length?`<p class="muted small">These people made an account but have not added their company. Email them to finish.</p><div class="list">${unfinished.map(u=>`<div class="li"><div class="t"><b>${esc(u.email)}</b><span>Signed up ${fmtTime(u.created_at)}</span></div></div>`).join('')}</div>`:'<p class="empty">Everyone who signed up has added a company.</p>'}
  </div>
  <div class="card"><h3 class="h3">Vetted members by type</h3><div class="bars">${counts.map(([k,v])=>`<div class="bar"><span>${k}</span><i style="width:${v/max*100}%"></i><em>${v}</em></div>`).join('')}</div></div>
- <div class="card"><h3 class="h3">All companies</h3><div class="list">${S.cos.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
+ <div class="card"><h3 class="h3">All companies</h3><div class="list">${S.cos.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
 }
 
 function render(){
@@ -517,13 +527,14 @@ document.addEventListener('submit',async e=>{
   const r=f.dataset.mode==='signup'?await sb.auth.signUp({email,password:pw,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password:pw});
   btn.disabled=false;
   if(r.error){err.textContent=/invalid login/i.test(r.error.message)?'Wrong email or password.':r.error.message;return}
+  if(f.dataset.mode==='signup')notify({event:'New account created, company form not filled yet',email});
   if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
  }
  else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
   let r;if(S.me)r=await sb.from('companies').update(v).eq('id',S.me.id).select().single();else r=await sb.from('companies').insert({...v,owner:S.user.id}).select().single();
   if(r.error){err.textContent='Could not save: '+r.error.message;return}
-  const first=!S.me;S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
+  const first=!S.me;if(first)notify({event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
   toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
  else if(f.id==='compose'){const i=$('#msgIn'),body=i.value.trim();if(!body)return;i.value='';
   const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
