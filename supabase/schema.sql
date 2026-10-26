@@ -207,3 +207,17 @@ language sql stable security definer set search_path = public, auth as $$
 $$;
 revoke all on function public.admin_users() from public, anon;
 grant execute on function public.admin_users() to authenticated;
+
+-- Company profile uploads (added 26 Oct 2026)
+alter table public.companies add column if not exists profile_file text;
+insert into storage.buckets (id, name, public, file_size_limit)
+values ('company-profiles', 'company-profiles', false, 10485760)
+on conflict (id) do nothing;
+create policy "upload own company profile" on storage.objects for insert to authenticated
+  with check (bucket_id = 'company-profiles' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "update own company profile" on storage.objects for update to authenticated
+  using (bucket_id = 'company-profiles' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "delete own company profile" on storage.objects for delete to authenticated
+  using (bucket_id = 'company-profiles' and (storage.foldername(name))[1] = auth.uid()::text);
+create policy "members read company profiles" on storage.objects for select to authenticated
+  using (bucket_id = 'company-profiles');

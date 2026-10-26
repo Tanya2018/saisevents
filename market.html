@@ -100,7 +100,13 @@ main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-in
 .conv .ch{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .conv .ch .row{margin-left:auto}
 .msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:52vh}
-.m{max-width:78%;padding:9px 12px;border-radius:12px;font-size:14px}
+.m{max-width:78%;padding:9px 12px;border-radius:12px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.compose textarea{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;resize:vertical;min-height:46px;max-height:200px;font:inherit}
+.filebtn{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--fg);background:var(--bg);border:1.5px dashed var(--gold-ink);border-radius:10px;padding:11px 16px;cursor:pointer;max-width:100%}
+.filebtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fileinput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.links a,.links button{font-size:13px;font-weight:700;color:var(--gold-ink);background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-decoration:none;cursor:pointer}
 .m.them{background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:4px}
 .m.me{background:var(--brand);color:var(--on-brand);align-self:flex-end;border-bottom-right-radius:4px}
 .m.ai{align-self:center;background:var(--warn-bg);color:var(--warn);font-size:13px;max-width:92%;text-align:center}
@@ -316,6 +322,8 @@ function renderNav(){
 }
 function go(v){S.view=v;if(v!=='messages')S.open=null;render();window.scrollTo(0,0)}
 
+const webUrl=w=>{w=String(w||'').trim();if(!/[.]/.test(w))return '';return /^https?:\/\//i.test(w)?w:'https://'+w.replace(/^@/,'')};
+function coLinks(c){const u=webUrl(c.website);const parts=[];if(u)parts.push(`<a href="${esc(u)}" target="_blank" rel="noopener">Website</a>`);if(c.profile_file)parts.push(`<button type="button" data-viewfile="${esc(c.profile_file)}">Company profile</button>`);return parts.length?`<div class="links">${parts.join('')}</div>`:''}
 /* ---------- views ---------- */
 function viewAuth(mode){
  return `<div class="authbox card">
@@ -347,6 +355,11 @@ function profileForm(m,first){
   <label class="f">Usual deal size<input id="p_deal_size" value="${esc(m.deal_size)}" placeholder="USD 10,000 to 50,000"></label>
   <label class="f">Website or social page<input id="p_website" value="${esc(m.website)}" placeholder="yourcompany.com or facebook.com/yourpage" required></label>
   <label class="f">WhatsApp number<input id="p_whatsapp" value="${esc(m.whatsapp)}" placeholder="+254 7XX XXX XXX"></label>
+  <div class="f full"><span>Company profile (optional)</span>
+   <label class="filebtn" for="p_file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><span id="fileLabel">${m.profile_file?'Replace company profile':'Upload company profile'}</span></label>
+   <input class="fileinput" type="file" id="p_file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png">
+   <span class="muted small">PDF, PowerPoint, Word or image, up to 10 MB. Buyers see it on your match card.${m.profile_file?' <button type="button" class="link" data-viewfile="'+esc(m.profile_file)+'">View current file</button>':''}</span>
+  </div>
   <p class="err full" id="profErr" role="alert"></p>
   <div class="full row"><button class="btn pri">${first?'Submit for vetting':'Save changes'}</button></div>
  </form>`;
@@ -371,6 +384,7 @@ function viewMatches(){
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
    <div class="tags"><span class="tag role">${esc(c.role)}</span><span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
+   ${coLinks(c)}
    <div class="row"><button class="btn pri" data-msg="${c.id}">Message</button><button class="btn gold" data-book="${c.id}">Book meeting</button><button class="btn ghost" data-pass="${c.id}">Not now</button></div>
  </article>`).join('')}</div>`:`<div class="card empty">No vetted companies in this group yet. SAIS adds new companies every week, and we will show them here.</div>`}`;
 }
@@ -386,7 +400,7 @@ function viewMessages(){
   <div class="conv">${cv?`<div class="ch"><button class="btn ghost back" data-back>Back</button>${av(other)}<div><b>${esc(other.name)}</b><br><small class="muted">${esc([other.city,other.role].filter(Boolean).join(' · '))}</small></div>
     <div class="row"><button class="btn gold" data-book="${other.id}">Book meeting</button><button class="btn" data-newdeal="${other.id}">Open deal room</button></div></div>
    <div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="m ${m.kind==='agent'?'ai':m.sender_company===S.me.id?'me':'them'}">${esc(m.body)}${m.kind!=='agent'?`<time>${fmtShort(m.created_at)}</time>`:''}</div>`).join(''):'<p class="empty">Say hello and introduce your company.</p>'}</div>
-   <form class="compose" id="compose"><input id="msgIn" placeholder="${approved()?'Write a message':'Available after vetting'}" autocomplete="off" aria-label="Message" ${approved()?'':'disabled'}><button class="btn pri" ${approved()?'':'disabled'}>Send</button></form>`:`<p class="empty">Choose a conversation.</p>`}</div>
+   <form class="compose" id="compose"><textarea id="msgIn" rows="2" placeholder="${approved()?'Write a message':'Available after vetting'}" aria-label="Message" ${approved()?'':'disabled'}></textarea><button class="btn pri" ${approved()?'':'disabled'}>Send</button></form>`:`<p class="empty">Choose a conversation.</p>`}</div>
  </div>`:`<div class="card empty">No conversations yet. Go to Matches and tap Message on a company.</div>`}`;
 }
 
@@ -432,7 +446,7 @@ function viewAdmin(){
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
-  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span><br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
  </div>
  <div class="card"><h3 class="h3">Signed up, company form not finished</h3>
   ${S.users===null||S.users===undefined?'<p class="muted small">Run the admin setup step in Supabase to see this list.</p>':unfinished.length?`<p class="muted small">These people made an account but have not added their company. Email them to finish.</p><div class="list">${unfinished.map(u=>`<div class="li"><div class="t"><b>${esc(u.email)}</b><span>Signed up ${fmtTime(u.created_at)}</span></div></div>`).join('')}</div>`:'<p class="empty">Everyone who signed up has added a company.</p>'}
@@ -498,6 +512,7 @@ document.addEventListener('click',async e=>{
   const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#authErr').textContent=r.error?r.error.message:'Check your email for a reset link.'}
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
+ else if(ds.viewfile){const w=window.open('','_blank');const r=await sb.storage.from('company-profiles').createSignedUrl(ds.viewfile,3600);if(r.error||!r.data){if(w)w.close();return fail(r.error,'Could not open the file')}if(w)w.location=r.data.signedUrl;else location.href=r.data.signedUrl}
  else if(ds.filter){S.filter=ds.filter;render()}
  else if(ds.pass){const id=ds.pass;const m=S.matches.find(x=>x.match_company===id);
   if(m){m.status='passed';await sb.from('matches').update({status:'passed'}).eq('id',m.id)}else{S.matches.push({match_company:id,status:'passed',local:true})}
@@ -518,6 +533,8 @@ document.addEventListener('click',async e=>{
  }catch(err){fail(err)}
 });
 
+document.addEventListener('change',e=>{if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
+document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('#compose').requestSubmit()}});
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
  try{
@@ -532,6 +549,14 @@ document.addEventListener('submit',async e=>{
  }
  else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
+  const file=$('#p_file').files[0];
+  if(file){if(file.size>10*1024*1024){err.textContent='That file is over 10 MB. Please upload a smaller file.';return}
+   const btn=f.querySelector('.btn.pri');btn.disabled=true;btn.textContent='Uploading…';
+   const path=S.user.id+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]+/g,'-').slice(-80);
+   const up=await sb.storage.from('company-profiles').upload(path,file,{upsert:false,contentType:file.type||undefined});
+   btn.disabled=false;btn.textContent=S.me?'Save changes':'Submit for vetting';
+   if(up.error){err.textContent='Could not upload the file: '+up.error.message;return}
+   v.profile_file=path;}
   let r;if(S.me)r=await sb.from('companies').update(v).eq('id',S.me.id).select().single();else r=await sb.from('companies').insert({...v,owner:S.user.id}).select().single();
   if(r.error){err.textContent='Could not save: '+r.error.message;return}
   const first=!S.me;if(first)notify({event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
