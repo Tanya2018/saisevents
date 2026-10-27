@@ -221,3 +221,6 @@ create policy "delete own company profile" on storage.objects for delete to auth
   using (bucket_id = 'company-profiles' and (storage.foldername(name))[1] = auth.uid()::text);
 create policy "members read company profiles" on storage.objects for select to authenticated
   using (bucket_id = 'company-profiles');
+
+-- Joint Venture Programme flag (added 27 Oct 2026)
+alter table public.companies add column if not exists jv_open boolean not null default false;
