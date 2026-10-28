@@ -224,3 +224,6 @@ create policy "members read company profiles" on storage.objects for select to a
 
 -- Joint Venture Programme flag (added 27 Oct 2026)
 alter table public.companies add column if not exists jv_open boolean not null default false;
+
+-- Expos each company wants to attend (added 28 Oct 2026)
+alter table public.companies add column if not exists expos text[] not null default '{}';

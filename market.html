@@ -107,6 +107,17 @@ main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-in
 .fileinput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 div.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13.5px;min-width:0}
 div.f .muted{font-weight:400}
+.expopick{gap:8px}
+.xpfeat{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.xpgrid{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.xp{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);font-weight:400;cursor:pointer}
+.xp input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:var(--brand)}
+.xp b{display:block;font-size:14px}.xp small{display:block;color:var(--muted);font-size:12px}
+.xp em{display:block;font-style:normal;font-size:12px;font-weight:700;color:var(--gold-ink);margin-top:2px}
+.xp.feat{border:2px solid var(--gold);background:var(--surface)}
+.going{margin:0;font-size:13px;color:var(--muted)}
+label.f.expof{max-width:340px}
+@media (max-width:820px){.xpfeat{grid-template-columns:1fr}}
 .tag.jv{background:var(--gold);color:var(--brand)}
 label.f.jvbox{flex-direction:row;align-items:flex-start;gap:10px;background:var(--surface-2);border-radius:10px;padding:12px 14px;font-weight:400}
 label.f.jvbox input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--brand);padding:0}
@@ -230,7 +241,7 @@ body.nonav nav.side,body.nonav nav.tabs{display:none!important}
 <div class="toast" id="toast" role="status" hidden></div>
 <form name="matchmarket-welcome" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="email"><input name="bot-field"></form>
 <form name="matchmarket-signups" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input name="event"><input name="email"><input name="company"><input name="role"><input name="city"><input name="country"><input name="whatsapp"><input name="website"><textarea name="sells"></textarea><textarea name="wants"></textarea><input name="markets"><input name="expo"><input name="bot-field">
+  <input name="event"><input name="email"><input name="company"><input name="role"><input name="city"><input name="country"><input name="whatsapp"><input name="website"><textarea name="sells"></textarea><textarea name="wants"></textarea><input name="markets"><input name="expo"><input name="expos"><input name="bot-field">
 </form>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -252,6 +263,9 @@ const COUNTRIES={"all": ["Afghanistan", "Åland Islands", "Albania", "Algeria", 
 const SIZES=["Below US$10,000", "US$10,000 to 50,000", "US$50,000 to 250,000", "US$250,000 to 1 million", "US$1 million to 5 million", "Above US$5 million"];
 function countryOpts(v){v=v||'';const has=C=>C.includes(v);let o='<option value="">Choose your country</option>';if(v&&!has(COUNTRIES.all)&&!has(COUNTRIES.popular))o+=`<option selected>${esc(v)}</option>`;o+='<optgroup label="Popular">'+COUNTRIES.popular.map(n=>`<option ${n===v?'selected':''}>${esc(n)}</option>`).join('')+'</optgroup><optgroup label="All countries">'+COUNTRIES.all.map(n=>`<option ${n===v&&!COUNTRIES.popular.includes(n)?'selected':''}>${esc(n)}</option>`).join('')+'</optgroup>';return o}
 function sizeOpts(v){v=v||'';let o='<option value="">Choose one</option>';if(v&&!SIZES.includes(v))o+=`<option selected>${esc(v)}</option>`;return o+SIZES.map(n=>`<option ${n===v?'selected':''}>${esc(n)}</option>`).join('')}
+const EXPOS_ALL=[{"n": "AGROEXPO 2027", "d": "2 to 6 Feb 2027", "p": "İzmir, Türkiye", "end": "2027-02-06", "f": true, "hb": true, "s": "Agriculture, greenhouse and livestock"}, {"n": "ALUMINIUM CHINA 2027", "d": "7 to 9 Jul 2027", "p": "Shanghai, China", "end": "2027-07-09", "f": true, "hb": true, "s": "Aluminium, copper, magnesium and metal recycling"}, {"n": "Private Label Middle East 2026", "d": "3 to 5 Nov 2026", "p": "Dubai, UAE", "end": "2026-11-05"}, {"n": "FHC China 2026", "d": "10 to 12 Nov 2026", "p": "Shanghai, China", "end": "2026-11-12"}, {"n": "Fi Europe 2026", "d": "17 to 19 Nov 2026", "p": "Frankfurt, Germany", "end": "2026-11-19"}, {"n": "Food Africa 2026", "d": "7 to 10 Dec 2026", "p": "Cairo, Egypt", "end": "2026-12-10", "hb": true}, {"n": "WorldFood Istanbul 2026", "d": "15 to 18 Dec 2026", "p": "Istanbul, Türkiye", "end": "2026-12-18"}, {"n": "Global Tea Fair 2026", "d": "17 to 21 Dec 2026", "p": "Shenzhen, China", "end": "2026-12-21"}, {"n": "CES 2027", "d": "6 to 9 Jan 2027", "p": "Las Vegas, USA", "end": "2027-01-09"}, {"n": "AFROPLAST 2027", "d": "9 to 12 Jan 2027", "p": "Cairo, Egypt", "end": "2027-01-12", "hb": true}, {"n": "IPPE 2027", "d": "26 to 28 Jan 2027", "p": "Atlanta, USA", "end": "2027-01-28"}, {"n": "Cosmoprof Miami 2027", "d": "26 to 28 Jan 2027", "p": "Miami, USA", "end": "2027-01-28"}, {"n": "World of Coffee Dubai 2027", "d": "26 to 28 Jan 2027", "p": "Dubai, UAE", "end": "2027-01-28"}, {"n": "Fruit Logistica 2027", "d": "3 to 5 Feb 2027", "p": "Berlin, Germany", "end": "2027-02-05"}, {"n": "Premiere Anaheim 2027", "d": "7 to 8 Feb 2027", "p": "Anaheim, USA", "end": "2027-02-08"}, {"n": "Beer&Food Attraction 2027", "d": "21 to 23 Feb 2027", "p": "Rimini, Italy", "end": "2027-02-23"}, {"n": "Expo West 2027", "d": "2 to 5 Mar 2027", "p": "Anaheim, USA", "end": "2027-03-05"}, {"n": "India Mattresstech Expo 2027", "d": "3 to 6 Mar 2027", "p": "Greater Noida, India", "end": "2027-03-06"}, {"n": "HOTELEX Shanghai 2027", "d": "30 Mar to 2 Apr 2027", "p": "Shanghai, China", "end": "2027-04-02"}, {"n": "Inter FoodTech 2027", "d": "15 to 17 Apr 2027", "p": "Mumbai, India", "end": "2027-04-17"}, {"n": "SIAL Canada 2027", "d": "27 to 29 Apr 2027", "p": "Toronto, Canada", "end": "2027-04-29"}, {"n": "Fi Africa 2027", "d": "1 to 3 Jun 2027", "p": "Cairo, Egypt", "end": "2027-06-03"}, {"n": "ProPak China 2027", "d": "22 to 24 Jun 2027", "p": "Shanghai, China", "end": "2027-06-24"}, {"n": "Cosmoprof Las Vegas 2027", "d": "13 to 15 Jul 2027", "p": "Las Vegas, USA", "end": "2027-07-15"}];
+const EXPOS=EXPOS_ALL.filter(e=>new Date(e.end+'T23:59:59')>=new Date());
+const expoKey=n=>String(n||'').toLowerCase().replace(/[^a-z0-9]/g,'');
 const ROLES=['Buyer','Importer','Exporter','Supplier','Manufacturer','Organiser','Service provider'];
 const BUY_SIDE=['Buyer','Importer'];
 const COLORS=['#0B6E4F','#7A5A0E','#2D4E8C','#8C2D4E','#4E6B2D','#5B3F8C','#8C5A2D','#2D7A8C'];
@@ -369,6 +383,12 @@ function profileForm(m,first){
   <label class="f"><span>Usual deal size <span class="usd">US$</span></span><select id="p_deal_size" required>${sizeOpts(m.deal_size)}</select></label>
   <label class="f">Website or social page<input id="p_website" value="${esc(m.website)}" placeholder="yourcompany.com or facebook.com/yourpage" required></label>
   <label class="f">WhatsApp number<input id="p_whatsapp" value="${esc(m.whatsapp)}" placeholder="+254 7XX XXX XXX"></label>
+  <div class="f full expopick"><span>Expos you want to attend</span>
+   <span class="muted small">Tick every expo you are interested in. We use this for hosted buyer places and matchmaking.</span>
+   ${(()=>{const sel=new Set((m.expos&&m.expos.length?m.expos:[]).map(expoKey));if(!(m.expos&&m.expos.length)&&EXPO){const k=expoKey(EXPO);EXPOS.forEach(e=>{if(expoKey(e.n).startsWith(k)||k.startsWith(expoKey(e.n)))sel.add(expoKey(e.n))})}
+     const box=e=>`<label class="xp ${e.f?'feat':''}"><input type="checkbox" name="p_expo" value="${esc(e.n)}" ${sel.has(expoKey(e.n))?'checked':''}><span><b>${esc(e.n)}</b><small>${esc(e.d)} · ${esc(e.p)}${e.hb?' · Hosted buyer programme':''}</small>${e.f?`<em>Official SAIS partner expo${e.s?' · '+esc(e.s):''}</em>`:''}</span></label>`;
+     return `<div class="xpfeat">${EXPOS.filter(e=>e.f).map(box).join('')}</div><div class="xpgrid">${EXPOS.filter(e=>!e.f).map(box).join('')}</div>`})()}
+  </div>
   <label class="f full jvbox"><input type="checkbox" id="p_jv" ${m.jv_open?'checked':''}><span><b>Join the Joint Venture Programme.</b> Show my company as open to joint ventures, such as local assembly, distribution, manufacturing partnerships or investment.</span></label>
   <div class="f full"><span>Company profile (optional)</span>
    <label class="filebtn" for="p_file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><span id="fileLabel">${m.profile_file?'Replace company profile':'Upload company profile'}</span></label>
@@ -391,15 +411,17 @@ function pendingBanner(){
 
 function viewMatches(){
  const JV='Joint Venture Programmes';
- const list=suggestions().filter(x=>S.filter==='All'||(S.filter===JV?x.c.jv_open:x.c.role===S.filter));
+ const list=suggestions().filter(x=>S.filter==='All'||(S.filter===JV?x.c.jv_open:x.c.role===S.filter)).filter(x=>!S.expoF||(x.c.expos||[]).includes(S.expoF));
  const fromAgent=S.matches.length;
  return `${pendingBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
  <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
+ <label class="f expof">Going to the same expo<select id="expoFilter"><option value="">Any expo</option>${EXPOS.map(e=>`<option ${S.expoF===e.n?'selected':''}>${esc(e.n)}</option>`).join('')}</select></label>
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
  ${list.length?`<div class="grid">${list.map(({c,score,why,agent})=>`<article class="card">
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
    <div class="tags"><span class="tag role">${esc(c.role)}</span>${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
+   ${(c.expos||[]).length?`<p class="going"><b>Going to:</b> ${esc(c.expos.join(', '))}</p>`:''}
    ${coLinks(c)}
    <div class="row"><button class="btn pri" data-msg="${c.id}">Message</button><button class="btn gold" data-book="${c.id}">Book meeting</button><button class="btn ghost" data-pass="${c.id}">Not now</button></div>
  </article>`).join('')}</div>`:`<div class="card empty">No vetted companies in this group yet. SAIS adds new companies every week, and we will show them here.</div>`}`;
@@ -462,11 +484,12 @@ function viewAdmin(){
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
-  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
  </div>
  <div class="card"><h3 class="h3">Signed up, company form not finished</h3>
   ${S.users===null||S.users===undefined?'<p class="muted small">Run the admin setup step in Supabase to see this list.</p>':unfinished.length?`<p class="muted small">These people made an account but have not added their company. Email them to finish.</p><div class="list">${unfinished.map(u=>`<div class="li"><div class="t"><b>${esc(u.email)}</b><span>Signed up ${fmtTime(u.created_at)}</span></div></div>`).join('')}</div>`:'<p class="empty">Everyone who signed up has added a company.</p>'}
  </div>
+ <div class="card"><h3 class="h3">Interest by expo</h3><div class="bars">${(()=>{const c=EXPOS.map(e=>[e.n,S.cos.filter(x=>(x.expos||[]).includes(e.n)).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);const mx=Math.max(1,...c.map(x=>x[1]));return c.length?c.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><em>${v}</em></div>`).join(''):'<p class="muted small">No expo choices yet.</p>'})()}</div></div>
  <div class="card"><h3 class="h3">Vetted members by type</h3><div class="bars">${counts.map(([k,v])=>`<div class="bar"><span>${k}</span><i style="width:${v/max*100}%"></i><em>${v}</em></div>`).join('')}</div></div>
  <div class="card"><h3 class="h3">All companies</h3><div class="list">${S.cos.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
 }
@@ -549,7 +572,7 @@ document.addEventListener('click',async e=>{
  }catch(err){fail(err)}
 });
 
-document.addEventListener('change',e=>{if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
+document.addEventListener('change',e=>{if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
 document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('#compose').requestSubmit()}});
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
@@ -563,7 +586,7 @@ document.addEventListener('submit',async e=>{
   if(f.dataset.mode==='signup')notify({event:'New account created, company form not filled yet',email});if(f.dataset.mode==='signup'){try{fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'matchmarket-welcome',email}).toString()}).catch(()=>{})}catch(e){}}
   if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
  }
- else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;
+ else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
   const file=$('#p_file').files[0];
   if(file){if(file.size>10*1024*1024){err.textContent='That file is over 10 MB. Please upload a smaller file.';return}
@@ -575,7 +598,7 @@ document.addEventListener('submit',async e=>{
    v.profile_file=path;}
   let r;if(S.me)r=await sb.from('companies').update(v).eq('id',S.me.id).select().single();else r=await sb.from('companies').insert({...v,owner:S.user.id}).select().single();
   if(r.error){err.textContent='Could not save: '+r.error.message;return}
-  const first=!S.me;if(first)notify({event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
+  const first=!S.me;if(first)notify({expos:(v.expos||[]).join(', '),event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
   toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
  else if(f.id==='compose'){const i=$('#msgIn'),body=i.value.trim();if(!body)return;i.value='';
   const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
