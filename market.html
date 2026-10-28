@@ -107,7 +107,9 @@ main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-in
 .fileinput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 div.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13.5px;min-width:0}
 div.f .muted{font-weight:400}
-.expopick{gap:8px}
+.expopick{gap:8px;scroll-margin-top:90px}
+.mybox{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.mybox b{display:block}.mybox span{color:var(--muted);font-size:14px}
 .xpfeat{display:grid;gap:8px;grid-template-columns:1fr 1fr}
 .xpgrid{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .xp{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg);font-weight:400;cursor:pointer}
@@ -415,6 +417,7 @@ function viewMatches(){
  const fromAgent=S.matches.length;
  return `${pendingBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
  <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
+ <div class="mybox"><div><b>Your expos and interests</b><span>${(S.me.expos||[]).length?esc(S.me.expos.join(', ')):'You have not chosen any expos yet.'}</span></div><button class="btn gold" data-editexpos>Update my expos and interests</button></div>
  <label class="f expof">Going to the same expo<select id="expoFilter"><option value="">Any expo</option>${EXPOS.map(e=>`<option ${S.expoF===e.n?'selected':''}>${esc(e.n)}</option>`).join('')}</select></label>
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
  ${list.length?`<div class="grid">${list.map(({c,score,why,agent})=>`<article class="card">
@@ -472,7 +475,7 @@ function viewDeals(){
 
 function viewProfile(){
  const m=S.me;
- return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
+ return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches. You can update it any time.</p></div><button class="btn gold" data-editexpos>Update my expos</button><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
 }
 
 function viewAdmin(){
@@ -545,6 +548,7 @@ async function logEvent(dealId,note){const r=await sb.from('deal_events').insert
 document.addEventListener('click',async e=>{
  const b=e.target.closest('button');if(!b)return;const ds=b.dataset;
  try{
+ if('editexpos' in ds){go('profile');setTimeout(()=>{const x=document.querySelector('.expopick');if(x)x.scrollIntoView({behavior:'smooth',block:'start'})},60);return}
  if(ds.go)go(ds.go);
  else if(ds.auth){S.authMode=ds.auth;render()}
  else if('reset' in ds){const em=$('#a_email').value.trim();if(!em){$('#authErr').textContent='Type your email above first.';return}
