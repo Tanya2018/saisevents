@@ -16,6 +16,14 @@ const SHOWS = {
     perks: "Approved hosted buyers get complimentary hotel accommodation for 3 days during the exhibition, airport and exhibition day transfers, and onsite B2B matchmaking with exhibitors.",
     passport: "12 July 2027",
   },
+  "agroexpo-2027-registration": {
+    expo: "AGROEXPO 2027",
+    when: "2 to 6 February 2027",
+    where: "Fuar İzmir, Türkiye",
+    vet: "https://saisevents.com/market.html?expo=AGROEXPO%202027",
+    perks: "Approved hosted buyers get 2 nights in a 3-star hotel, shuttle between hotel and fair, VIP entry and VIP Lounge access, the İzmir Bay networking dinner cruise, and pre-arranged B2B meetings. Buyers pay their own flights, and air tickets, a company tax certificate and a business or chamber of commerce registration must reach the organisers by 18 December 2026.",
+    passport: "6 August 2027",
+  },
   "aluminium-china-2027-registration": {
     expo: "ALUMINIUM CHINA 2027",
     when: "7 to 9 July 2027",
