@@ -13,6 +13,16 @@ const SHOWS = {
     when: "9 to 12 January 2027",
     where: "Egypt International Exhibition Center, Cairo, Egypt",
     vet: "https://saisevents.com/market.html?expo=AFROPLAST%202027",
+    perks: "Approved hosted buyers get complimentary hotel accommodation for 3 days during the exhibition, airport and exhibition day transfers, and onsite B2B matchmaking with exhibitors.",
+    passport: "12 July 2027",
+  },
+  "aluminium-china-2027-registration": {
+    expo: "ALUMINIUM CHINA 2027",
+    when: "7 to 9 July 2027",
+    where: "Shanghai New International Expo Centre, Shanghai, China",
+    vet: "https://saisevents.com/market.html?expo=ALUMINIUM%20CHINA%202027",
+    perks: "Qualified hosted buyers get up to 3 nights hotel with breakfast, shuttle to the venue, lunch vouchers, airport pickup for groups of 10 or more, and B2B matchmaking with exhibitors.",
+    passport: "9 January 2028",
   },
 };
 
@@ -49,8 +59,8 @@ exports.handler = async (event) => {
 <li>Our team reviews your registration and submits your hosted buyer application to the organisers, who make the final decision.</li>
 <li>If you asked for a visa invitation letter, we will contact you about your visa and flights.</li>
 </ol>
-<p>Approved hosted buyers get complimentary hotel accommodation for 3 days during the exhibition, airport and exhibition day transfers, and onsite B2B matchmaking with exhibitors.</p>
-<p>Please keep your passport valid until at least 12 July 2027.</p>
+<p>${show.perks}</p>
+<p>Please keep your passport valid until at least ${show.passport}.</p>
 <p>If you have any questions, simply reply to this email or WhatsApp us on +254 722 170 385.</p>
 <p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, official delegate sourcing agent for East Africa<br><a href="https://saisevents.com">saisevents.com</a></p>
 </div>`;
