@@ -49,6 +49,7 @@ exports.handler = async (event) => {
 <li>Our team reviews your registration and submits your hosted buyer application to the organisers, who make the final decision.</li>
 <li>If you asked for a visa invitation letter, we will contact you about your visa and flights.</li>
 </ol>
+<p>Approved hosted buyers get complimentary hotel accommodation for 3 days during the exhibition, airport and exhibition day transfers, and onsite B2B matchmaking with exhibitors.</p>
 <p>Please keep your passport valid until at least 12 July 2027.</p>
 <p>If you have any questions, simply reply to this email or WhatsApp us on +254 722 170 385.</p>
 <p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, official delegate sourcing agent for East Africa<br><a href="https://saisevents.com">saisevents.com</a></p>
@@ -66,8 +67,10 @@ exports.handler = async (event) => {
     const rows = [
       ["Company", d.company], ["Contact", d.name], ["Job title", d.jobtitle], ["Email", d.email],
       ["WhatsApp", d.whatsapp], ["Country", d.country], ["City", d.city], ["Website", d.website],
-      ["Business type", d.business_type], ["Budget", d.budget], ["Makes or sells", d.products],
-      ["Wants to source", d.interests], ["Meetings", d.meetings], ["Visa letter", d.visa_letter],
+      ["Established", d.established], ["Activities", [d.activities, d.activity_other].filter(Boolean).join(", ")],
+      ["Makes or sells", d.products], ["Wants to source", [d.interests, d.interest_other].filter(Boolean).join(", ")],
+      ["Meetings", d.meetings], ["Turnover 2025", d.turnover], ["Imports 2025", d.imports],
+      ["Imported from", d.imported_from], ["Imported products", d.imported_products], ["Visa letter", d.visa_letter],
     ].map(([k, v]) => `<tr><td style="padding:4px 10px 4px 0;color:#46524D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join("");
     await send(key, {
       from: FROM,
