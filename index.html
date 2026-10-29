@@ -145,9 +145,11 @@ h3{font-size:1.3rem;font-weight:700}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 
 .ads{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;margin:0 -2px}
-.ads a{flex:0 0 86%;scroll-snap-align:start;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);display:block}
+.ads .ad{flex:0 0 86%;scroll-snap-align:start;display:flex;flex-direction:column;gap:12px}
+.ads .ad>a:first-child{border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.35);display:block}
+.ads .ad .btn{align-self:flex-start}
 .ads img{display:block;width:100%;height:auto}
-@media(min-width:900px){.ads{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible}.ads a{flex:none}}
+@media(min-width:900px){.ads{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible}.ads .ad{flex:none}}
 .ad-hint{font-size:14px;opacity:.75;margin:4px 0 0}@media(min-width:900px){.ad-hint{display:none}}
 .ad-video{max-width:760px;margin:34px auto 0}.ad-video video{width:100%;border-radius:14px;background:#000;display:block}
 .ad-video p{text-align:center;font-size:15px;opacity:.85;margin:10px 0 0}
@@ -420,7 +422,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
       <a href="faq.html">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a href="#register" class="btn btn-dark btn-sm">Register</a>
+    <a href="market.html" class="btn btn-dark btn-sm">Register</a>
   </div>
 </header>
 
@@ -435,7 +437,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <h1>We source expo <em>delegates and exhibitors</em> from Africa and the Middle East.</h1>
     <p class="lead">Expo organisers work with us to fill their hosted buyer programmes and exhibition space. We find the right people, check that they are serious, and get them to the show ready to do business.</p>
     <div class="btns">
-      <a class="btn btn-gold" href="#register">Register your interest</a>
+      <a class="btn btn-gold" href="market.html">Register your interest</a>
       <a class="btn btn-line" href="partner.html">For expo organisers</a>
     </div>
     </div>
@@ -457,14 +459,14 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <h2>Free hotel. Free transport. Meetings with the makers.</h2>
     <p style="max-width:680px;margin:0 0 24px">Approved buyers travel as VIP delegates. Tap a programme to apply.</p>
     <div class="ads">
-      <a href="afroplast-2027.html"><img src="afroplast-2027-ad.jpg" width="1200" height="900" alt="AFROPLAST 2027, Cairo, 9 to 12 January 2027. Hosted buyer programme"></a>
-      <a href="agroexpo-2027.html"><img src="agroexpo-2027-ad.jpg" width="1200" height="900" alt="AGROEXPO 2027, İzmir, 2 to 6 February 2027. Hosted buyer programme"></a>
-      <a href="aluminium-china-2027.html"><img src="aluminium-china-2027-ad.jpg" width="1200" height="900" alt="ALUMINIUM CHINA 2027, Shanghai, 7 to 9 July 2027. Hosted buyer programme"></a>
+      <div class="ad"><a href="afroplast-2027.html"><img src="afroplast-2027-ad.jpg" width="1200" height="900" alt="AFROPLAST 2027, Cairo, 9 to 12 January 2027. Hosted buyer programme"></a><a class="btn btn-gold" href="afroplast-2027.html#register">Apply for AFROPLAST</a></div>
+      <div class="ad"><a href="agroexpo-2027.html"><img src="agroexpo-2027-ad.jpg" width="1200" height="900" alt="AGROEXPO 2027, İzmir, 2 to 6 February 2027. Hosted buyer programme"></a><a class="btn btn-gold" href="agroexpo-2027.html#register">Apply for AGROEXPO</a></div>
+      <div class="ad"><a href="aluminium-china-2027.html"><img src="aluminium-china-2027-ad.jpg" width="1200" height="900" alt="ALUMINIUM CHINA 2027, Shanghai, 7 to 9 July 2027. Hosted buyer programme"></a><a class="btn btn-gold" href="aluminium-china-2027.html#register">Apply for ALUMINIUM CHINA</a></div>
     </div>
     <p class="ad-hint">Swipe to see all 3 programmes</p>
     <div class="ad-video">
       <video controls playsinline preload="none" poster="aluminium-china-2027-video-poster.jpg"><source src="aluminium-china-2027-video.mp4" type="video/mp4"></video>
-      <p>Watch: inside ALUMINIUM CHINA, Shanghai. <a href="aluminium-china-2027.html" style="color:var(--gold);font-weight:700">Apply here</a></p>
+      <p>Watch: inside ALUMINIUM CHINA, Shanghai. <a href="aluminium-china-2027.html#register" style="color:var(--gold);font-weight:700">Apply here</a></p>
     </div>
   </div>
 </section>
@@ -539,7 +541,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
           <li>Official invitation letters and visa guidance</li>
           <li>A SAIS Events WhatsApp group before and during every show</li>
         </ul>
-        <a class="btn btn-line" href="#register">Register your interest</a>
+        <a class="btn btn-line" href="market.html">Register your interest</a>
       </article>
     </div>
     <div class="photos">
