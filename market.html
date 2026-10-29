@@ -389,6 +389,7 @@ function profileForm(m,first){
      const box=e=>`<label class="xp ${e.f?'feat':''}"><input type="checkbox" name="p_expo" value="${esc(e.n)}" ${sel.has(expoKey(e.n))?'checked':''}><span><b>${esc(e.n)}</b><small>${esc(e.d)} · ${esc(e.p)}${e.hb?' · Hosted buyer programme':''}</small>${e.f?`<em>Official SAIS partner expo${e.s?' · '+esc(e.s):''}</em>`:''}</span></label>`;
      return `<div class="xpfeat">${EXPOS.filter(e=>e.f).map(box).join('')}</div><div class="xpgrid">${EXPOS.filter(e=>!e.f).map(box).join('')}</div>`})()}
   </div>
+  <label class="f full jvbox"><input type="checkbox" id="p_public" ${m.public_listing===false?'':'checked'}><span><b>Show my company in the public MatchMarket directory.</b> Only your company name, type, country, products and expos are shown. Your contact details are never public. Visitors must join MatchMarket to contact you.</span></label>
   <label class="f full jvbox"><input type="checkbox" id="p_jv" ${m.jv_open?'checked':''}><span><b>Join the Joint Venture Programme.</b> Show my company as open to joint ventures, such as local assembly, distribution, manufacturing partnerships or investment.</span></label>
   <div class="f full"><span>Company profile (optional)</span>
    <label class="filebtn" for="p_file"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><span id="fileLabel">${m.profile_file?'Replace company profile':'Upload company profile'}</span></label>
@@ -419,7 +420,7 @@ function viewMatches(){
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
  ${list.length?`<div class="grid">${list.map(({c,score,why,agent})=>`<article class="card">
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
-   <div class="tags"><span class="tag role">${esc(c.role)}</span>${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
+   <div class="tags"><span class="tag role">${esc(c.role)}</span>${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
    ${(c.expos||[]).length?`<p class="going"><b>Going to:</b> ${esc(c.expos.join(', '))}</p>`:''}
    ${coLinks(c)}
@@ -586,7 +587,7 @@ document.addEventListener('submit',async e=>{
   if(f.dataset.mode==='signup')notify({event:'New account created, company form not filled yet',email});if(f.dataset.mode==='signup'){try{fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'matchmarket-welcome',email}).toString()}).catch(()=>{})}catch(e){}}
   if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
  }
- else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
+ else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.public_listing=$('#p_public').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
   const file=$('#p_file').files[0];
   if(file){if(file.size>10*1024*1024){err.textContent='That file is over 10 MB. Please upload a smaller file.';return}

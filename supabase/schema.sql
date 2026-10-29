@@ -227,3 +227,20 @@ alter table public.companies add column if not exists jv_open boolean not null d
 
 -- Expos each company wants to attend (added 28 Oct 2026)
 alter table public.companies add column if not exists expos text[] not null default '{}';
+
+
+-- Public directory (run once). Shows only vetted companies that allow it, with no contact details.
+alter table public.companies add column if not exists public_listing boolean not null default true;
+create or replace function public.public_directory()
+returns table(id uuid, name text, role text, city text, country text, sells text, wants text, markets text, expos text[], jv_open boolean)
+language sql stable security definer set search_path = public as $$
+  select c.id, c.name, c.role, c.city, c.country,
+    regexp_replace(regexp_replace(regexp_replace(coalesce(c.sells,''), '[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}', '[contact hidden]', 'g'), '(https?://|www\.)(?!saisevents\.com)[^[:space:]]+', '[link hidden]', 'gi'), '\+?[0-9][0-9 ()-]{7,}[0-9]', '[contact hidden]', 'g'),
+    regexp_replace(regexp_replace(regexp_replace(coalesce(c.wants,''), '[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}', '[contact hidden]', 'g'), '(https?://|www\.)(?!saisevents\.com)[^[:space:]]+', '[link hidden]', 'gi'), '\+?[0-9][0-9 ()-]{7,}[0-9]', '[contact hidden]', 'g'),
+    c.markets, c.expos, c.jv_open
+  from companies c
+  where c.status = 'approved' and c.public_listing
+  order by (c.role = 'Organiser') desc, c.created_at desc
+  limit 500;
+$$;
+grant execute on function public.public_directory() to anon, authenticated;
