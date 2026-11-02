@@ -1,2 +1,5 @@
 [functions."mm-agent"]
   schedule = "*/15 * * * *"
+
+[functions."lead-hunter"]
+  schedule = "0 * * * *"
