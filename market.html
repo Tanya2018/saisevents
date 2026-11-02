@@ -430,17 +430,19 @@ function viewMatches(){
 }
 
 function convOther(cv){return cv.company_a===S.me.id?cv.company_b:cv.company_a}
+function mineConv(c){return !!(c&&S.me&&(c.company_a===S.me.id||c.company_b===S.me.id))}
+function convLabel(c){if(mineConv(c))return co(convOther(c)).name;return co(c.company_a).name+' and '+co(c.company_b).name}
 function viewMessages(){
  const convs=[...S.convs].sort((a,b)=>new Date((S.last[b.id]||b).created_at)-new Date((S.last[a.id]||a).created_at));
  const cv=convs.find(x=>x.id===S.open);const other=cv&&co(convOther(cv));
  const msgs=cv?(S.msgs[cv.id]||[]):[];
  return `${pendingBanner()}<div class="head"><div><span class="eyebrow">Conversations</span><h1>Messages</h1></div></div>
  ${convs.length?`<div class="chat ${cv?'open':''}">
-  <div class="threads">${convs.map(x=>{const o=co(convOther(x)),l=S.last[x.id];return `<button class="thread" data-thread="${x.id}" aria-current="${x.id===S.open}">${av(o)}<span class="t"><b>${esc(o.name)}</b><span>${esc(l?l.body:'No messages yet')}</span></span></button>`}).join('')}</div>
-  <div class="conv">${cv?`<div class="ch"><button class="btn ghost back" data-back>Back</button>${av(other)}<div><b>${esc(other.name)}</b><br><small class="muted">${esc([other.city,other.role].filter(Boolean).join(' · '))}</small></div>
-    <div class="row"><button class="btn gold" data-book="${other.id}">Book meeting</button><button class="btn" data-newdeal="${other.id}">Open deal room</button></div></div>
+  <div class="threads">${convs.map(x=>{const o=co(convOther(x)),l=S.last[x.id];return `<button class="thread" data-thread="${x.id}" aria-current="${x.id===S.open}">${av(o)}<span class="t"><b>${esc(convLabel(x))}</b><span>${esc(l?l.body:'No messages yet')}</span></span></button>`}).join('')}</div>
+  <div class="conv">${cv?`<div class="ch"><button class="btn ghost back" data-back>Back</button>${av(other)}<div><b>${esc(convLabel(cv))}</b><br><small class="muted">${mineConv(cv)?esc([other.city,other.role].filter(Boolean).join(' · ')):'Admin view: you are watching this chat'}</small></div>
+    ${mineConv(cv)?`<div class="row"><button class="btn gold" data-book="${other.id}">Book meeting</button><button class="btn" data-newdeal="${other.id}">Open deal room</button></div>`:''}</div>
    <div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="m ${m.kind==='agent'?'ai':m.sender_company===S.me.id?'me':'them'}">${esc(m.body)}${m.kind!=='agent'?`<time>${fmtShort(m.created_at)}</time>`:''}</div>`).join(''):'<p class="empty">Say hello and introduce your company.</p>'}</div>
-   <form class="compose" id="compose"><textarea id="msgIn" rows="2" placeholder="${approved()?'Write a message':'Available after vetting'}" aria-label="Message" ${approved()?'':'disabled'}></textarea><button class="btn pri" ${approved()?'':'disabled'}>Send</button></form>`:`<p class="empty">Choose a conversation.</p>`}</div>
+   ${mineConv(cv)?'':'<p class="muted small" style="padding:10px 16px">Only the two companies can write here. You can see this chat because you are the SAIS admin.</p>'}<form class="compose" id="compose" ${mineConv(cv)?'':'hidden'}><textarea id="msgIn" rows="2" placeholder="${approved()?'Write a message':'Available after vetting'}" aria-label="Message" ${approved()?'':'disabled'}></textarea><button class="btn pri" ${approved()?'':'disabled'}>Send</button></form>`:`<p class="empty">Choose a conversation.</p>`}</div>
  </div>`:`<div class="card empty">No conversations yet. Go to Matches and tap Message on a company.</div>`}`;
 }
 
