@@ -251,6 +251,11 @@ h3{font-size:1.3rem;font-weight:700}
 .expo-link{font-size:14.5px;font-weight:600;color:var(--cream);white-space:nowrap;text-decoration:none;border-bottom:1px solid rgba(246,240,226,.55);padding-bottom:1px}
 .nw{white-space:nowrap}
 .expo.is-hidden{display:none}
+.countdown{margin:10px 0 4px;font-weight:900;font-size:22px;color:var(--gold);letter-spacing:-.3px}
+.countdown:empty{display:none}
+.ciie-media{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 14px}
+.ciie-media img,.ciie-media video{width:100%;height:100%;max-height:340px;object-fit:cover;border-radius:12px;background:#000;display:block}
+.ciie-media img{object-fit:contain;background:#1B6A2E}
 .vet-box{margin:22px 0 26px;background:var(--jungle);color:var(--cream);border-radius:18px;padding:22px 24px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between;border-left:5px solid var(--gold)}
 .vet-box p{max-width:62ch;font-size:16px}
 .vet-box b{color:var(--gold)}
@@ -586,6 +591,12 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
         <h3>CIIE 2026</h3>
         <p class="expo-place">National Exhibition and Convention Center, Shanghai</p>
         <p class="expo-sector">China International Import Expo, all sectors</p>
+        <p class="countdown" data-countdown="2026-11-05" data-countdown-end="2026-11-10"></p>
+        <p class="expo-sector"><b>Kenya is the 2026 Theme Country.</b> Big Market for All: Export to China.</p>
+        <div class="ciie-media">
+          <img src="ciie-2026-kenya.jpg" width="518" height="578" loading="lazy" alt="CIIE 2026 poster: Kenya is the Theme Country, Big Market for All: Export to China">
+          <video controls playsinline preload="none" poster="ciie-2026-kenya-video.jpg"><source src="ciie-2026-kenya.mp4" type="video/mp4"></video>
+        </div>
         <div class="expo-actions">
           <span class="btn btn-closed" aria-disabled="true">Delegate registration officially closed</span>
         </div>
@@ -1238,6 +1249,22 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
     <p class="copy">&copy; 2026 SAIS Events</p>
   </div>
 </footer>
+
+<script>
+/* Countdown on expo cards: "X days to go" */
+(function () {
+  var n = new Date(); n.setHours(0,0,0,0);
+  document.querySelectorAll('[data-countdown]').forEach(function (el) {
+    var st = new Date(el.getAttribute('data-countdown') + 'T00:00:00');
+    var en = new Date((el.getAttribute('data-countdown-end') || el.getAttribute('data-countdown')) + 'T00:00:00');
+    var d = Math.round((st - n) / 864e5);
+    if (d > 1) el.textContent = d + ' days to go';
+    else if (d === 1) el.textContent = '1 day to go';
+    else if (n <= en) el.textContent = 'Happening now';
+    else el.textContent = '';
+  });
+})();
+</script>
 
 <script>
 /* Expo status: Upcoming, Ongoing or Ended, worked out from the dates */
