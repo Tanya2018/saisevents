@@ -15,7 +15,7 @@ function sbFetch(path, opts = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   return fetch(`${SB}/rest/v1/${path}`, {
     ...opts,
-    headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(opts.headers || {}) },
+    headers: { apikey: key, ...(key.startsWith("sb_") ? {} : { Authorization: `Bearer ${key}` }), "Content-Type": "application/json", ...(opts.headers || {}) },
   });
 }
 async function sbGet(path) {
