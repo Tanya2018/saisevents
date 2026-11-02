@@ -15,7 +15,7 @@ const EXPOS = {
     when: "taking place in Cairo, Egypt, from 9 to 12 January 2027",
     link: "https://saisevents.com/afroplast-2027.html#register",
     hosting: "three days of hosted programme benefits, including five-star hotel accommodation, local transportation in Cairo and pre-arranged B2B meetings with participating manufacturers and suppliers",
-    shortHost: "3 days hosted in Cairo: 5 star hotel, transport and pre-booked B2B meetings",
+    shortHost: "3 days of five-star hotel accommodation, local transport in Cairo and pre-arranged B2B meetings with machinery, mould and resin suppliers",
     bullets: ["Plastic processing machinery and production lines", "Injection and blow moulding equipment", "Moulds and tooling solutions", "Raw materials, resins and polymers", "New technologies for improving production efficiency"],
   },
 };
@@ -117,13 +117,15 @@ function waText(l, x, ai) {
 
 ${q}
 
-${l.name} has been shortlisted for the ${l.expo} Hosted Buyer Programme, ${x.when.replace("taking place ", "")}.
+SAIS Events is selecting a limited number of East African manufacturers for the ${l.expo} Hosted Buyer Programme, ${x.when.replace("taking place ", "")}. ${l.name} has been shortlisted. Your invitation card is above.
 
-${x.shortHost}. Registration is free and places for East Africa are limited.
+Selected hosted buyers get ${x.shortHost}.
 
-Register here: ${x.link}
+Hosted places are limited. Registration is free, subject to approval:
+${x.link}
 
-Could we have a quick 10 minute call this week?
+Could we arrange a brief 10 minute call this week?
+
 Kate, SAIS Events`;
 }
 
