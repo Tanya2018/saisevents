@@ -257,3 +257,19 @@ create table if not exists public.company_reviews (
 alter table public.company_reviews enable row level security;
 drop policy if exists "admins read reviews" on public.company_reviews;
 create policy "admins read reviews" on public.company_reviews for select to authenticated using (is_admin());
+
+
+-- Hide phone numbers and emails in member chats (Nov 2026). SAIS shares contacts once a deal is confirmed.
+create or replace function public.mask_message_contacts() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.kind = 'user' and not is_admin() and coalesce(auth.role(), '') <> 'service_role' then
+    new.body := regexp_replace(new.body, '[A-Za-z0-9._%+-]+@(?!saisevents\.com)[A-Za-z0-9.-]+\.[A-Za-z]{2,}', '[contact hidden]', 'g');
+    new.body := regexp_replace(new.body, '(wa\.me|api\.whatsapp\.com|t\.me)/\S+', '[contact hidden]', 'gi');
+    new.body := regexp_replace(new.body, '\+?[0-9](?:[ ().-]?[0-9]){8,}', '[contact hidden]', 'g');
+  end if;
+  return new;
+end $$;
+drop trigger if exists messages_mask on public.messages;
+create trigger messages_mask before insert or update on public.messages
+for each row execute function public.mask_message_contacts();

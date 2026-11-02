@@ -350,6 +350,7 @@ function renderNav(){
 function go(v){S.view=v;if(v!=='messages')S.open=null;render();window.scrollTo(0,0)}
 
 const webUrl=w=>{w=String(w||'').trim();if(!/[.]/.test(w))return '';return /^https?:\/\//i.test(w)?w:'https://'+w.replace(/^@/,'')};
+function maskContacts(t){return t.replace(/[A-Z0-9._%+-]+@(?!saisevents\.com)[A-Z0-9.-]+\.[A-Z]{2,}/gi,'[contact hidden]').replace(/(wa\.me|api\.whatsapp\.com|t\.me)\/\S+/gi,'[contact hidden]').replace(/\+?\d(?:[\s().-]?\d){8,}/g,'[contact hidden]')}
 function coLinks(c){const u=webUrl(c.website);const parts=[];if(u)parts.push(`<a href="${esc(u)}" target="_blank" rel="noopener">Website</a>`);if(c.profile_file)parts.push(`<button type="button" data-viewfile="${esc(c.profile_file)}">Company profile</button>`);return parts.length?`<div class="links">${parts.join('')}</div>`:''}
 /* ---------- views ---------- */
 function viewAuth(mode){
@@ -602,7 +603,7 @@ document.addEventListener('submit',async e=>{
   if(r.error){err.textContent='Could not save: '+r.error.message;return}
   const first=!S.me;if(first)notify({expos:(v.expos||[]).join(', '),event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
   toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
- else if(f.id==='compose'){const i=$('#msgIn'),body=i.value.trim();if(!body)return;i.value='';
+ else if(f.id==='compose'){const i=$('#msgIn');let body=i.value.trim();if(!body)return;i.value='';const masked=S.admin?body:maskContacts(body);if(masked!==body){body=masked;toast('Phone numbers and emails are hidden in chats. SAIS shares contacts once a deal is confirmed.')}
   const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
   addMsg(r.data)}
  else if(f.id==='bookForm'){const when=new Date($('#mWhen').value);if(isNaN(when)||when<new Date()){toast('Pick a future day and time');return}
