@@ -32,6 +32,36 @@ const SHOWS = {
     perks: "Qualified hosted buyers get up to 3 nights hotel with breakfast, shuttle to the venue, lunch vouchers, airport pickup for groups of 10 or more, and B2B matchmaking with exhibitors.",
     passport: "9 January 2028",
   },
+  "kenya-homes-expo-2026-registration": {
+    expo: "Kenya Homes Expo 2026",
+    when: "19 to 22 November 2026",
+    where: "Kenyatta International Convention Centre (KICC), Nairobi, Kenya",
+    vet: "https://saisevents.com/market.html?expo=Kenya%20Homes%20Expo%202026",
+    type: "exhibitor",
+    perks: "Our team will call you with the available stands and the booking form. Stands are confirmed by the organisers once payment is received.",
+  },
+  "mombasa-saccos-expo-2026-registration": {
+    expo: "Mombasa SACCOs and SMEs Expo 2026",
+    when: "26 to 29 November 2026",
+    where: "Mama Ngina Waterfront, Mombasa, Kenya",
+    vet: "https://saisevents.com/market.html?expo=Mombasa%20SACCOs%20Expo%202026",
+    type: "exhibitor",
+    perks: "Our team will send you the exhibitor packages and help you book your stand. Stands are confirmed by the organisers once payment is received.",
+  },
+  "ifco-2027-registration": {
+    expo: "IFCO 2027",
+    when: "3 to 6 February 2027",
+    where: "Istanbul Expo Center, Istanbul, Turkey",
+    vet: "https://saisevents.com/market.html?expo=IFCO%202027",
+    perks: "Buyer places are reviewed by the organiser's committee, and any travel or hotel support is decided by the organiser. We will request your passport details for the visa invitation letter once your place is confirmed.",
+  },
+  "ie-expo-2027-registration": {
+    expo: "IE expo 2027",
+    when: "20 to 22 April 2027",
+    where: "Shanghai New International Expo Centre, Shanghai, China",
+    vet: "https://saisevents.com/market.html?expo=IE%20expo%202027",
+    perks: "We will put your company forward to the organisers and plan your meetings. We will request your passport details for the visa invitation letter once your place is confirmed.",
+  },
 };
 
 const esc = (v) =>
@@ -62,13 +92,16 @@ exports.handler = async (event) => {
 <p>Dear ${esc(first)},</p>
 <p>Thank you for registering for <b>${show.expo}</b>, ${show.when}, at the ${show.where}. We have received your details for <b>${esc(d.company)}</b>.</p>
 <p><b>What happens next</b></p>
-<ol>
+${show.type === "exhibitor" ? `<ol>
+<li>Our team will contact you on WhatsApp or by phone about your stand.</li>
+<li>Create your free company profile on SAIS MatchMarket so buyers and partners can find you: <a href="${show.vet}">${show.vet}</a></li>
+</ol>` : `<ol>
 <li>Create your free company profile on SAIS MatchMarket so we can vet your company and request your B2B meetings: <a href="${show.vet}">${show.vet}</a></li>
-<li>Our team reviews your registration and submits your hosted buyer application to the organisers, who make the final decision.</li>
-<li>If you asked for a visa invitation letter, we will contact you about your visa and flights.</li>
-</ol>
+<li>Our team reviews your registration and submits your application to the organisers, who make the final decision.</li>
+<li>We will contact you about your visa and flights.</li>
+</ol>`}
 <p>${show.perks}</p>
-<p>Please keep your passport valid until at least ${show.passport}.</p>
+${show.passport ? `<p>Please keep your passport valid until at least ${show.passport}.</p>` : ""}
 <p>If you have any questions, simply reply to this email or WhatsApp us on +254 722 170 385.</p>
 <p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, official delegate sourcing agent for East Africa<br><a href="https://saisevents.com">saisevents.com</a></p>
 </div>`;
@@ -87,7 +120,7 @@ exports.handler = async (event) => {
       ["WhatsApp", d.whatsapp], ["Country", d.country], ["City", d.city], ["Website", d.website],
       ["Established", d.established], ["Activities", [d.activities, d.activity_other].filter(Boolean).join(", ")],
       ["Makes or sells", d.products], ["Wants to source", [d.interests, d.interest_other].filter(Boolean).join(", ")],
-      ["Meetings", d.meetings], ["Turnover 2025", d.turnover], ["Imports 2025", d.imports],
+      ["Meetings", d.meetings], ["Stand", d.stand], ["Booking timing", d.budget_ready], ["Turnover 2025", d.turnover], ["Imports 2025", d.imports],
       ["Imported from", d.imported_from], ["Imported products", d.imported_products], ["Visa letter", d.visa_letter],
     ].map(([k, v]) => `<tr><td style="padding:4px 10px 4px 0;color:#46524D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join("");
     await send(key, {
