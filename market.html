@@ -329,7 +329,7 @@ async function loadAll(){
  if(S.deals.length){const ids=S.deals.map(d=>d.id);
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
- if(S.admin){const u=await sb.rpc('admin_users');S.users=u.error?null:(u.data||[])}
+ if(S.admin){const [u,rv]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]))}
  S.loading=false;
 }
 async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('conversation_id',cid).order('created_at');S.msgs[cid]=r.data||[]}
@@ -476,6 +476,7 @@ function viewProfile(){
  return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
 }
 
+function aiNote(id){const r=S.reviews&&S.reviews.get(id);if(!r||!r.checked_at)return '<br><span class="muted small">AI agent: checking soon</span>';const c=r.verdict==='approve'?'good':r.verdict==='decline'?'bad':'warn';return `<br><span class="pill ${c}">AI: ${esc(r.verdict)} ${r.score}%</span><br><span><b>AI note:</b> ${esc(r.note||'')}</span>`}
 function viewAdmin(){
  const by=s=>S.cos.filter(c=>c.status===s);
  const counts=ROLES.map(r=>[r,S.cos.filter(c=>c.role===r&&c.status==='approved').length]);const max=Math.max(1,...counts.map(x=>x[1]));
@@ -485,7 +486,7 @@ function viewAdmin(){
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
-  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span></div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span>${aiNote(p.id)}</div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
  </div>
  <div class="card"><h3 class="h3">Signed up, company form not finished</h3>
   ${S.users===null||S.users===undefined?'<p class="muted small">Run the admin setup step in Supabase to see this list.</p>':unfinished.length?`<p class="muted small">These people made an account but have not added their company. Email them to finish.</p><div class="list">${unfinished.map(u=>`<div class="li"><div class="t"><b>${esc(u.email)}</b><span>Signed up ${fmtTime(u.created_at)}</span></div></div>`).join('')}</div>`:'<p class="empty">Everyone who signed up has added a company.</p>'}

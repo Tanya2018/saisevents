@@ -244,3 +244,16 @@ language sql stable security definer set search_path = public as $$
   limit 500;
 $$;
 grant execute on function public.public_directory() to anon, authenticated;
+
+-- AI agent: vetting notes, admins only (Nov 2026)
+create table if not exists public.company_reviews (
+  company_id uuid primary key references public.companies(id) on delete cascade,
+  score int check (score between 0 and 100),
+  verdict text check (verdict in ('approve','review','decline')),
+  note text,
+  checked_at timestamptz,
+  matched_at timestamptz
+);
+alter table public.company_reviews enable row level security;
+drop policy if exists "admins read reviews" on public.company_reviews;
+create policy "admins read reviews" on public.company_reviews for select to authenticated using (is_admin());
