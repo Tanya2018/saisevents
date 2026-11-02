@@ -327,3 +327,6 @@ from unnest(array[
 ]) s
 cross join unnest(array['Kenya','Uganda','Tanzania','Ethiopia','Rwanda']) c
 on conflict do nothing;
+
+-- Lead hunter step 2: 7am list (Nov 2026)
+alter table public.leads add column if not exists digest_sent_at timestamptz;

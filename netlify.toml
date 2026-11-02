@@ -3,3 +3,6 @@
 
 [functions."lead-hunter"]
   schedule = "0 * * * *"
+
+[functions."lead-digest"]
+  schedule = "0 4 * * *"
