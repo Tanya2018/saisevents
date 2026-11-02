@@ -1,0 +1,2 @@
+[functions."mm-agent"]
+  schedule = "*/15 * * * *"
