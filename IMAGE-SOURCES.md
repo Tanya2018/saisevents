@@ -18,7 +18,6 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 | photo-1760776140488-32fcfab4066a | Supermarket shelves stocked with packaged food and drinks | Expo card: Private Label Middle East 2026 |
 | photo-1600565193348-f74bd3c7ccdf | Chef cooking over a flame in a professional kitchen | Expo card: FHC China 2026 |
 | photo-1771541897176-44a3e01dc484 | Bowls of spices and food ingredients on a tray | Expo card: Fi Europe 2026 |
-| photo-1758565811178-6341e9999f48 | Modern living room with large windows and a garden view | Expo card: Kenya Homes Expo 2026 |
 | photo-1687422809617-a7d97879b3b0 | Trader at a fresh fruit stall in an African market | Expo card: Mombasa SACCOs and SMEs Expo 2026 |
 | photo-1652211955967-99c892925469 | Workers on a food processing line in a factory | Expo card: Food Africa 2026 |
 | photo-1602020277972-99978250c8bd | Tea pickers working on a green tea plantation | Expo card: Global Tea Fair 2026 |
@@ -51,6 +50,7 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 
 - AFROPLAST 2027, AGROEXPO 2027, ALUMINIUM CHINA 2027: official hosted buyer adverts, shown once, in the hosted buyer programmes section
 - CIIE 2026: official Kenya Theme Country poster and video
+- Kenya Homes Expo 2026: kenya-homes-expo-kicc.jpg / .webp, an event photo at KICC taken from the official Kenya Homes Expo event profile supplied by the organiser (Official Marketing Partner agreement)
 - ALUMINIUM CHINA 2027 video
 - Team portraits: catherine-kinyanjui.jpg, veronica-gakio.jpg, franklin-nkem.jpg
 
