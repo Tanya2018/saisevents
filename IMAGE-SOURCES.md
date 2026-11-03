@@ -16,14 +16,7 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 | photo-1761195689615-9469b65dac01 | Buyers in discussion with exhibitors at a trade fair stand | Hosted buyer programmes intro |
 | photo-1762764214015-d5c22646465b | Buyer examining fabric samples at a textile market | Why join a hosted buyer programme |
 | photo-1760776140488-32fcfab4066a | Supermarket shelves stocked with packaged food and drinks | Expo card: Private Label Middle East 2026 |
-| photo-1600565193348-f74bd3c7ccdf | Chef cooking over a flame in a professional kitchen | Expo card: FHC China 2026 |
-| photo-1771541897176-44a3e01dc484 | Bowls of spices and food ingredients on a tray | Expo card: Fi Europe 2026 |
-| photo-1776566347746-1bb7dcaa12d3 | Consumer electronics and camera accessories laid out on a table | Expo card: CES 2027 |
 | photo-1777383505116-4c736a35ad38 | Freshly roasted coffee beans in a roaster | Expo card: World of Coffee Dubai 2027 |
-| photo-1599678914948-8e0a39f42a31 | Crates of red apples ready for the fresh produce market | Expo card: Fruit Logistica 2027 |
-| photo-1772351721310-0aa6b2d5ee49 | Garment worker at a sewing machine in a clothing factory | Expo card: IFCO 2027 |
-| photo-1761839256791-6a93f89fb8b0 | Stylist preparing a client in a professional hair salon | Expo card: Premiere Anaheim 2027 |
-| photo-1779591211763-7a54431e16ab | Brewery with steel brewing tanks and a tasting area | Expo card: Beer&Food Attraction 2027 |
 | photo-1461354464878-ad92f492a5a0 | Hands holding a bowl of fresh organic tomatoes | Expo card: Expo West 2027 |
 | photo-1647376036543-f9f543601a1d | Close-up of a quilted mattress surface | Expo card: India Mattresstech Expo 2027 |
 | photo-1621293954908-907159247fc8 | Modern hotel lobby with designer furniture | Expo card: HOTELEX Shanghai 2027 |
