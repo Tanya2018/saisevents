@@ -6,3 +6,6 @@
 
 [functions."lead-digest"]
   schedule = "0 4 * * *"
+
+[functions."weekly-report"]
+  schedule = "0 5 * * 5"
