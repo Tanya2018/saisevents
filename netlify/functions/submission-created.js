@@ -57,6 +57,7 @@ const SHOWS = {
   },
   "ie-expo-2027-registration": {
     expo: "IE expo 2027",
+    campaign: "IE expo China 2027",
     when: "20 to 22 April 2027",
     where: "Shanghai New International Expo Centre, Shanghai, China",
     vet: "https://saisevents.com/market.html?expo=IE%20expo%202027",
@@ -66,6 +67,28 @@ const SHOWS = {
 
 const esc = (v) =>
   String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Saves a delegate registration into the SAIS pipeline (Supabase). Passport fields are never sent.
+async function saveToPipeline(show, d) {
+  const sk = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!sk || show.type === "exhibitor") return;
+  const pick = (k) => (d[k] == null ? "" : String(d[k]).slice(0, 600));
+  const answers = {};
+  ["established", "activities", "activity_other", "products", "interests", "interest_other", "meetings", "turnover", "imports",
+   "imported_from", "imported_products", "visa_letter", "description"].forEach((k) => { if (pick(k)) answers[k] = pick(k); });
+  const body = { p: {
+    campaign: show.campaign || show.expo, company: pick("company"), country: pick("country"), city: pick("city"), website: pick("website"),
+    activities: [pick("activities"), pick("activity_other")].filter(Boolean).join(", "), products: pick("products"),
+    contact_name: pick("name"), job_title: pick("jobtitle"), whatsapp: pick("whatsapp"), email: pick("email"),
+    consent: pick("consent_share"), answers,
+  } };
+  const r = await fetch("https://hbobppslyikleonzvzxp.supabase.co/rest/v1/rpc/form_application", {
+    method: "POST",
+    headers: { apikey: sk, ...(sk.startsWith("sb_") ? {} : { Authorization: `Bearer ${sk}` }), "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) console.log("pipeline save failed", r.status, (await r.text()).slice(0, 300));
+}
 
 async function send(key, msg) {
   const r = await fetch("https://api.resend.com/emails", {
@@ -81,9 +104,11 @@ exports.handler = async (event) => {
     const key = process.env.RESEND_API_KEY;
     const payload = JSON.parse(event.body || "{}").payload || {};
     const show = SHOWS[payload.form_name];
-    if (!show || !key) return { statusCode: 200, body: "skipped" };
+    if (!show) return { statusCode: 200, body: "skipped" };
 
     const d = payload.data || {};
+    try { await saveToPipeline(show, d); } catch (e) { console.log("pipeline save error", e && e.message); }
+    if (!key) return { statusCode: 200, body: "saved, no email key" };
     const first = String(d.name || "").trim().split(/\s+/)[0] || "there";
     const email = String(d.email || "").trim();
 

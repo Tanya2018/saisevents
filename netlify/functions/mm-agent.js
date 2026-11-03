@@ -115,6 +115,25 @@ async function match(c, others) {
   return `matched ${c.name}: ${rows.length / 2}`;
 }
 
+// Step 4b: score one registered delegate application against the organiser's buyer criteria.
+// The score is advice for SAIS. A person decides who is sent to the organiser.
+async function precheck(a) {
+  const b = a.businesses || {}, c = a.campaigns || {};
+  const answers = Object.entries(a.checklist || {}).map(([k, v]) => `${k}: ${v}`).join("\n");
+  const text = await claude({
+    model: MATCH_MODEL,
+    max_tokens: 500,
+    system: "You check whether a company qualifies as a hosted buyer delegate for a trade expo, using only the organiser's criteria and the company's own answers. Be fair to small businesses. Never invent facts. Reply with JSON only.",
+    messages: [{ role: "user", content: `Expo: ${c.name}\nOrganiser's buyer criteria: ${c.buyer_criteria}\n\nCompany: ${b.name}\nLocation: ${[b.city, b.country].filter(Boolean).join(", ")}\nActivities: ${b.sector || ""}\nMakes or sells: ${b.makes || ""}\nWebsite: ${b.website || "none"}\nRegistration answers:\n${answers || "none"}\n\nReply with JSON only: {"score": 0-100 (how well it fits the criteria), "reasons": "2 short plain sentences: why it fits or not, and what SAIS should confirm before sending it to the organiser"}` }],
+  }, 20000);
+  const v = parseJSON(text);
+  const score = Math.max(0, Math.min(100, Math.round(Number(v.score) || 0)));
+  const r = await sbFetch(`applications?id=eq.${a.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" },
+    body: JSON.stringify({ ai_score: score, ai_reasons: String(v.reasons || "").slice(0, 600), ai_checked_at: new Date().toISOString() }) });
+  if (!r.ok) throw new Error(`Supabase patch applications ${r.status}: ${await r.text()}`);
+  return `prechecked ${b.name} for ${c.name}: ${score}`;
+}
+
 exports.handler = async () => {
   if (!process.env.ANTHROPIC_API_KEY || !process.env.SUPABASE_SERVICE_ROLE_KEY) return { statusCode: 200, body: "missing keys" };
   try {
@@ -125,6 +144,8 @@ exports.handler = async () => {
     const rev = new Map(reviews.map((r) => [r.company_id, r]));
     const pending = cos.find((c) => c.status === "pending" && !(rev.get(c.id) || {}).checked_at);
     if (pending) { const msg = await vet(pending); console.log(msg); return { statusCode: 200, body: msg }; }
+    const apps = await sbGet("applications?select=id,checklist,businesses(name,country,city,sector,makes,website),campaigns!inner(name,buyer_criteria)&ai_checked_at=is.null&stage=in.(registered,submitted)&campaigns.buyer_criteria=not.is.null&order=created_at.asc&limit=1").catch((e) => { console.log("precheck query skipped:", e.message); return []; });
+    if (apps.length) { const msg = await precheck(apps[0]); console.log(msg); return { statusCode: 200, body: msg }; }
     const approved = cos.filter((c) => c.status === "approved");
     const stale = Date.now() - REMATCH_DAYS * 864e5;
     const due = approved.find((c) => { const m = (rev.get(c.id) || {}).matched_at; return !m || new Date(m).getTime() < stale; });
