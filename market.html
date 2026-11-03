@@ -329,6 +329,7 @@ async function loadAll(){
  if(S.deals.length){const ids=S.deals.map(d=>d.id);
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
+ {const pv=await sb.from('company_private').select('company_id,whatsapp');if(!pv.error){const w=new Map((pv.data||[]).map(x=>[x.company_id,x.whatsapp]));S.cos.forEach(c=>{if(w.has(c.id))c.whatsapp=w.get(c.id)});if(S.me&&w.has(S.me.id))S.me.whatsapp=w.get(S.me.id)}}
  if(S.admin){const [u,rv]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]))}
  S.loading=false;
 }
@@ -603,7 +604,7 @@ document.addEventListener('submit',async e=>{
    v.profile_file=path;}
   let r;if(S.me)r=await sb.from('companies').update(v).eq('id',S.me.id).select().single();else r=await sb.from('companies').insert({...v,owner:S.user.id}).select().single();
   if(r.error){err.textContent='Could not save: '+r.error.message;return}
-  const first=!S.me;if(first)notify({expos:(v.expos||[]).join(', '),event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
+  const first=!S.me;if(first)notify({expos:(v.expos||[]).join(', '),event:'Company submitted for vetting',email:S.user.email,company:v.name,role:v.role,city:v.city,country:v.country,whatsapp:v.whatsapp,website:v.website,sells:v.sells,wants:v.wants,markets:v.markets});r.data.whatsapp=v.whatsapp;S.me=r.data;const i=S.cos.findIndex(c=>c.id===r.data.id);if(i>=0)S.cos[i]=r.data;else S.cos.unshift(r.data);
   toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
  else if(f.id==='compose'){const i=$('#msgIn');let body=i.value.trim();if(!body)return;i.value='';const masked=S.admin?body:maskContacts(body);if(masked!==body){body=masked;toast('Phone numbers and emails are hidden in chats. SAIS shares contacts once a deal is confirmed.')}
   const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
