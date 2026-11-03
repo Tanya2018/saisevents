@@ -256,6 +256,7 @@ const ICON={
  meetings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
  deals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
  profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+ campaigns:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
  admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
  bot:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg>'
 };
@@ -330,6 +331,7 @@ async function loadAll(){
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
  {const pv=await sb.from('company_private').select('company_id,whatsapp');if(!pv.error){const w=new Map((pv.data||[]).map(x=>[x.company_id,x.whatsapp]));S.cos.forEach(c=>{if(w.has(c.id))c.whatsapp=w.get(c.id)});if(S.me&&w.has(S.me.id))S.me.whatsapp=w.get(S.me.id)}}
+ if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[])}
  if(S.admin){const [u,rv]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]))}
  S.loading=false;
 }
@@ -338,7 +340,7 @@ async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('c
 /* ---------- nav ---------- */
 function navItems(){
  const items=[['matches','Matches'],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
- if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length]);
+ if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['campaigns','Campaigns']);
  return items;
 }
 function renderNav(){
@@ -481,6 +483,46 @@ function viewProfile(){
 }
 
 function aiNote(id){const r=S.reviews&&S.reviews.get(id);if(!r||!r.checked_at)return '<br><span class="muted small">AI agent: checking soon</span>';const c=r.verdict==='approve'?'good':r.verdict==='decline'?'bad':'warn';return `<br><span class="pill ${c}">AI: ${esc(r.verdict)} ${r.score}%</span><br><span><b>AI note:</b> ${esc(r.note||'')}</span>`}
+const CSTAT={planning:'Planning',recruiting:'Recruiting',closed:'Closed',done:'Done'};
+function fmtDay(d){if(!d)return'';const x=new Date(d+'T00:00:00');return x.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
+function daysTo(d){if(!d)return null;const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+'T00:00:00')-t)/864e5)}
+function viewCampaigns(){
+ const head=`<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Campaigns</h1><p>One campaign per expo contract: the organiser's rules, your target and your deadlines in one place.</p></div><button class="btn pri" data-camp="new">Add campaign</button></div>`;
+ if(S.camps===null)return head+`<div class="banner warn">Run the Step 2 setup in Supabase to switch on campaigns.</div>`;
+ const list=(S.camps||[]).slice().sort((a,b)=>(a.status==='done')-(b.status==='done')||String(a.starts_on||'9').localeCompare(String(b.starts_on||'9')));
+ if(!list.length)return head+`<p class="empty">No campaigns yet. Add your first expo contract.</p>`;
+ return head+`<div class="grid">${list.map(c=>{const d=daysTo(c.starts_on),dl=daysTo(c.registration_deadline);
+  const pill=c.status==='recruiting'?'good':c.status==='planning'?'warn':'';
+  return `<article class="card">
+  <div class="row" style="justify-content:space-between;align-items:flex-start"><div><h3 class="h3" style="margin:0">${esc(c.name)}</h3><small class="muted">${esc([c.organiser,[c.city,c.country].filter(Boolean).join(', ')].filter(Boolean).join(' · '))}</small></div><span class="pill ${pill}">${esc(CSTAT[c.status]||c.status)}</span></div>
+  <div class="small"><b>${c.starts_on?esc(fmtDay(c.starts_on))+(c.ends_on&&c.ends_on!==c.starts_on?' to '+esc(fmtDay(c.ends_on)):''):'Dates not set'}</b>${d!==null&&d>=0?` <span class="muted">· ${d===0?'today':d+' days to go'}</span>`:''}</div>
+  ${c.registration_deadline?`<div class="banner ${dl!==null&&dl<=30&&dl>=0?'warn':''}" style="padding:8px 12px">Deadline: <b>${esc(fmtDay(c.registration_deadline))}</b>${dl!==null&&dl>=0?` (${dl} days left)`:dl!==null?' (passed)':''}</div>`:''}
+  <div class="small"><span class="muted">Target:</span> ${c.target_delegates!=null?esc(String(c.target_delegates))+' delegates':'not set'} · <span class="muted">Fee:</span> ${c.fee_per_delegate!=null?esc(c.fee_currency)+' '+Number(c.fee_per_delegate).toLocaleString('en-US')+' each':'not set'} · <span class="muted">Report:</span> ${esc(c.report_day||'not set')}</div>
+  ${c.buyer_criteria?`<div class="small"><span class="eyebrow">Who qualifies</span><br>${esc(c.buyer_criteria)}</div>`:''}
+  ${c.hosted_benefits?`<div class="small"><span class="eyebrow">Hosted buyers get</span><br>${esc(c.hosted_benefits)}</div>`:''}
+  ${c.notes?`<div class="small muted">${esc(c.notes)}</div>`:''}
+  <div class="row"><button class="btn small" data-camp="${c.id}">Edit</button></div></article>`}).join('')}</div>`;
+}
+function openCampaign(id){
+ const c=id==='new'?{status:'recruiting',fee_currency:'USD'}:(S.camps||[]).find(x=>x.id===id);if(!c)return;
+ const v=k=>esc(c[k]==null?'':String(c[k]));
+ $('#dlgBody').innerHTML=`<h3 class="h3">${id==='new'?'Add campaign':'Edit campaign'}</h3>
+ <form id="campForm" class="stack" data-id="${id==='new'?'':esc(id)}">
+ <label class="f">Expo name<input id="c_name" value="${v('name')}" placeholder="AGROEXPO 2027" required></label>
+ <label class="f">Organiser<input id="c_organiser" value="${v('organiser')}"></label>
+ <div class="row"><label class="f" style="flex:1">City<input id="c_city" value="${v('city')}"></label><label class="f" style="flex:1">Country<input id="c_country" value="${v('country')}"></label></div>
+ <label class="f">Venue<input id="c_venue" value="${v('venue')}"></label>
+ <div class="row"><label class="f" style="flex:1">Starts<input id="c_starts_on" type="date" value="${v('starts_on')}"></label><label class="f" style="flex:1">Ends<input id="c_ends_on" type="date" value="${v('ends_on')}"></label></div>
+ <div class="row"><label class="f" style="flex:1">Status<select id="c_status">${Object.keys(CSTAT).map(k=>`<option value="${k}" ${c.status===k?'selected':''}>${CSTAT[k]}</option>`).join('')}</select></label><label class="f" style="flex:1">Target delegates<input id="c_target_delegates" type="number" min="0" value="${v('target_delegates')}"></label></div>
+ <div class="row"><label class="f" style="flex:1">Fee per delegate<input id="c_fee_per_delegate" type="number" min="0" step="0.01" value="${v('fee_per_delegate')}"></label><label class="f" style="flex:1">Currency<input id="c_fee_currency" value="${v('fee_currency')}"></label></div>
+ <div class="row"><label class="f" style="flex:1">Report day<input id="c_report_day" value="${v('report_day')}" placeholder="Friday"></label><label class="f" style="flex:1">Registration deadline<input id="c_registration_deadline" type="date" value="${v('registration_deadline')}"></label></div>
+ <label class="f">Who qualifies (organiser's buyer criteria)<textarea id="c_buyer_criteria" rows="3">${v('buyer_criteria')}</textarea></label>
+ <label class="f">What hosted buyers get<textarea id="c_hosted_benefits" rows="3">${v('hosted_benefits')}</textarea></label>
+ <label class="f">Notes<textarea id="c_notes" rows="3">${v('notes')}</textarea></label>
+ <p class="err" id="campErr" role="alert"></p>
+ <div class="row"><button class="btn pri">Save campaign</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;
+ $('#dlg').showModal();
+}
 function viewAdmin(){
  const by=s=>S.cos.filter(c=>c.status===s);
  const counts=ROLES.map(r=>[r,S.cos.filter(c=>c.role===r&&c.status==='approved').length]);const max=Math.max(1,...counts.map(x=>x[1]));
@@ -507,7 +549,7 @@ function render(){
  else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me)html=viewOnboard();
- else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches}[S.view]||viewMatches)();
+ else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
 }
@@ -557,6 +599,7 @@ document.addEventListener('click',async e=>{
   const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#authErr').textContent=r.error?r.error.message:'Check your email for a reset link.'}
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
+ else if(ds.camp){openCampaign(ds.camp)}
  else if(ds.viewfile){const w=window.open('','_blank');const r=await sb.storage.from('company-profiles').createSignedUrl(ds.viewfile,3600);if(r.error||!r.data){if(w)w.close();return fail(r.error,'Could not open the file')}if(w)w.location=r.data.signedUrl;else location.href=r.data.signedUrl}
  else if(ds.filter){S.filter=ds.filter;render()}
  else if(ds.pass){const id=ds.pass;const m=S.matches.find(x=>x.match_company===id);
@@ -583,6 +626,12 @@ document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
  try{
+ if(f.id==='campForm'){const keys=['name','organiser','city','country','venue','starts_on','ends_on','status','target_delegates','fee_per_delegate','fee_currency','report_day','registration_deadline','buyer_criteria','hosted_benefits','notes'];
+  const v={};keys.forEach(k=>{const x=$('#c_'+k).value.trim();v[k]=x===''?null:x});['target_delegates','fee_per_delegate'].forEach(k=>{if(v[k]!==null)v[k]=Number(v[k])});v.fee_currency=v.fee_currency||'USD';
+  if(v.starts_on&&v.ends_on&&v.ends_on<v.starts_on){$('#campErr').textContent='The end date is before the start date.';return}
+  const id=f.dataset.id;const r=id?await sb.from('campaigns').update(v).eq('id',id).select().single():await sb.from('campaigns').insert(v).select().single();
+  if(r.error){$('#campErr').textContent=/duplicate|unique/i.test(r.error.message)?'A campaign with this name already exists.':'Could not save: '+r.error.message;return}
+  const i=(S.camps||[]).findIndex(x=>x.id===r.data.id);if(i>=0)S.camps[i]=r.data;else(S.camps=S.camps||[]).push(r.data);$('#dlg').close();toast('Campaign saved');render();return}
  if(f.id==='newPw'){const r=await sb.auth.updateUser({password:$('#np').value});if(r.error){$('#npErr').textContent=r.error.message;return}S.recovery=false;toast('Password saved');render();return}
  if(f.id==='authForm'){const email=$('#a_email').value.trim(),pw=$('#a_pw').value;const err=$('#authErr');err.textContent='';
   const btn=f.querySelector('button');btn.disabled=true;
@@ -649,7 +698,7 @@ async function handleAuth(ev,session){
  booted=true;S.user=session?session.user:null;S.loading=true;render();
  if(S.user){try{await loadAll();subscribe()}catch(e){S.loading=false;fail(e,'Could not load your data')}}
  else{S.me=null;S.loading=false;if(channel){sb.removeChannel(channel);channel=null}}
- const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin'].includes(h))S.view=h;
+ const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin','campaigns'].includes(h))S.view=h;
  render();
 }
 setTimeout(()=>{if(S.loading){$('#view').innerHTML='<div class="card empty">This is taking longer than usual. <button class="link" onclick="location.reload()">Tap to reload</button></div>'}},15000);
