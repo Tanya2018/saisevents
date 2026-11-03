@@ -331,7 +331,7 @@ async function loadAll(){
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
  {const pv=await sb.from('company_private').select('company_id,whatsapp');if(!pv.error){const w=new Map((pv.data||[]).map(x=>[x.company_id,x.whatsapp]));S.cos.forEach(c=>{if(w.has(c.id))c.whatsapp=w.get(c.id)});if(S.me&&w.has(S.me.id))S.me.whatsapp=w.get(S.me.id)}}
- if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[])}
+ if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[]);const ap=await sb.from('applications').select('campaign_id,stage');S.appCounts=ap.error?null:(ap.data||[])}
  if(S.admin){const [u,rv]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]))}
  S.loading=false;
 }
@@ -501,7 +501,7 @@ function viewCampaigns(){
   ${c.buyer_criteria?`<div class="small"><span class="eyebrow">Who qualifies</span><br>${esc(c.buyer_criteria)}</div>`:''}
   ${c.hosted_benefits?`<div class="small"><span class="eyebrow">Hosted buyers get</span><br>${esc(c.hosted_benefits)}</div>`:''}
   ${c.notes?`<div class="small muted">${esc(c.notes)}</div>`:''}
-  <div class="row"><button class="btn small" data-camp="${c.id}">Edit</button></div></article>`}).join('')}</div>`;
+  <div class="row">${S.appCounts?`<button class="btn small gold" data-pipe="${c.id}">Pipeline (${S.appCounts.filter(a=>a.campaign_id===c.id).length})</button>`:''}<button class="btn small" data-camp="${c.id}">Edit</button></div></article>`}).join('')}</div>`;
 }
 function openCampaign(id){
  const c=id==='new'?{status:'recruiting',fee_currency:'USD'}:(S.camps||[]).find(x=>x.id===id);if(!c)return;
@@ -522,6 +522,26 @@ function openCampaign(id){
  <p class="err" id="campErr" role="alert"></p>
  <div class="row"><button class="btn pri">Save campaign</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;
  $('#dlg').showModal();
+}
+const STAGES=[['found','Found'],['contacted','Contacted'],['interested','Interested'],['not_interested','Not interested'],['registered','Registered'],['submitted','Sent to organiser'],['approved','Approved'],['declined','Declined'],['attended','Attended']];
+const stageName=k=>(STAGES.find(x=>x[0]===k)||[k,k])[1];
+async function openPipeline(cid){S.pipe=cid;S.pipeF='';S.apps=null;go('pipeline');
+ const r=await sb.from('applications').select('*,businesses(name,country,city,phone,email,website,makes)').eq('campaign_id',cid).order('stage_changed_at',{ascending:false});
+ if(S.pipe!==cid)return;S.apps=r.error?[]:(r.data||[]);if(r.error)fail(r.error,'Could not load the pipeline');render()}
+function viewPipeline(){
+ const c=(S.camps||[]).find(x=>x.id===S.pipe);if(!c)return viewCampaigns();
+ const head=`<div class="head"><div><span class="eyebrow">Pipeline</span><h1>${esc(c.name)}</h1><p>Every company being recruited for this expo, from first found to attended.</p></div><button class="btn ghost" data-go="campaigns">Back to campaigns</button></div>`;
+ if(S.apps===null)return head+'<p class="empty">Loading…</p>';
+ const n=k=>S.apps.filter(a=>a.stage===k).length;
+ const list=S.pipeF?S.apps.filter(a=>a.stage===S.pipeF):S.apps;
+ const goal=c.target_delegates?`<p class="small"><b>${n('approved')+n('attended')}</b> approved of a target of <b>${c.target_delegates}</b> delegates.</p>`:'';
+ return head+goal+`<div class="chips" role="group" aria-label="Filter by stage"><button class="chip" data-pipef="" aria-pressed="${!S.pipeF}">All ${S.apps.length}</button>${STAGES.map(([k,l])=>`<button class="chip" data-pipef="${k}" aria-pressed="${S.pipeF===k}">${l} ${n(k)}</button>`).join('')}</div>
+ ${list.length?`<div class="list">${list.map(a=>{const b=a.businesses||{};const web=webUrl(b.website);
+  return `<div class="li"><div class="t" style="flex:1;min-width:220px"><b>${esc(b.name||'Unknown')}</b><span>${esc([b.city,b.country].filter(Boolean).join(', '))}${b.makes?' · '+esc(b.makes):''}</span><br>
+   <span class="small">${b.phone?`<a href="tel:${esc(b.phone)}">${esc(b.phone)}</a> · `:''}${b.email?`<a href="mailto:${esc(b.email)}">${esc(b.email)}</a> · `:''}${web?`<a href="${esc(web)}" target="_blank" rel="noopener">Website</a>`:''}${!b.phone&&!b.email&&!web?'No public contacts yet':''}</span>
+   ${a.ai_score!=null?`<br><span class="small muted">AI fit ${a.ai_score}%${a.ai_reasons?': '+esc(a.ai_reasons):''}</span>`:''}</div>
+   <label class="f" style="min-width:170px">Stage<select data-stage="${a.id}">${STAGES.map(([k,l])=>`<option value="${k}" ${a.stage===k?'selected':''}>${l}</option>`).join('')}</select></label>
+   <span class="small muted" style="min-width:110px">${esc(a.source)} · ${esc(fmtDay(String(a.stage_changed_at).slice(0,10)))}</span></div>`}).join('')}</div>`:`<p class="empty">${S.pipeF?'No companies at this stage.':'No companies yet. Leads found for this expo and members who tick it appear here automatically.'}</p>`}`;
 }
 function viewAdmin(){
  const by=s=>S.cos.filter(c=>c.status===s);
@@ -549,7 +569,7 @@ function render(){
  else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me)html=viewOnboard();
- else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches}[S.view]||viewMatches)();
+ else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
 }
@@ -600,6 +620,8 @@ document.addEventListener('click',async e=>{
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
  else if(ds.camp){openCampaign(ds.camp)}
+ else if(ds.pipe){openPipeline(ds.pipe)}
+ else if('pipef' in ds){S.pipeF=ds.pipef;render()}
  else if(ds.viewfile){const w=window.open('','_blank');const r=await sb.storage.from('company-profiles').createSignedUrl(ds.viewfile,3600);if(r.error||!r.data){if(w)w.close();return fail(r.error,'Could not open the file')}if(w)w.location=r.data.signedUrl;else location.href=r.data.signedUrl}
  else if(ds.filter){S.filter=ds.filter;render()}
  else if(ds.pass){const id=ds.pass;const m=S.matches.find(x=>x.match_company===id);
@@ -621,7 +643,7 @@ document.addEventListener('click',async e=>{
  }catch(err){fail(err)}
 });
 
-document.addEventListener('change',e=>{if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
+document.addEventListener('change',async e=>{if(e.target.dataset&&e.target.dataset.stage){const id=e.target.dataset.stage,st=e.target.value;const a=(S.apps||[]).find(x=>x.id===id);const v={stage:st};if(st==='approved'||st==='declined')v.decision_at=new Date().toISOString().slice(0,10);const r=await sb.from('applications').update(v).eq('id',id).select('*,businesses(name,country,city,phone,email,website,makes)').single();if(r.error){fail(r.error,'Could not save the stage');render();return}if(a)Object.assign(a,r.data);toast('Moved to '+stageName(st));render();return}if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
 document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('#compose').requestSubmit()}});
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
