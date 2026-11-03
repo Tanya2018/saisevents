@@ -29,6 +29,7 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 | photo-1586013286823-5ba3576ea8d2 | Plastic granules | Expo card: AFROPLAST 2027 |
 | photo-1696441567908-6a04d49e1350 | Tractor ploughing a field | Expo card: AGROEXPO 2027 |
 | photo-1671404910386-8c2a9ae40efd | Aluminium and metal rods in a plant | Expo card: ALUMINIUM CHINA 2027 |
+| photo-1561131668-f63504fc549d | Business travellers at an airport terminal window | Services: Delegate Travel & Accommodation Management |
 | photo-1758519288905-38b7b00c1023 | Business partners shaking hands across a meeting table | Organiser section |
 | photo-1635595358293-03620e36be48 | Zebras in Nairobi National Park with the Nairobi skyline behind | International coverage |
 | photo-1761195696590-3490ea770aa1 | Business visitors talking with a manufacturer on a factory floor | Past expos: trade missions and factory visits |
