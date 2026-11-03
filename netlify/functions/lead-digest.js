@@ -20,6 +20,29 @@ const EXPOS = {
   },
 };
 
+const GENERIC_BULLETS = ["Machinery and production lines", "Raw materials and inputs", "Equipment, tools and spare parts", "Automation and new technology", "Direct factory suppliers"];
+const EAST = ["Kenya", "Uganda", "Tanzania", "Rwanda", "Ethiopia", "Burundi", "South Sudan", "Somalia", "DR Congo"];
+const MIDEAST = ["United Arab Emirates", "UAE", "Saudi Arabia", "Qatar", "Oman", "Kuwait", "Bahrain", "Jordan", "Lebanon", "Iraq"];
+const region = (c) => (EAST.includes(c) ? "East African" : MIDEAST.includes(c) ? "Middle Eastern" : "African");
+const DAYFMT = (d) => new Date(d + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const plain = (t) => String(t || "").trim().replace(/\.$/, "").replace(/^./, (c) => c.toLowerCase());
+
+// Email wording for a campaign. Kate's approved AFROPLAST text wins where it exists.
+function campaignText(name, camp) {
+  if (EXPOS[name]) return EXPOS[name];
+  const c = camp || {};
+  const place = [c.city, c.country].filter(Boolean).join(", ");
+  const dates = c.starts_on ? (c.ends_on && c.ends_on !== c.starts_on ? `from ${DAYFMT(c.starts_on)} to ${DAYFMT(c.ends_on)}` : `on ${DAYFMT(c.starts_on)}`) : "";
+  const hb = plain(c.hosted_benefits);
+  return {
+    when: `taking place${place ? " in " + place : ""}${dates ? ", " + dates : ""}`,
+    link: c.register_url || `https://saisevents.com/market.html?expo=${encodeURIComponent(name)}`,
+    hosting: hb ? `hosted programme benefits from the organiser, including ${hb}` : "hosted programme benefits from the organiser",
+    shortHost: hb || "hosted programme benefits from the organiser",
+    bullets: GENERIC_BULLETS,
+  };
+}
+
 function sbFetch(path, opts = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   return fetch(`${SB}/rest/v1/${path}`, {
@@ -69,7 +92,7 @@ const firstEmail = (s) => (String(s || "").match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A
 function waNumber(phone, country) {
   let d = String(phone || "").split(/[,/;]/)[0].replace(/[^\d+]/g, "");
   if (!d) return "";
-  const cc = { Kenya: "254", Uganda: "256", Tanzania: "255", Ethiopia: "251", Rwanda: "250" }[country] || "";
+  const cc = { Kenya: "254", Uganda: "256", Tanzania: "255", Ethiopia: "251", Rwanda: "250", "South Africa": "27", Egypt: "20", "United Arab Emirates": "971", "Saudi Arabia": "966" }[country] || "";
   if (d.startsWith("+")) return d.slice(1);
   if (d.startsWith("00")) return d.slice(2);
   if (d.startsWith("0") && cc) return cc + d.slice(1);
@@ -78,7 +101,7 @@ function waNumber(phone, country) {
 }
 
 function emailText(l, x, ai) {
-  const q = noDash(ai.q) || "What could your next production upgrade look like if the right machinery manufacturers, mould specialists and suppliers were all in one place, ready to meet you?";
+  const q = noDash(ai.q) || "What could your next production upgrade look like if the right manufacturers and suppliers for your business were all in one place, ready to meet you?";
   const given = noDash(ai.given) || `your work in ${l.country}'s manufacturing sector`;
   const bullets = (ai.bullets && ai.bullets.length ? ai.bullets : x.bullets).slice(0, 6).map((b) => "• " + noDash(b)).join("\n");
   const subject = `${l.name}: shortlisted for the ${l.expo} Hosted Buyer Programme`;
@@ -88,7 +111,7 @@ ${q}
 
 That's the opportunity we would like to bring to ${l.name}.
 
-SAIS Events is currently selecting a limited number of East African manufacturers for the ${l.expo} Hosted Buyer Programme, ${x.when}.
+SAIS Events is currently selecting a limited number of ${region(l.country)} companies for the ${l.expo} Hosted Buyer Programme, ${x.when}.
 
 ${l.name} has been shortlisted for consideration.
 
@@ -100,7 +123,7 @@ Selected hosted buyers will receive ${x.hosting}.
 
 This is an opportunity to explore new technologies, compare supplier solutions, establish direct factory relationships and identify potential ways to strengthen your production capabilities.
 
-We are finalising our East African shortlist, and hosted buyer places are limited. Registration is free, subject to qualification and final approval.
+We are finalising our ${region(l.country)} shortlist, and hosted buyer places are limited. Registration is free, subject to qualification and final approval.
 
 Register your interest here:
 ${x.link}
@@ -117,7 +140,7 @@ function waText(l, x, ai) {
 
 ${q}
 
-SAIS Events is selecting a limited number of East African manufacturers for the ${l.expo} Hosted Buyer Programme, ${x.when.replace("taking place ", "")}. ${l.name} has been shortlisted. Your invitation card is above.
+SAIS Events is selecting a limited number of ${region(l.country)} companies for the ${l.expo} Hosted Buyer Programme, ${x.when.replace("taking place ", "")}. ${l.name} has been shortlisted. Your invitation card is above.
 
 Selected hosted buyers get ${x.shortHost}.
 
@@ -132,14 +155,22 @@ Kate, SAIS Events`;
 exports.handler = async () => {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.RESEND_API_KEY) return { statusCode: 200, body: "missing keys" };
   try {
-    const leads = await sbGet(`leads?select=*&status=eq.new&digest_sent_at=is.null&order=score.desc.nullslast,created_at.asc&limit=${PER_DAY}`);
-    if (!leads.length) return { statusCode: 200, body: "no new leads" };
+    // Up to 10 leads a day, shared fairly between campaigns (best score first within each)
+    const pool = await sbGet("leads?select=*&status=eq.new&digest_sent_at=is.null&order=score.desc.nullslast,created_at.asc&limit=200");
+    if (!pool.length) return { statusCode: 200, body: "no new leads" };
+    const queues = new Map();
+    pool.forEach((l) => { if (!queues.has(l.expo)) queues.set(l.expo, []); queues.get(l.expo).push(l); });
+    const picked = [];
+    while (picked.length < PER_DAY && [...queues.values()].some((q) => q.length)) for (const q of queues.values()) if (q.length && picked.length < PER_DAY) picked.push(q.shift());
+    const leads = picked.sort((a, b) => String(a.expo).localeCompare(String(b.expo)) || (b.score || 0) - (a.score || 0));
+    const camps = await sbGet("campaigns?select=name,city,country,starts_on,ends_on,hosted_benefits,register_url").catch(() => []);
+    const campBy = new Map(camps.map((c) => [c.name, c]));
     const ai = await openings(leads);
     const byI = new Map(ai.map((a) => [Number(a.i), a]));
-    const left = (await sbGet("leads?select=id&status=eq.new&digest_sent_at=is.null")).length - leads.length;
+    const left = pool.length - leads.length;
 
     const blocks = leads.map((l, i) => {
-      const x = EXPOS[l.expo] || EXPOS["AFROPLAST 2027"];
+      const x = campaignText(l.expo, campBy.get(l.expo));
       const a = byI.get(i) || {};
       const em = emailText(l, x, a);
       const to = firstEmail(l.email);
@@ -147,7 +178,8 @@ exports.handler = async () => {
       const mail = to ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(em.subject)}&body=${encodeURIComponent(em.body)}` : "";
       const whats = wa ? `https://wa.me/${wa}?text=${encodeURIComponent(waText(l, x, a))}` : "";
       const btn = (href, label, bg) => `<a href="${href}" style="display:inline-block;background:${bg};color:#fff;text-decoration:none;font-weight:bold;padding:10px 16px;border-radius:8px;margin:6px 6px 0 0">${label}</a>`;
-      return `<div style="border:1px solid #e3ddd2;border-radius:12px;padding:16px;margin:0 0 14px">
+      const head = i === 0 || leads[i - 1].expo !== l.expo ? `<h3 style="margin:22px 0 10px;color:#8a6a12;font-size:14px;letter-spacing:1px;text-transform:uppercase">${esc(l.expo)}</h3>` : "";
+      return head + `<div style="border:1px solid #e3ddd2;border-radius:12px;padding:16px;margin:0 0 14px">
 <div style="font-size:12px;color:#8a7a5c;font-weight:bold">#${i + 1} &nbsp; SCORE ${l.score ?? "?"} &nbsp; ${esc(l.country)}${l.city ? ", " + esc(l.city) : ""}</div>
 <div style="font-size:18px;font-weight:bold;margin:4px 0">${esc(l.name)}</div>
 <div style="color:#444">${esc(l.makes || l.sector)}</div>
@@ -162,13 +194,13 @@ ${whats ? btn(whats, "WhatsApp them", "#1FA855") : ""}${mail ? btn(mail, "Email 
 <h2 style="margin:0 0 4px">Your ${leads.length} calls for today</h2>
 <p style="margin:0 0 16px;color:#666">${date}. Best first. Tap WhatsApp or Email to open a ready message. Send the invitation card first on WhatsApp.</p>
 ${blocks.join("\n")}
-<p style="color:#666;font-size:13px">After each call, update the status in Supabase (called, interested, registered or not_interested). ${left > 0 ? left + (left === 1 ? " more new lead is" : " more new leads are") + " waiting for the next mornings." : ""}</p>
+<p style="color:#666;font-size:13px">After each call, move the company to its new stage in the campaign pipeline on MatchMarket. ${left > 0 ? left + (left === 1 ? " more new lead is" : " more new leads are") + " waiting for the next mornings." : ""}</p>
 </div>`;
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: "SAIS Events <info@saisevents.com>", to: [ADMIN], subject: `Today's ${leads.length} delegate calls: ${leads[0].expo}`, html }),
+      body: JSON.stringify({ from: "SAIS Events <info@saisevents.com>", to: [ADMIN], subject: `Today's ${leads.length} delegate calls: ${[...new Set(leads.map((l) => l.expo))].join(", ")}`, html }),
     });
     if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
 
