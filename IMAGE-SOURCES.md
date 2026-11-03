@@ -19,8 +19,6 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 | photo-1600565193348-f74bd3c7ccdf | Chef cooking over a flame in a professional kitchen | Expo card: FHC China 2026 |
 | photo-1771541897176-44a3e01dc484 | Bowls of spices and food ingredients on a tray | Expo card: Fi Europe 2026 |
 | photo-1776566347746-1bb7dcaa12d3 | Consumer electronics and camera accessories laid out on a table | Expo card: CES 2027 |
-| photo-1630090374791-c9eb7bab3935 | Poultry in a commercial poultry house | Expo card: IPPE 2027 |
-| photo-1583209814683-c023dd293cc6 | Skincare and cosmetic products in pink packaging | Expo card: Cosmoprof Miami 2027 |
 | photo-1777383505116-4c736a35ad38 | Freshly roasted coffee beans in a roaster | Expo card: World of Coffee Dubai 2027 |
 | photo-1599678914948-8e0a39f42a31 | Crates of red apples ready for the fresh produce market | Expo card: Fruit Logistica 2027 |
 | photo-1772351721310-0aa6b2d5ee49 | Garment worker at a sewing machine in a clothing factory | Expo card: IFCO 2027 |
