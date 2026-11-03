@@ -497,6 +497,7 @@ function viewCampaigns(){
   <div class="row" style="justify-content:space-between;align-items:flex-start"><div><h3 class="h3" style="margin:0">${esc(c.name)}</h3><small class="muted">${esc([c.organiser,[c.city,c.country].filter(Boolean).join(', ')].filter(Boolean).join(' · '))}</small></div><span class="pill ${pill}">${esc(CSTAT[c.status]||c.status)}</span></div>
   <div class="small"><b>${c.starts_on?esc(fmtDay(c.starts_on))+(c.ends_on&&c.ends_on!==c.starts_on?' to '+esc(fmtDay(c.ends_on)):''):'Dates not set'}</b>${d!==null&&d>=0?` <span class="muted">· ${d===0?'today':d+' days to go'}</span>`:''}</div>
   ${c.registration_deadline?`<div class="banner ${dl!==null&&dl<=30&&dl>=0?'warn':''}" style="padding:8px 12px">Deadline: <b>${esc(fmtDay(c.registration_deadline))}</b>${dl!==null&&dl>=0?` (${dl} days left)`:dl!==null?' (passed)':''}</div>`:''}
+  <div class="small">${c.hunting?`<span class="pill good">Hunting: ${(c.hunt_sectors||[]).length*(c.hunt_countries||[]).length} searches a week</span>`:`<span class="pill">Hunter off</span>`}</div>
   <div class="small"><span class="muted">Target:</span> ${c.target_delegates!=null?esc(String(c.target_delegates))+' delegates':'not set'} · <span class="muted">Fee:</span> ${c.fee_per_delegate!=null?esc(c.fee_currency)+' '+Number(c.fee_per_delegate).toLocaleString('en-US')+' each':'not set'} · <span class="muted">Report:</span> ${esc(c.report_day||'not set')}</div>
   ${c.buyer_criteria?`<div class="small"><span class="eyebrow">Who qualifies</span><br>${esc(c.buyer_criteria)}</div>`:''}
   ${c.hosted_benefits?`<div class="small"><span class="eyebrow">Hosted buyers get</span><br>${esc(c.hosted_benefits)}</div>`:''}
@@ -519,6 +520,11 @@ function openCampaign(id){
  <label class="f">Who qualifies (organiser's buyer criteria)<textarea id="c_buyer_criteria" rows="3">${v('buyer_criteria')}</textarea></label>
  <label class="f">What hosted buyers get<textarea id="c_hosted_benefits" rows="3">${v('hosted_benefits')}</textarea></label>
  <label class="f">Notes<textarea id="c_notes" rows="3">${v('notes')}</textarea></label>
+ <label class="f">Registration page<input id="c_register_url" value="${v('register_url')}" placeholder="https://saisevents.com/agroexpo-2027.html#register"></label>
+ <div class="card" style="gap:8px"><label class="row" style="align-items:center;font-weight:700"><input type="checkbox" id="c_hunting" ${c.hunting?'checked':''}> Hunt for delegates for this campaign</label>
+ <p class="muted small" style="margin:0">The hunter runs one search an hour, each one a sector in one country. Every search uses a little of your Claude API balance.</p>
+ <label class="f">What to search for (one per line)<textarea id="c_hunt_sectors" rows="4" placeholder="greenhouse and irrigation companies">${esc((c.hunt_sectors||[]).join('\n'))}</textarea></label>
+ <label class="f">Countries (one per line)<textarea id="c_hunt_countries" rows="4" placeholder="Kenya">${esc((c.hunt_countries||[]).join('\n'))}</textarea></label></div>
  <p class="err" id="campErr" role="alert"></p>
  <div class="row"><button class="btn pri">Save campaign</button><button type="button" class="btn ghost" data-close>Cancel</button></div></form>`;
  $('#dlg').showModal();
@@ -648,8 +654,8 @@ document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
  try{
- if(f.id==='campForm'){const keys=['name','organiser','city','country','venue','starts_on','ends_on','status','target_delegates','fee_per_delegate','fee_currency','report_day','registration_deadline','buyer_criteria','hosted_benefits','notes'];
-  const v={};keys.forEach(k=>{const x=$('#c_'+k).value.trim();v[k]=x===''?null:x});['target_delegates','fee_per_delegate'].forEach(k=>{if(v[k]!==null)v[k]=Number(v[k])});v.fee_currency=v.fee_currency||'USD';
+ if(f.id==='campForm'){const keys=['name','organiser','city','country','venue','starts_on','ends_on','status','target_delegates','fee_per_delegate','fee_currency','report_day','registration_deadline','buyer_criteria','hosted_benefits','notes','register_url'];
+  const v={};keys.forEach(k=>{const x=$('#c_'+k).value.trim();v[k]=x===''?null:x});['target_delegates','fee_per_delegate'].forEach(k=>{if(v[k]!==null)v[k]=Number(v[k])});v.fee_currency=v.fee_currency||'USD';const lines=id=>[...new Set($(id).value.split('\n').map(x=>x.trim()).filter(Boolean))];v.hunt_sectors=lines('#c_hunt_sectors');v.hunt_countries=lines('#c_hunt_countries');v.hunting=$('#c_hunting').checked;if(v.hunting&&(!v.hunt_sectors.length||!v.hunt_countries.length)){$('#campErr').textContent='Add at least one search and one country, or switch hunting off.';return}
   if(v.starts_on&&v.ends_on&&v.ends_on<v.starts_on){$('#campErr').textContent='The end date is before the start date.';return}
   const id=f.dataset.id;const r=id?await sb.from('campaigns').update(v).eq('id',id).select().single():await sb.from('campaigns').insert(v).select().single();
   if(r.error){$('#campErr').textContent=/duplicate|unique/i.test(r.error.message)?'A campaign with this name already exists.':'Could not save: '+r.error.message;return}
