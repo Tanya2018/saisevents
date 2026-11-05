@@ -318,6 +318,8 @@ async function loadAll(){
   sb.from('companies').select('*').eq('owner',uid).maybeSingle(),
   sb.from('admins').select('user_id').eq('user_id',uid).maybeSingle()]);
  S.me=me.data||null;S.admin=!!ad.data;
+ // SAIS team admins without their own company work as SAIS Events (see supabase/step7-team-admins.sql)
+ if(!S.me&&S.admin){const h=await sb.rpc('my_company');if(h.data){const r=await sb.from('companies').select('*').eq('id',h.data).maybeSingle();S.me=r.data||null}}
  const [cos,mt,cv,mg,dl]=await Promise.all([
   sb.from('companies').select('*').order('created_at',{ascending:false}),
   S.me?sb.from('matches').select('*').eq('for_company',S.me.id):Promise.resolve({data:[]}),
