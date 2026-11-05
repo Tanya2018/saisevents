@@ -339,12 +339,14 @@ async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('c
 
 /* ---------- nav ---------- */
 function navItems(){
+ // Team admins without a company profile get the admin tabs only
+ if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['campaigns','Campaigns']];
  const items=[['matches','Matches'],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
  if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['campaigns','Campaigns']);
  return items;
 }
 function renderNav(){
- const show=S.user&&S.me;
+ const show=S.user&&(S.me||S.admin);
  const html=show?navItems().map(([k,l,n])=>`<button data-go="${k}" ${S.view===k?'aria-current="page"':''}>${ICON[k]}<span>${l}</span>${n?`<span class="n">${n}</span>`:''}</button>`).join(''):'';
  $('#sideNav').innerHTML=html;$('#tabNav').innerHTML=html;
  document.body.classList.toggle('nonav',!show);
@@ -597,7 +599,8 @@ function render(){
  if(S.loading)html='<p class="empty">Loading…</p>';
  else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
  else if(!S.user)html=viewAuth(S.authMode||'signup');
- else if(!S.me)html=viewOnboard();
+ else if(!S.me&&!S.admin)html=viewOnboard();
+ else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline}[S.view]||viewAdmin)();
  else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
