@@ -422,7 +422,7 @@ footer{padding:44px 0 36px;border-top:1px solid rgba(217,180,73,.22)}
 .mm-note{font-size:14px;font-weight:600}
 /* ===== MICE upgrade, November 2026 ===== */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-html,body{overflow-x:hidden}
+html,body{overflow-x:clip}
 /* Header and mobile menu */
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(4,33,26,.3);background:transparent;color:var(--jungle);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
@@ -554,6 +554,22 @@ a.expo-photo{border-radius:0}
 .foot .foot-tag{font-family:'Fraunces',Georgia,serif;font-style:italic;color:var(--gold);margin-top:6px}
 
 
+
+/* Page order: expos first, then how to take part, then who we are */
+main{display:flex;flex-direction:column}
+#top{order:1}#expos{order:2}#brochure{order:3}#programmes{order:4}#hosted-buyers{order:5}#matchmarket{order:6}#services{order:7}#organisers{order:8}#past-expos{order:9}#sectors{order:10}#about{order:11}#register{order:12}#contact{order:13}
+/* Phone jump bar under the header */
+.jump{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 10px;border-top:1px solid rgba(4,33,26,.08);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;font-size:14px;font-weight:600;color:var(--ink,#04211A);text-decoration:none;padding:8px 14px;border-radius:999px;background:rgba(4,33,26,.06);min-height:36px;display:inline-flex;align-items:center}
+.jump a:active{background:rgba(217,180,73,.35)}
+@media(min-width:900px){.jump{display:none}}
+section[id]{scroll-margin-top:130px}
+@media(min-width:900px){section[id]{scroll-margin-top:90px}}
+/* Past expos: first 4 on phones */
+@media(max-width:759px){#past-expos .pe-grid.pe-short > .pe-card:nth-child(n+5){display:none}}
+.pe-more{margin-top:14px;background:none;border:1.5px solid #04211A;color:#04211A;font-weight:700;border-radius:999px;padding:12px 20px;min-height:48px;font-size:15px}
+@media(min-width:760px){.pe-more{display:none}}
 </style>
 </head>
 <body>
@@ -564,8 +580,9 @@ a.expo-photo{border-radius:0}
       <img src="sais-events-logo.png" alt="SAIS Events, MICE, international trade and business events" width="591" height="220">
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="#services">Services</a>
       <a href="#expos">Expos</a>
+      <a href="#programmes">Hosted buyers</a>
+      <a href="#services">Services</a>
       <a href="#organisers">For Organisers</a>
       <a href="#matchmarket" class="nav-new">MatchMarket</a>
       <a href="#about">About</a>
@@ -576,12 +593,18 @@ a.expo-photo{border-radius:0}
       <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-menu"><span class="bars" aria-hidden="true"></span><span class="nt-label">Menu</span></button>
     </div>
   </div>
+  <nav class="jump" aria-label="Jump to section">
+    <a href="#expos">Expos</a><a href="#programmes">Hosted buyers</a><a href="#matchmarket">MatchMarket</a><a href="#services">Services</a><a href="#organisers">Organisers</a><a href="#past-expos">Past expos</a><a href="#about">About</a><a href="#contact">Contact</a>
+  </nav>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
     <ul>
-      <li><a href="#services">Services</a></li>
       <li><a href="#expos">Expos</a></li>
-      <li><a href="#organisers">For Organisers</a></li>
+      <li><a href="#programmes">Hosted buyers</a></li>
       <li><a href="#matchmarket">MatchMarket</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#organisers">For Organisers</a></li>
+      <li><a href="#past-expos">Past expos</a></li>
+      <li><a href="#brochure">Expo brochure</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="membership.html">Membership</a></li>
@@ -628,10 +651,8 @@ a.expo-photo{border-radius:0}
         <div class="svc-body">
           <h3><span class="svc-letter" aria-hidden="true">M</span>Meetings</h3>
           <ul class="ticks">
-            <li>B2B matchmaking</li>
-            <li>Pre-arranged business meetings</li>
+            <li>B2B matchmaking and pre-arranged meetings</li>
             <li>Buyer and supplier introductions</li>
-            <li>Corporate networking</li>
             <li>International business networking</li>
           </ul>
         </div>
@@ -641,12 +662,9 @@ a.expo-photo{border-radius:0}
         <div class="svc-body">
           <h3><span class="svc-letter" aria-hidden="true">I</span>Incentives &amp; Hosted Buyer Programmes</h3>
           <ul class="ticks">
-            <li>Hosted buyer recruitment</li>
-            <li>VIP delegate sourcing</li>
-            <li>Delegate qualification and verification</li>
-            <li>Business travel coordination</li>
-            <li>Accommodation and transport coordination where included in organiser programmes</li>
-            <li>Delegate communication and programme coordination</li>
+            <li>Hosted buyer and VIP delegate recruitment</li>
+            <li>Delegate checks and verification</li>
+            <li>Travel, hotel and transport coordination where the organiser includes it</li>
           </ul>
         </div>
       </article>
@@ -655,12 +673,9 @@ a.expo-photo{border-radius:0}
         <div class="svc-body">
           <h3><span class="svc-letter" aria-hidden="true">C</span>Conferences &amp; Business Delegations</h3>
           <ul class="ticks">
-            <li>International business delegations</li>
-            <li>Trade missions</li>
-            <li>Industry conferences</li>
-            <li>Business forums</li>
-            <li>Corporate and institutional delegation sourcing</li>
-            <li>International business networking</li>
+            <li>Business delegations and trade missions</li>
+            <li>Industry conferences and business forums</li>
+            <li>Corporate and institutional delegations</li>
           </ul>
         </div>
       </article>
@@ -669,17 +684,13 @@ a.expo-photo{border-radius:0}
         <div class="svc-body">
           <h3><span class="svc-letter" aria-hidden="true">E</span>Exhibitions &amp; Trade Fairs</h3>
           <ul class="ticks">
-            <li>International exhibition representation</li>
-            <li>Exhibitor recruitment</li>
+            <li>Exhibitor recruitment and stand booking</li>
             <li>Qualified buyer sourcing</li>
-            <li>Trade fair delegation coordination</li>
-            <li>Exhibition participation support</li>
-            <li>Factory visits and international sourcing missions</li>
+            <li>Factory visits and sourcing missions</li>
           </ul>
         </div>
       </article>
     </div>
-    <p class="disclaimer">Hosted buyer benefits, eligibility and final approval are decided by each event organiser. SAIS Events prepares and coordinates applications. We do not guarantee acceptance into any programme.</p>
   </div>
 </section>
 
@@ -711,43 +722,15 @@ a.expo-photo{border-radius:0}
       <video controls playsinline preload="none" poster="aluminium-china-2027-video-poster.jpg"><source src="aluminium-china-2027-video.mp4" type="video/mp4"></video>
       <p>Watch: inside ALUMINIUM CHINA, Shanghai. <a href="aluminium-china-2027.html#register" style="color:var(--gold);font-weight:700">Apply here</a></p>
     </div>
-    <div class="deleg-list">
-      <div>
-        <h3>What we do for delegates and exhibitors</h3>
-        <ul class="ticks">
-          <li>Hosted buyer applications prepared and sent to the organiser</li>
-          <li>A company profile built for you if you do not have one</li>
-          <li>Official invitation letters and visa guidance</li>
-          <li>A SAIS Events WhatsApp group before and during every show</li>
-        </ul>
-      </div>
-      <a class="btn btn-gold" href="market.html">Apply for a Programme</a>
-    </div>
   </div>
 </section>
 
 <section class="sec dark hb" id="hosted-buyers">
   <div class="wrap">
     <p class="eyebrow">Hosted Buyers Programme</p>
-    <h2>Why join a hosted buyer programme?</h2>
-    <figure class="hb-photo"><img class="" src="https://images.unsplash.com/photo-1762764214015-d5c22646465b?auto=format&fit=crop&w=1200&q=70" srcset="https://images.unsplash.com/photo-1762764214015-d5c22646465b?auto=format&fit=crop&w=640&q=70 640w, https://images.unsplash.com/photo-1762764214015-d5c22646465b?auto=format&fit=crop&w=1200&q=70 1200w, https://images.unsplash.com/photo-1762764214015-d5c22646465b?auto=format&fit=crop&w=1800&q=70 1800w" sizes="100vw" width="1200" height="457" loading="lazy" decoding="async" alt="Buyer examining fabric samples at a textile market"></figure>
-    <div class="hb-why">
-      <article class="hb-card">
-        <h3>Tailored networking</h3>
-        <p>Meet directly with industry leaders and peers relevant to your business.</p>
-      </article>
-      <article class="hb-card">
-        <h3>Pre-scheduled meetings</h3>
-        <p>Secure one on one meetings with exhibitors that match your business needs.</p>
-      </article>
-      <article class="hb-card">
-        <h3>Exclusive access</h3>
-        <p>Where the organiser offers them: dedicated lounges, matchmaking services and invite-only networking events.</p>
-      </article>
-    </div>
+    <h2>How a hosted buyer programme works</h2>
 
-    <h3 class="hb-sub">How it works</h3>
-    <ol class="hb-flow">
+        <ol class="hb-flow">
       <li><b>Apply</b><span>Submit your Hosted Buyer application.</span></li>
       <li><b>Get matched</b><span>We curate a list of relevant exhibitors based on your needs and buying priorities.</span></li>
       <li><b>Confirm meetings</b><span>Lock in one to one meetings in advance so your time onsite is focused and productive.</span></li>
@@ -758,7 +741,7 @@ a.expo-photo{border-radius:0}
       <div>
         <h3>Who qualifies?</h3>
         <p>Senior decision makers and professionals with real purchasing power in the show's sector, from food and agribusiness to plastics, metals, apparel and environmental technology. Each organiser sets its own criteria.</p>
-        <p class="hb-note">Selection and benefits are decided by each event organiser. See our <a href="terms.html">terms and conditions</a>.</p>
+        <p class="hb-note">Selection and benefits are decided by each event organiser. SAIS Events prepares and coordinates applications and does not guarantee acceptance. See our <a href="terms.html">terms and conditions</a>.</p>
       </div>
       <a class="btn btn-gold" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20have%20a%20hosted%20buyer%20enquiry%20for%20SAIS%20Events." target="_blank" rel="noopener">Contact us for a hosted buyer enquiry</a>
     </div>
@@ -771,15 +754,6 @@ a.expo-photo{border-radius:0}
     <p class="eyebrow">International exhibitions</p>
     <h2>Upcoming international exhibitions</h2>
     <p class="sub">Trade fairs in China, Türkiye, Egypt, India, Germany, the UAE, the United States and more. Each card shows how you can take part: as a hosted buyer, with a buyer delegation, or as an exhibitor. Our team supports you from application to arrival.</p>
-    <div class="deleg-box">
-      <p class="deleg-title">When you join a delegation, we assist with:</p>
-      <ul class="ticks deleg-ticks">
-        <li>Matchmaking programmes that connect you with the right exhibitors and buyers</li>
-        <li>Travel planning and official visa invitation letters</li>
-        <li>One on one consultations for exhibitors and VIP buyers</li>
-        <li>Hosted buyer programme applications</li>
-      </ul>
-    </div>
     <div class="vet-box">
       <p><b>Step 1 for every delegate: get vetted on SAIS MatchMarket.</b> Add your company details once. We vet every company before we register it with an organiser, and approved companies get first access to hosted buyer places and B2B matchmaking.</p>
       <a class="btn btn-dark" href="market.html">Register your company for vetting</a>
@@ -1083,35 +1057,6 @@ a.expo-photo{border-radius:0}
   </div>
 </section>
 
-<!-- INTERNATIONAL COVERAGE -->
-<section class="sec light" id="coverage">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">International coverage</p>
-      <h2>Connecting Africa and the Middle East to Global Markets.</h2>
-      <p class="sub">We work with businesses in Africa and the Middle East and connect them with exhibitions, suppliers and buyers around the world.</p>
-    </div>
-    <div class="cov">
-      <div class="cov-col">
-        <p class="eyebrow">Operating market</p>
-        <h3>Africa</h3>
-        <p>East Africa, West Africa, Central Africa, Southern Africa and other African markets.</p>
-      </div>
-      <div class="cov-col">
-        <p class="eyebrow">Operating market</p>
-        <h3>Middle East</h3>
-        <p>The United Arab Emirates and wider Middle Eastern markets.</p>
-      </div>
-      <div class="cov-col dest">
-        <p class="eyebrow">Event destinations</p>
-        <h3>International exhibitions</h3>
-        <p>China, Türkiye, Egypt, India, Germany, the UAE, the United States and other international exhibition destinations.</p>
-      </div>
-    </div>
-    <figure class="cov-banner"><img class="" src="https://images.unsplash.com/photo-1635595358293-03620e36be48?auto=format&fit=crop&w=1200&q=70" srcset="https://images.unsplash.com/photo-1635595358293-03620e36be48?auto=format&fit=crop&w=640&q=70 640w, https://images.unsplash.com/photo-1635595358293-03620e36be48?auto=format&fit=crop&w=1200&q=70 1200w, https://images.unsplash.com/photo-1635595358293-03620e36be48?auto=format&fit=crop&w=1800&q=70 1800w" sizes="100vw" width="1200" height="457" loading="lazy" decoding="async" alt="Zebras in Nairobi National Park with the Nairobi skyline behind"></figure>
-    <p class="cov-note">SAIS Events is based in Nairobi, Kenya, with an office in Dubai, UAE. In other destinations we work through organisers and local partners; we do not have offices there.</p>
-  </div>
-</section>
 
 <!-- PAST EXPOS -->
 <style>
@@ -1149,7 +1094,7 @@ a.expo-photo{border-radius:0}
     <h2>Expos we have already sourced delegates for</h2>
     <p class="pe-lead">Real delegations, real shows. These are events where SAIS Events prepared buyers, handled paperwork and set up matchmaking before they travelled.</p>
 
-    <div class="pe-grid">
+    <div class="pe-grid pe-short" id="pe-grid">
 
       <div class="pe-card">
         <span class="pe-date">6 to 8 Oct 2026</span>
@@ -1225,6 +1170,7 @@ a.expo-photo{border-radius:0}
 
     </div>
 
+    <button type="button" class="pe-more" id="pe-more">Show all past expos</button>
     <div class="pe-cta">
       <a class="pe-btn" href="#register">Join the next delegation</a>
       <a class="pe-btn pe-alt" href="membership.html">Join the delegates whitelist</a>
@@ -1583,8 +1529,9 @@ a.expo-photo{border-radius:0}
   if (!list || !btn) return;
   var cards = list.querySelectorAll('.expo');
   function collapse() {
-    if (cards.length <= 6) { btn.hidden = true; return; }
-    for (var i = 0; i < cards.length; i++) cards[i].classList.toggle('is-hidden', i >= 6);
+    var max = window.innerWidth < 760 ? 3 : 6;
+    if (cards.length <= max) { btn.hidden = true; return; }
+    for (var i = 0; i < cards.length; i++) cards[i].classList.toggle('is-hidden', i >= max);
     btn.textContent = 'Show all ' + cards.length + ' expos';
     btn.hidden = false;
   }
@@ -1608,6 +1555,12 @@ a.expo-photo{border-radius:0}
       else { cards.forEach(function (c) { c.classList.remove('is-hidden'); }); btn.hidden = true; }
     });
   });
+})();
+
+/* Past expos: show all on tap (phones) */
+(function () {
+  var b = document.getElementById('pe-more'), g = document.getElementById('pe-grid');
+  if (b && g) b.addEventListener('click', function () { g.classList.remove('pe-short'); b.hidden = true; });
 })();
 
 /* Mobile menu */
