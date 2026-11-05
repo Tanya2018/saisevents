@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('sais_theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
 /* Layout: app shell. Deep green brand bar on top, side nav on wide screens, bottom tab bar on phones. */
 :root{
@@ -20,14 +21,30 @@
   --good:#1F7A4D; --good-bg:#E2F2E9; --warn:#9A6A00; --warn-bg:#FBF0D6; --bad:#B3261E; --bad-bg:#FBE4E2;
   --f-display:'Fraunces',Georgia,serif; --f-body:'DM Sans',system-ui,-apple-system,Segoe UI,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){:root:not([data-theme]){
   --bg:#0A1612; --surface:#10211B; --surface-2:#16302A; --line:#26443A;
   --fg:#EDE8DA; --muted:#A9B7AF; --gold-ink:#E2B54E;
   --good:#6FD39E; --good-bg:#123426; --warn:#F0C25A; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1714; color-scheme:dark}}
-:root[data-theme="dark"]{
+:root[data-theme="jungle"]{
   --bg:#0A1612; --surface:#10211B; --surface-2:#16302A; --line:#26443A;
   --fg:#EDE8DA; --muted:#A9B7AF; --gold-ink:#E2B54E;
   --good:#6FD39E; --good-bg:#123426; --warn:#F0C25A; --warn-bg:#33290F; --bad:#FF8A80; --bad-bg:#3A1714; color-scheme:dark}
+/* Colour themes, picked in the top bar. No choice = follow the device (Sand by day, Jungle at night). */
+:root[data-theme="white"]{
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F3; --line:#E1E5E3;
+  --fg:#0D1411; --muted:#55605A; --gold-ink:#7A5A0E; color-scheme:light}
+:root[data-theme="sand"]{color-scheme:light}
+:root[data-theme="dark"]{
+  --brand:#111315; --brand-2:#1C1F22;
+  --bg:#0E0F10; --surface:#17191B; --surface-2:#212427; --line:#30343A;
+  --fg:#ECECEC; --muted:#A3A8AD; --gold-ink:#E2B54E;
+  --good:#6FD39E; --good-bg:#14291F; --warn:#F0C25A; --warn-bg:#2E2611; --bad:#FF8A80; --bad-bg:#371816; color-scheme:dark}
+:root[data-theme="ocean"]{
+  --brand:#0A1B33; --brand-2:#13294D;
+  --bg:#0B1626; --surface:#11203A; --surface-2:#18294A; --line:#26395E;
+  --fg:#EAF0F8; --muted:#A6B4C8; --gold-ink:#E2B54E;
+  --good:#6FD39E; --good-bg:#12302A; --warn:#F0C25A; --warn-bg:#30290F; --bad:#FF8A80; --bad-bg:#3A1A1E; color-scheme:dark}
+.theme-pick{background:var(--brand-2);border:1px solid rgba(255,255,255,.18);color:var(--on-brand);border-radius:8px;padding:6px 8px;font-size:13px;min-height:34px}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;margin:0}
@@ -82,9 +99,8 @@ main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-in
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px;background:var(--surface-2);color:var(--fg)}
 .btn.pri{background:var(--brand);color:var(--on-brand)}
-:root:not([data-theme="light"]) .btn.pri{background:var(--gold);color:var(--brand)}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .btn.pri{background:var(--brand);color:var(--on-brand)}}
-:root[data-theme="light"] .btn.pri{background:var(--brand);color:var(--on-brand)}
+@media (prefers-color-scheme: dark){:root:not([data-theme]) .btn.pri{background:var(--gold);color:#04211A}}
+:root[data-theme="jungle"] .btn.pri,:root[data-theme="dark"] .btn.pri,:root[data-theme="ocean"] .btn.pri{background:var(--gold);color:#04211A}
 .btn.gold{background:var(--gold);color:var(--brand)}
 .btn.ghost{background:none;border:1px solid var(--line);color:var(--muted)}
 .btn:disabled{opacity:.5;cursor:default}
@@ -231,6 +247,9 @@ body.nonav nav.side,body.nonav nav.tabs{display:none!important}
   <a href="/" aria-label="SAIS Events home"><img src="/sais-events-logo-full-light.png" alt="SAIS Events" width="77" height="34"></a>
   <span class="name">MatchMarket</span>
   <div class="acct" id="acct"></div>
+  <select id="themePick" class="theme-pick" aria-label="Colour theme">
+    <option value="">Auto</option><option value="white">White</option><option value="sand">Sand</option><option value="jungle">Jungle</option><option value="dark">Dark</option><option value="ocean">Ocean</option>
+  </select>
 </header>
 <div class="shell">
   <nav class="side" id="sideNav" aria-label="Main"></nav>
@@ -767,6 +786,13 @@ async function handleAuth(ev,session){
 setTimeout(()=>{if(S.loading){$('#view').innerHTML='<div class="card empty">This is taking longer than usual. <button class="link" onclick="location.reload()">Tap to reload</button></div>'}},15000);
 })();
 
+</script>
+<script>
+(function(){var p=document.getElementById('themePick');if(!p)return;
+ p.value=document.documentElement.getAttribute('data-theme')||'';
+ p.addEventListener('change',function(){var v=p.value;
+  if(v)document.documentElement.setAttribute('data-theme',v);else document.documentElement.removeAttribute('data-theme');
+  try{v?localStorage.setItem('sais_theme',v):localStorage.removeItem('sais_theme')}catch(e){}});})();
 </script>
 </body>
 </html>
