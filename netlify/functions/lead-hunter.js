@@ -1,14 +1,16 @@
 // SAIS lead hunter, step 1: the Finder.
-// Runs every hour (see netlify.toml). Each run takes ONE search from "lead_hunts"
+// Runs every 3 hours (see netlify.toml). Each run takes ONE search from "lead_hunts"
 // (for example: AFROPLAST 2027, cosmetics manufacturers, Uganda), asks Claude to search
 // the web for real companies that fit, and saves them in "leads" for Kate to call.
-// A search is repeated only after 7 days, so the agent goes quiet once the list is done.
+// A search is repeated only after 14 days. A repeat that finds nothing new switches itself off,
+// so the agent stops spending on searches that have run dry.
 // Only public business contacts from the company's own site or a business directory are kept.
 // Needs: ANTHROPIC_API_KEY, SUPABASE_SERVICE_ROLE_KEY.
 
 const SB = "https://hbobppslyikleonzvzxp.supabase.co";
 const MODEL = "claude-sonnet-5-5";
-const REPEAT_DAYS = 7;
+const REPEAT_DAYS = 14;
+const MIN_SCORE = 60; // weaker fits are not saved, so the list and the digest stay clean
 
 function sbFetch(path, opts = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -70,15 +72,26 @@ async function hunt(h, known, camp) {
     model: MODEL,
     max_tokens: 1800,
     tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 2 }],
-    system: "You find real companies to invite as hosted buyer delegates to trade expos. SAIS Events recruits company owners, managers and buyers from Africa and the Middle East. Only list companies you found in search results, that are active and based in the requested country. Use only public business contacts shown on the company's own website or a business directory. Never guess or invent a phone number, email or website: leave it empty if you did not see it. Reply with JSON only.",
-    messages: [{ role: "user", content: `Expo: ${h.expo}\n${brief ? brief + "\n" : ""}Find: ${h.sector}\nCountry: ${h.country}\n\nFind up to 6 companies that would buy machines, materials or supplies at this expo and fit the organiser's criteria. Prefer medium and large manufacturers that make their own products.\nSkip these, we already have them: ${skip || "none"}\n\nReply with JSON only:\n{"leads":[{"name":"","city":"","makes":"what they make, short","fit_reason":"one plain sentence on why they should attend ${h.expo}","score":0-100 (how good a delegate they would be),"website":"","phone":"","email":"","source_url":"page where you found them"}]}` }],
+    system:
+      "You find real companies to invite as hosted buyer delegates to trade expos. SAIS Events recruits company owners, managers and buyers from Africa and the Middle East. " +
+      "Be strict: a wrong company wastes a sales call. Only list a company if its MAIN business matches the 'Find' line exactly and it is based in the requested country. " +
+      "Leave out traders, shops, consultants, NGOs, government bodies, schools, media, event companies and foreign suppliers, unless the 'Find' line asks for them. " +
+      "Only list companies you found in search results that are active. Use only public business contacts shown on the company's own website or a business directory. " +
+      "Never guess or invent a phone number, email or website: leave it empty if you did not see it. It is fine to return fewer companies, or none. Reply with JSON only.",
+    messages: [{ role: "user", content: `Expo: ${h.expo}\n${brief ? brief + "\n" : ""}Find: ${h.sector}\nCountry: ${h.country}\n\nSearch tips: look for member lists of the industry association in ${h.country}, government or export directories, and company websites, for example "${h.sector} ${h.country} members directory".\n\nFind up to 6 companies whose main business is "${h.sector}" in ${h.country}, that would buy machines, materials or supplies at this expo and fit the organiser's criteria. Prefer medium and large companies that make or grow their own products.\nSkip these, we already have them: ${skip || "none"}\n\nScore honestly: 80+ means a clear match for the Find line and the expo; below 60 means a weak or doubtful match.\n\nReply with JSON only:\n{"leads":[{"name":"","country":"","city":"","makes":"what they make, short","fit_reason":"one plain sentence on why they should attend ${h.expo}","score":0-100,"website":"","phone":"","email":"","source_url":"page where you found them"}]}` }],
   }, 23000);
   const out = (parseJSON(text).leads || []).filter((l) => l && l.name);
   const rows = [];
   const seen = new Set(known.map(key));
+  const wantCountry = String(h.country || "").toLowerCase();
+  let dropped = 0;
   for (const l of out) {
     const k = key(l.name);
     if (!k || seen.has(k)) continue;
+    const score = Math.round(Number(l.score) || 0);
+    const inCountry = !l.country || String(l.country).toLowerCase().includes(wantCountry) || wantCountry.includes(String(l.country).toLowerCase());
+    const reachable = l.website || l.phone || l.email;
+    if (score < MIN_SCORE || !inCountry || !reachable) { dropped++; continue; }
     seen.add(k);
     rows.push({
       name: clean(l.name, 160), name_key: k, country: h.country, city: clean(l.city, 80), sector: h.sector, expo: h.expo,
@@ -87,8 +100,10 @@ async function hunt(h, known, camp) {
     });
   }
   const saved = rows.length ? await sbInsertNew("leads", rows, "name_key") : [];
-  await sbPatch(`lead_hunts?id=eq.${h.id}`, { found: (h.found || 0) + saved.length });
-  return `${h.expo} | ${h.sector} | ${h.country}: ${saved.length} new leads`;
+  // A repeat run that finds nothing new means this search has run dry: switch it off.
+  const dry = !saved.length && !!h.last_run_at;
+  await sbPatch(`lead_hunts?id=eq.${h.id}`, dry ? { found: h.found || 0, active: false } : { found: (h.found || 0) + saved.length });
+  return `${h.expo} | ${h.sector} | ${h.country}: ${saved.length} new leads, ${dropped} weak fits left out${dry ? ", search switched off (ran dry)" : ""}`;
 }
 
 exports.handler = async () => {
@@ -97,7 +112,7 @@ exports.handler = async () => {
     const since = new Date(Date.now() - REPEAT_DAYS * 864e5).toISOString();
     const due = await sbGet(`lead_hunts?select=*&active=is.true&or=(last_run_at.is.null,last_run_at.lt."${since}")&order=last_run_at.asc.nullsfirst,id.asc&limit=1`);
     if (!due.length) return { statusCode: 200, body: "nothing to hunt" };
-    const h = due[0];
+    const h = due[0]; // h.last_run_at is the previous run (null on the first run)
     // Mark first, so one slow or failed search does not block the rest of the list.
     await sbPatch(`lead_hunts?id=eq.${h.id}`, { last_run_at: new Date().toISOString() });
     const known = (await sbGet(`leads?select=name&country=eq.${encodeURIComponent(h.country)}&order=created_at.desc&limit=300`)).map((r) => r.name);
