@@ -499,7 +499,7 @@ function viewCampaigns(){
   <div class="row" style="justify-content:space-between;align-items:flex-start"><div><h3 class="h3" style="margin:0">${esc(c.name)}</h3><small class="muted">${esc([c.organiser,[c.city,c.country].filter(Boolean).join(', ')].filter(Boolean).join(' · '))}</small></div><span class="pill ${pill}">${esc(CSTAT[c.status]||c.status)}</span></div>
   <div class="small"><b>${c.starts_on?esc(fmtDay(c.starts_on))+(c.ends_on&&c.ends_on!==c.starts_on?' to '+esc(fmtDay(c.ends_on)):''):'Dates not set'}</b>${d!==null&&d>=0?` <span class="muted">· ${d===0?'today':d+' days to go'}</span>`:''}</div>
   ${c.registration_deadline?`<div class="banner ${dl!==null&&dl<=30&&dl>=0?'warn':''}" style="padding:8px 12px">Deadline: <b>${esc(fmtDay(c.registration_deadline))}</b>${dl!==null&&dl>=0?` (${dl} days left)`:dl!==null?' (passed)':''}</div>`:''}
-  <div class="small">${c.hunting?`<span class="pill good">Hunting: ${(c.hunt_sectors||[]).length*(c.hunt_countries||[]).length} searches a week</span>`:`<span class="pill">Hunter off</span>`}</div>
+  <div class="small">${c.hunting?`<span class="pill good">Hunting: ${(c.hunt_sectors||[]).length*(c.hunt_countries||[]).length} searches</span>`:`<span class="pill">Hunter off</span>`}</div>
   <div class="small"><span class="muted">Target:</span> ${c.target_delegates!=null?esc(String(c.target_delegates))+' delegates':'not set'} · <span class="muted">Fee:</span> ${c.fee_per_delegate!=null?esc(c.fee_currency)+' '+Number(c.fee_per_delegate).toLocaleString('en-US')+' each':'not set'} · <span class="muted">Report:</span> ${esc(c.report_day||'not set')}</div>
   ${c.buyer_criteria?`<div class="small"><span class="eyebrow">Who qualifies</span><br>${esc(c.buyer_criteria)}</div>`:''}
   ${c.hosted_benefits?`<div class="small"><span class="eyebrow">Hosted buyers get</span><br>${esc(c.hosted_benefits)}</div>`:''}
@@ -524,7 +524,7 @@ function openCampaign(id){
  <label class="f">Notes<textarea id="c_notes" rows="3">${v('notes')}</textarea></label>
  <label class="f">Registration page<input id="c_register_url" value="${v('register_url')}" placeholder="https://saisevents.com/agroexpo-2027.html#register"></label>
  <div class="card" style="gap:8px"><label class="row" style="align-items:center;font-weight:700"><input type="checkbox" id="c_hunting" ${c.hunting?'checked':''}> Hunt for delegates for this campaign</label>
- <p class="muted small" style="margin:0">The hunter runs one search an hour, each one a sector in one country. Every search uses a little of your Claude API balance.</p>
+ <p class="muted small" style="margin:0">The hunter runs one search every 3 hours, each one a sector in one country, and repeats it after 14 days. A search that finds nothing new switches itself off. Every search uses a little of your Claude API balance.</p>
  <label class="f">What to search for (one per line)<textarea id="c_hunt_sectors" rows="4" placeholder="greenhouse and irrigation companies">${esc((c.hunt_sectors||[]).join('\n'))}</textarea></label>
  <label class="f">Countries (one per line)<textarea id="c_hunt_countries" rows="4" placeholder="Kenya">${esc((c.hunt_countries||[]).join('\n'))}</textarea></label></div>
  <p class="err" id="campErr" role="alert"></p>
