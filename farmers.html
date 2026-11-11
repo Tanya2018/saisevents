@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#04211A">
+<title>SAIS Farmer Register | SAIS Events</title>
+<meta name="description" content="Tell us about your farm. SAIS introduces organised farmer groups to verified buyers and investors. Registration is free.">
+<style>
+  :root{
+    --ink:#10231d; --ink-soft:#4b5a55; --bg:#f4f7f5; --card:#ffffff;
+    --brand:#04211A; --brand2:#0a3a2d; --accent:#d6a63c; --accent-dark:#9c7416; --line:#dfe6e2; --ok:#1f7a4d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-text-size-adjust:100%}
+  a{color:inherit}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px}
+  header.top{background:var(--brand);color:#fff;padding:12px 0}
+  header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  header.top a{text-decoration:none;font-weight:700}
+  header.top img{height:34px;width:auto;display:block}
+  header.top .back{font-weight:500;font-size:14px;opacity:.85}
+  .hero{background:linear-gradient(160deg,#04211A 0%,#0a3a2d 100%);color:#fff;padding:40px 0 48px}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#f0d28a;margin-bottom:12px;font-weight:700}
+  .hero h1{font-size:clamp(28px,6vw,44px);line-height:1.15;max-width:760px;margin-bottom:14px}
+  .hero p{font-size:clamp(16px,2.6vw,19px);max-width:680px;color:#d5e3dd;margin-bottom:24px}
+  .btn{display:inline-block;background:var(--accent);color:#04211A;font-weight:700;padding:14px 24px;border-radius:10px;text-decoration:none;border:0;font-size:16px;cursor:pointer;min-height:48px;font-family:inherit}
+  .btn:hover{background:#e2b54e}
+  .btn.wa{background:#1f9d57;color:#fff}
+  .btn.wa:hover{background:#198a4c}
+  .btn[disabled]{opacity:.6;cursor:default}
+  section{padding:36px 0 44px}
+
+  /* form */
+  .formcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 30px rgba(4,33,26,.07)}
+  @media(min-width:760px){.formcard{padding:32px}}
+  .q{padding:18px 0;border-top:1px solid var(--line)}
+  .q:first-of-type{border-top:0;padding-top:0}
+  .row{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:640px){.row.two{grid-template-columns:1fr 1fr}}
+  label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+  .opt{font-weight:400;color:var(--ink-soft)}
+  .hint{font-size:14px;color:var(--ink-soft);margin:-2px 0 10px}
+  input[type=text],input[type=tel],select,textarea{width:100%;padding:13px 14px;border:1px solid #c9d3ce;border-radius:10px;font:inherit;font-size:16px;background:#fff;color:var(--ink);min-height:48px}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  fieldset{border:0}
+  legend{font-weight:600;font-size:15px;margin-bottom:8px;padding:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips label{margin:0;font-weight:500}
+  .chips input{position:absolute;opacity:0;pointer-events:none}
+  .chips span{display:inline-block;padding:10px 14px;border:1px solid #c9d3ce;border-radius:999px;font-size:15px;cursor:pointer;background:#fff;min-height:44px}
+  .chips input:checked + span{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .chips input:focus-visible + span{outline:2px solid var(--accent)}
+  .more{margin-top:12px}
+  .more[hidden]{display:none}
+  .consent{display:flex;gap:12px;align-items:flex-start;font-size:15px;font-weight:600;color:var(--ink);margin:4px 0 0;cursor:pointer}
+  .consent input{margin-top:2px;width:22px;height:22px;flex:none;accent-color:var(--brand)}
+  .note{font-size:13px;color:var(--ink-soft);margin-top:14px}
+  .err{display:none;background:#fdeeee;border:1px solid #f1c2c2;color:#8a1f1f;border-radius:10px;padding:10px 12px;font-size:14px;margin-top:14px}
+  .send{margin-top:20px}
+  .send .btn{width:100%}
+  @media(min-width:640px){.send .btn{width:auto;min-width:220px}}
+  .hp{position:absolute;left:-9999px}
+
+  #thanks{display:none;text-align:center;padding:10px 0}
+  #thanks h3{font-size:24px;margin-bottom:8px;color:var(--ok)}
+  #thanks p{color:var(--ink-soft);max-width:520px;margin:0 auto 18px}
+  #waLink{display:none}
+  footer{background:var(--brand);color:#cfe0d8;padding:28px 0 84px;font-size:14px}
+  footer a{color:#f0d28a}
+  .wa-float{position:fixed;right:16px;bottom:16px;background:#1f9d57;color:#fff;text-decoration:none;font-weight:700;padding:13px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:20;font-size:15px}
+</style>
+<link rel="canonical" href="https://saisevents.com/farmers.html">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="/"><img src="sais-events-logo-full-light.png" alt="SAIS Events"></a>
+    <a class="back" href="/">Home</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Free for farmers</span>
+    <h1>SAIS Farmer Register</h1>
+    <p>Tell us about your farm. We use this to introduce organised farmer groups to verified buyers and investors. Registration is free. It is not a guarantee of a contract or funding.</p>
+    <a class="btn" href="#register">Register my farm</a>
+  </div>
+</div>
+
+<section id="register">
+  <div class="wrap">
+    <div class="formcard">
+      <form id="farmForm" name="farmer-register" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="farmer-register">
+        <input type="hidden" name="produce" value="">
+        <input type="hidden" name="buyers_now" value="">
+        <input type="hidden" name="certificates" value="">
+        <input type="hidden" name="water" value="">
+        <input type="hidden" name="needs" value="">
+        <p class="hp" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="new-password"></label></p>
+
+        <div class="q">
+          <div class="row two">
+            <div><label for="name">1. Full name</label><input type="text" id="name" name="name" autocomplete="name" required></div>
+            <div><label for="whatsapp">2. WhatsApp number</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="+254 7XX XXX XXX" autocomplete="tel" required></div>
+          </div>
+        </div>
+
+        <div class="q">
+          <label for="location">3. County and nearest town</label>
+          <input type="text" id="location" name="location" placeholder="Example: Murang'a, Kangema" required>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>4. What do you produce? <span class="opt">Tick all that apply</span></legend>
+            <div class="chips" data-group="produce">
+              <label><input type="checkbox" value="Avocado"><span>Avocado</span></label>
+              <label><input type="checkbox" value="Macadamia"><span>Macadamia</span></label>
+              <label><input type="checkbox" value="Coffee"><span>Coffee</span></label>
+              <label><input type="checkbox" value="Tea"><span>Tea</span></label>
+              <label><input type="checkbox" value="Mango"><span>Mango</span></label>
+              <label><input type="checkbox" value="Vegetables"><span>Vegetables</span></label>
+              <label><input type="checkbox" value="Chillies and herbs"><span>Chillies and herbs</span></label>
+              <label><input type="checkbox" value="Goats and sheep"><span>Goats and sheep</span></label>
+              <label><input type="checkbox" value="Cattle"><span>Cattle</span></label>
+              <label><input type="checkbox" value="Poultry"><span>Poultry</span></label>
+              <label><input type="checkbox" value="Pigs"><span>Pigs</span></label>
+              <label><input type="checkbox" value="Dairy"><span>Dairy</span></label>
+              <label><input type="checkbox" value="Other" id="produceOtherBox"><span>Other</span></label>
+            </div>
+            <div class="more" id="produceOtherWrap" hidden>
+              <label for="produce_other">What else do you produce?</label>
+              <input type="text" id="produce_other" name="produce_other" placeholder="Example: passion fruit, honey">
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <div class="row two">
+            <div>
+              <label for="farm_size">5. Farm size in acres, or number of animals</label>
+              <input type="text" id="farm_size" name="farm_size" placeholder="Example: 3 acres, or 40 goats">
+            </div>
+            <div>
+              <label for="season_sales">6. How much do you sell in a season?</label>
+              <input type="text" id="season_sales" name="season_sales" placeholder="Kilos, or number of animals">
+            </div>
+          </div>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>7. Who buys from you now? <span class="opt">Tick all that apply</span></legend>
+            <div class="chips" data-group="buyers_now">
+              <label><input type="checkbox" value="Brokers"><span>Brokers</span></label>
+              <label><input type="checkbox" value="Local market"><span>Local market</span></label>
+              <label><input type="checkbox" value="An exporter"><span>An exporter</span></label>
+              <label><input type="checkbox" value="A company contract"><span>A company contract</span></label>
+              <label><input type="checkbox" value="No steady buyer"><span>No steady buyer</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>8. Are you in a farmer group or cooperative?</legend>
+            <div class="chips">
+              <label><input type="radio" name="in_group" value="Yes"><span>Yes</span></label>
+              <label><input type="radio" name="in_group" value="No"><span>No</span></label>
+            </div>
+            <div class="more row two" id="groupWrap" hidden>
+              <div><label for="group_name">Name of the group</label><input type="text" id="group_name" name="group_name"></div>
+              <div><label for="group_members">Number of members</label><input type="text" id="group_members" name="group_members" inputmode="numeric"></div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>9. Any certificates? <span class="opt">Tick all that apply</span></legend>
+            <div class="chips" data-group="certificates">
+              <label><input type="checkbox" value="GLOBALG.A.P"><span>GLOBALG.A.P</span></label>
+              <label><input type="checkbox" value="Organic"><span>Organic</span></label>
+              <label><input type="checkbox" value="KEPHIS"><span>KEPHIS</span></label>
+              <label><input type="checkbox" value="None"><span>None</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>10. Your water source <span class="opt">Tick all that apply</span></legend>
+            <div class="chips" data-group="water">
+              <label><input type="checkbox" value="Rain only"><span>Rain only</span></label>
+              <label><input type="checkbox" value="River"><span>River</span></label>
+              <label><input type="checkbox" value="Borehole"><span>Borehole</span></label>
+              <label><input type="checkbox" value="Irrigation"><span>Irrigation</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>11. Have you sold for export before?</legend>
+            <div class="chips">
+              <label><input type="radio" name="exported" value="Yes"><span>Yes</span></label>
+              <label><input type="radio" name="exported" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <fieldset>
+            <legend>12. What do you need most? <span class="opt">Tick all that apply</span></legend>
+            <div class="chips" data-group="needs">
+              <label><input type="checkbox" value="A guaranteed buyer"><span>A guaranteed buyer</span></label>
+              <label><input type="checkbox" value="Money for inputs"><span>Money for inputs</span></label>
+              <label><input type="checkbox" value="A partner to invest in my farm"><span>A partner to invest in my farm</span></label>
+              <label><input type="checkbox" value="An export market"><span>An export market</span></label>
+              <label><input type="checkbox" value="Training"><span>Training</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="q">
+          <label for="notes">13. Anything else you need or want us to know? <span class="opt">(optional)</span></label>
+          <textarea id="notes" name="notes"></textarea>
+        </div>
+
+        <div class="q">
+          <label class="consent"><input type="checkbox" id="consent" name="consent" value="yes" required>
+            <span>I agree that SAIS may share my farm details with verified buyers and investors.</span></label>        </div>
+
+        <div class="err" id="err" role="alert"></div>
+        <div class="send"><button type="submit" class="btn" id="sendBtn">Register my farm</button></div>
+      </form>
+
+      <div id="thanks">
+        <h3>Registration received</h3>
+        <p id="thanksText">Thank you. Your farm is on the SAIS Farmer Register. We will contact you on WhatsApp when a buyer or investor matches what you produce.</p>
+        <a class="btn wa" id="waLink" href="#" target="_blank" rel="noopener">Send my details on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>SAIS Events &middot; <a href="mailto:info@saisevents.com">info@saisevents.com</a> &middot; <a href="/terms">Terms</a> &middot; <a href="https://whatsapp.com/channel/0029VbB97FCISTkRZscbs42b" target="_blank" rel="noopener">WhatsApp channel</a></p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/254722170385?text=Hello%20SAIS%20Events%2C%20I%20want%20to%20join%20the%20SAIS%20Farmer%20Register." target="_blank" rel="noopener">WhatsApp us</a>
+
+<script>
+var WA_NUMBER = "254722170385";
+var form = document.getElementById("farmForm");
+var err = document.getElementById("err");
+
+function groupVals(name){
+  return Array.prototype.map.call(document.querySelectorAll('[data-group="' + name + '"] input:checked'), function(i){ return i.value; });
+}
+function radioVal(name){
+  var r = form.querySelector('input[name="' + name + '"]:checked');
+  return r ? r.value : "";
+}
+function showErr(msg){ err.textContent = msg; err.style.display = "block"; }
+function clearErr(){ err.style.display = "none"; }
+
+/* show the extra boxes only when needed */
+var otherBox = document.getElementById("produceOtherBox");
+otherBox.addEventListener("change", function(){
+  document.getElementById("produceOtherWrap").hidden = !otherBox.checked;
+  if(otherBox.checked){ document.getElementById("produce_other").focus(); }
+});
+Array.prototype.forEach.call(form.querySelectorAll('input[name="in_group"]'), function(r){
+  r.addEventListener("change", function(){
+    document.getElementById("groupWrap").hidden = radioVal("in_group") !== "Yes";
+  });
+});
+
+function valid(){
+  var fields = form.querySelectorAll("input[required]");
+  for(var i = 0; i < fields.length; i++){
+    var f = fields[i];
+    if(f.type === "checkbox") continue;
+    if(!f.value.trim()){
+      f.focus();
+      showErr("Please fill your name, WhatsApp number, and county and nearest town.");
+      return false;
+    }
+  }
+  if(!document.getElementById("consent").checked){
+    showErr("Please tick the box to agree that SAIS may share your farm details with verified buyers and investors.");
+    return false;
+  }
+  clearErr();
+  return true;
+}
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  if(!valid()) return;
+  var btn = document.getElementById("sendBtn");
+  btn.disabled = true; btn.textContent = "Sending...";
+
+  var produce = groupVals("produce");
+  form.elements["produce"].value = produce.join(", ");
+  form.elements["buyers_now"].value = groupVals("buyers_now").join(", ");
+  form.elements["certificates"].value = groupVals("certificates").join(", ");
+  form.elements["water"].value = groupVals("water").join(", ");
+  form.elements["needs"].value = groupVals("needs").join(", ");
+
+  var body = new URLSearchParams();
+  new FormData(form).forEach(function(v, k){ body.append(k, v); });
+
+  var other = form.elements["produce_other"].value.trim();
+  var msg = "Hello SAIS Events, I want to join the SAIS Farmer Register.\n" +
+    "Name: " + form.elements["name"].value + "\n" +
+    "County and town: " + form.elements["location"].value + "\n" +
+    "I produce: " + (produce.join(", ") || "Not said") + (other ? " (" + other + ")" : "") + "\n" +
+    "Farm size: " + (form.elements["farm_size"].value || "Not said") + "\n" +
+    "Sell in a season: " + (form.elements["season_sales"].value || "Not said") + "\n" +
+    "Farmer group: " + (radioVal("in_group") || "Not said") + (form.elements["group_name"].value ? ", " + form.elements["group_name"].value : "") + "\n" +
+    "Need most: " + (groupVals("needs").join(", ") || "Not said");
+  var wa = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+
+  function done(ok){
+    form.style.display = "none";
+    var t = document.getElementById("thanks");
+    t.style.display = "block";
+    if(!ok){
+      document.getElementById("thanks").querySelector("h3").textContent = "Almost done";
+      document.getElementById("thanksText").textContent = "We could not send your form. Please tap the button below to send your details on WhatsApp instead.";
+      var l = document.getElementById("waLink");
+      l.href = wa; l.style.display = "inline-block";
+    }
+    t.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body: body.toString() })
+    .then(function(r){ done(r.ok); })
+    .catch(function(){ done(false); });
+});
+</script>
+</body>
+</html>
