@@ -49,14 +49,38 @@
     "name": "Catherine Kinyanjui"
    },
    "areaServed": [
-    {"@type": "Place", "name": "Africa"},
-    {"@type": "Place", "name": "East Africa"},
-    {"@type": "Place", "name": "West Africa"},
-    {"@type": "Place", "name": "Central Africa"},
-    {"@type": "Place", "name": "Southern Africa"},
-    {"@type": "Place", "name": "Middle East"},
-    {"@type": "Country", "name": "Kenya"},
-    {"@type": "Country", "name": "United Arab Emirates"}
+    {
+     "@type": "Place",
+     "name": "Africa"
+    },
+    {
+     "@type": "Place",
+     "name": "East Africa"
+    },
+    {
+     "@type": "Place",
+     "name": "West Africa"
+    },
+    {
+     "@type": "Place",
+     "name": "Central Africa"
+    },
+    {
+     "@type": "Place",
+     "name": "Southern Africa"
+    },
+    {
+     "@type": "Place",
+     "name": "Middle East"
+    },
+    {
+     "@type": "Country",
+     "name": "Kenya"
+    },
+    {
+     "@type": "Country",
+     "name": "United Arab Emirates"
+    }
    ],
    "knowsAbout": [
     "MICE (Meetings, Incentives, Conferences and Exhibitions)",
@@ -81,36 +105,84 @@
      "areaServed": "KE",
      "email": "info@saisevents.com",
      "telephone": "+254722170385",
-     "availableLanguage": ["English"]
+     "availableLanguage": [
+      "English"
+     ]
     },
     {
      "@type": "ContactPoint",
      "contactType": "customer service",
      "areaServed": "AE",
      "telephone": "+971507687653",
-     "availableLanguage": ["English"]
+     "availableLanguage": [
+      "English"
+     ]
     }
    ],
    "location": [
     {
      "@type": "Place",
      "name": "SAIS Events Nairobi",
-     "address": {"@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE"}
+     "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nairobi",
+      "addressCountry": "KE"
+     }
     },
     {
      "@type": "Place",
      "name": "SAIS Events Dubai",
-     "address": {"@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE"}
+     "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Dubai",
+      "addressCountry": "AE"
+     }
     }
    ],
    "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "MICE and international business events services",
     "itemListElement": [
-     {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Meetings and B2B matchmaking", "description": "Pre-arranged business meetings, buyer and supplier introductions and international business networking."}},
-     {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Incentives and hosted buyer programme coordination", "description": "Hosted buyer recruitment, delegate qualification and verification, and business travel coordination. Programme benefits and approval are decided by each organiser."}},
-     {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Conferences and business delegations", "description": "International business delegations, trade missions, industry conferences and business forums."}},
-     {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Exhibitions and trade fairs", "description": "Exhibitor recruitment, qualified buyer sourcing, trade fair delegation coordination and factory visits."}}
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Meetings and B2B matchmaking",
+       "description": "Pre-arranged business meetings, buyer and supplier introductions and international business networking."
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Incentives and hosted buyer programme coordination",
+       "description": "Hosted buyer recruitment, delegate qualification and verification, and business travel coordination. Programme benefits and approval are decided by each organiser."
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Conferences and business delegations",
+       "description": "International business delegations, trade missions, industry conferences and business forums."
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Exhibitions and trade fairs",
+       "description": "Exhibitor recruitment, qualified buyer sourcing, trade fair delegation coordination and factory visits."
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Delegate travel and accommodation management",
+       "description": "Flight and hotel sourcing and booking coordination for individual delegates and business groups attending international exhibitions, where travel is not covered by the organiser's hosted buyer programme."
+      }
+     }
     ]
    }
   },
@@ -119,7 +191,9 @@
    "@id": "https://saisevents.com/#site",
    "url": "https://saisevents.com/",
    "name": "SAIS Events",
-   "publisher": {"@id": "https://saisevents.com/#org"}
+   "publisher": {
+    "@id": "https://saisevents.com/#org"
+   }
   }
  ]
 }
@@ -549,6 +623,19 @@ a.expo-photo{border-radius:0}
 @media(max-width:700px){.hb-photo{aspect-ratio:16/9}}
 .hb-photo img{width:100%;height:100%;object-fit:cover}
 
+
+/* Travel and accommodation service (wide card) */
+.svc-wide{grid-column:1/-1}
+@media(min-width:860px){.svc-wide{display:grid;grid-template-columns:.9fr 1.1fr}.svc-wide .svc-photo{aspect-ratio:auto;height:100%;min-height:100%}}
+.svc-lead{margin-top:10px;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.12rem;color:var(--gold-deep)}
+.svc-text{margin-top:10px;font-size:15.5px;color:rgba(4,33,26,.86)}
+.pay-split{display:grid;gap:10px;margin-top:18px}
+@media(min-width:600px){.pay-split{grid-template-columns:1fr 1fr}}
+.pay-split>div{background:#fff;border:1px solid var(--cream-line);border-left:3px solid var(--gold);border-radius:10px;padding:12px 14px}
+.pay-split b{display:block;font-size:14.5px}
+.pay-split p{margin-top:4px;font-size:14px;color:rgba(4,33,26,.8)}
+.svc-cta{margin-top:20px}
+
 /* About */
 .about-text p.mission{font-family:'Fraunces',Georgia,serif;font-size:1.2rem;line-height:1.4;color:var(--jungle)}
 .foot .foot-tag{font-family:'Fraunces',Georgia,serif;font-style:italic;color:var(--gold);margin-top:6px}
@@ -643,7 +730,7 @@ section[id]{scroll-margin-top:130px}
     <div class="sec-head">
       <p class="eyebrow">MICE: Meetings, Incentives, Conferences and Exhibitions</p>
       <h2>Our MICE &amp; International Business Events Services</h2>
-      <p class="sub">SAIS Events is a MICE company based in Nairobi, Kenya. We find, check and connect the right business participants for international exhibitions, hosted buyer programmes, trade missions and business forums.</p>
+      <p class="sub">SAIS Events is a MICE company based in Nairobi, Kenya. We find, check and connect the right business participants for international exhibitions, hosted buyer programmes, trade missions and business forums, and we help coordinate delegates' travel and accommodation.</p>
     </div>
     <div class="svc-grid">
       <article class="svc">
@@ -688,6 +775,31 @@ section[id]{scroll-margin-top:130px}
             <li>Qualified buyer sourcing</li>
             <li>Factory visits and sourcing missions</li>
           </ul>
+        </div>
+      </article>
+      <article class="svc svc-wide" id="travel">
+        <figure class="svc-photo"><img src="https://images.unsplash.com/photo-1561131668-f63504fc549d?auto=format&fit=crop&w=800&q=70" srcset="https://images.unsplash.com/photo-1561131668-f63504fc549d?auto=format&fit=crop&w=480&q=70 480w, https://images.unsplash.com/photo-1561131668-f63504fc549d?auto=format&fit=crop&w=800&q=70 800w, https://images.unsplash.com/photo-1561131668-f63504fc549d?auto=format&fit=crop&w=1200&q=70 1200w" sizes="(min-width:860px) 45vw, 100vw" width="800" height="600" loading="lazy" decoding="async" alt="Business travellers at an airport terminal window, heading to an international exhibition"></figure>
+        <div class="svc-body">
+          <h3><span class="svc-letter" aria-hidden="true">T</span>Delegate Travel &amp; Accommodation Management</h3>
+          <p class="svc-lead">From exhibition registration to arrival, we help coordinate your journey.</p>
+          <p class="svc-text">SAIS Events coordinates flight and accommodation bookings for business delegates and exhibitors attending international trade fairs, exhibitions, conferences and business events. Where travel is not covered by an organiser's hosted buyer programme, delegates can arrange their travel through SAIS.</p>
+          <ul class="ticks">
+            <li>International flight sourcing and booking</li>
+            <li>Hotel and accommodation sourcing and reservations</li>
+            <li>Individual and group delegate travel arrangements</li>
+            <li>Accommodation coordination near exhibition venues</li>
+            <li>Travel planning aligned with exhibition dates and business schedules</li>
+            <li>Coordination for hosted and independently attending delegates</li>
+          </ul>
+          <div class="pay-split">
+            <div><b>Organiser sponsored</b><p>If your hosted buyer programme includes hotel nights or transfers, the organiser provides them. We help you plan the rest of your trip around them.</p></div>
+            <div><b>Paid by you or your company</b><p>For anything the organiser does not cover, you pay SAIS Events for the agreed flights and hotel, and we coordinate the bookings on your behalf.</p></div>
+          </div>
+          <p class="svc-text">Your business opportunity starts before you arrive at the exhibition.</p>
+          <div class="btns svc-cta">
+            <a class="btn btn-dark" href="https://wa.me/254722170385?text=Hi%20Kate.%20I%20need%20help%20with%20flights%20and%20hotel%20for%20an%20exhibition.%20The%20expo%20is%3A" target="_blank" rel="noopener">Arrange your business trip</a>
+            <a class="btn btn-outline-dark" href="mailto:info@saisevents.com?subject=Delegate%20travel%20and%20accommodation%20enquiry">Email us</a>
+          </div>
         </div>
       </article>
     </div>
@@ -1401,6 +1513,7 @@ section[id]{scroll-margin-top:130px}
       </div>
       <nav class="foot-links" aria-label="More">
         <a href="#services">MICE services</a>
+        <a href="#travel">Delegate travel</a>
         <a href="partner.html">For expo organisers</a>
         <a href="#expos">Upcoming expos</a>
         <a href="#past-expos">Past expos</a>
