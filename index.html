@@ -288,7 +288,7 @@ blockquote{margin:22px 0 0;padding:4px 0 4px 18px;border-left:3px solid var(--go
 blockquote cite{display:block;margin-top:8px;font-family:'DM Sans',sans-serif;font-style:normal;font-size:14px;font-weight:700;color:var(--gold-deep)}
 .team{display:grid;grid-template-columns:1fr;gap:14px;margin-top:40px}
 @media(min-width:620px){.team{grid-template-columns:repeat(2,1fr);gap:18px}}
-@media(min-width:980px){.team{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:980px){.team{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}.team .person{flex:0 1 calc((100% - 36px)/3)}}
 .person{margin:0;display:flex;align-items:center;gap:16px;background:var(--cream-2);border:1px solid var(--cream-line);border-radius:18px;padding:16px}
 @media(min-width:620px){.person{flex-direction:column;text-align:center;padding:28px 18px}}
 .person img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex-shrink:0}
@@ -1221,17 +1221,12 @@ section[id]{scroll-margin-top:130px}
         <p>SAIS Events began in 2018. We kept meeting buyers with real budgets and no clear route into the world's big trade programmes, so we built that route.</p>
         <p>Since then we have built an international network that connects business delegates, buyers, exhibitors and global exhibition organisers. Today we work from Nairobi, Kenya, with an office in Dubai.</p>
         <p class="mission">Our mission is to make international business opportunities more accessible by connecting qualified companies with the right exhibitions, suppliers, buyers and business networks.</p>
-        <blockquote>"A delegate list is easy. A delegate who closes a deal is the job."<cite>Veronica Gakio, Director</cite></blockquote>
       </div>
     </div>
     <div class="team">
       <figure class="person">
         <img src="catherine-kinyanjui.jpg" alt="Catherine Kinyanjui" width="124" height="124" loading="lazy">
         <figcaption><b>Catherine Kinyanjui</b><span>Founder and Managing Director</span><em>Founded SAIS Events in 2018. Leads strategy and is in charge of every SAIS contract with exhibition organisers. 20 years in marketing, advertising and PR.</em></figcaption>
-      </figure>
-      <figure class="person">
-        <img src="veronica-gakio.jpg" alt="Veronica Gakio" width="124" height="124" loading="lazy">
-        <figcaption><b>Veronica Gakio</b><span>Director, East Africa Region</span><em>Directs SAIS Events across East Africa. Turns delegate lists into qualified buyers and manages hosted buyer applications with organisers.</em></figcaption>
       </figure>
       <figure class="person">
         <img src="franklin-nkem.jpg" alt="Franklin Nkem" width="124" height="124" loading="lazy">
