@@ -43,7 +43,7 @@ They are served from images.unsplash.com with `auto=format`, so browsers get Web
 - Global Tea Fair 2026: global-tea-fair-2026-card.jpg / .webp, the official Autumn edition banner supplied by Kate, on a blurred copy of itself to fit the card
 - Mombasa SACCOs & SMEs Expo 2026: mombasa-saccos-smes-expo-2026.jpg / .webp, the official concept note cover supplied by Kate. The organiser company name line was painted out to follow the no-organiser-names rule
 - ALUMINIUM CHINA 2027 video
-- Team portraits: catherine-kinyanjui.jpg, veronica-gakio.jpg, franklin-nkem.jpg
+- Team portraits: catherine-kinyanjui.jpg, franklin-nkem.jpg
 
 ## Not used any more
 
