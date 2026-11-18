@@ -53,7 +53,7 @@ const SHOWS = {
     when: "26 to 28 January 2027",
     where: "Dubai World Trade Centre, Dubai, UAE",
     vet: "https://saisevents.com/market.html?expo=World%20of%20Coffee%20Dubai%202027",
-    perks: "If you have not done it yet, complete your free visitor registration with the organiser here: https://woc.dxblive.com/event/05bad6ba-cab3-44fc-ba13-4206fca76d72/register?RefId=Visitor&rp=873e0e71-cf13-4ddf-af7b-c00401571de8&utm_source=saisevents&utm_medium=partner&utm_campaign=sais-woc-dubai-2027 . Our team will contact you about UAE visa processing, flights, hotels and buyer meetings.",
+    perks: "If you have not done it yet, complete your visitor registration with the organiser here: https://woc.dxblive.com/event/05bad6ba-cab3-44fc-ba13-4206fca76d72/register?RefId=Visitor&rp=873e0e71-cf13-4ddf-af7b-c00401571de8&utm_source=saisevents&utm_medium=partner&utm_campaign=sais-woc-dubai-2027 . Our team will contact you about UAE visa processing, flights, hotels and buyer meetings.",
   },
   "ifco-2027-registration": {
     expo: "IFCO 2027",
