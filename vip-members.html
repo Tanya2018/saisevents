@@ -94,6 +94,17 @@
   .acct dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14.5px}
   .acct dt{color:var(--muted)}
   .acct dd{margin:0;font-weight:700;color:var(--ink);word-break:break-word;font-variant-numeric:tabular-nums}
+  .hdr-btns{display:flex;gap:8px;align-items:center}
+  .pay-link{color:#F0D28A;font-weight:700;text-decoration:none;padding:9px 14px;border:1.5px solid rgba(214,166,60,.7);border-radius:999px;font-size:15px}
+  .paybox{background:var(--white);border:2px solid var(--gold);border-radius:16px;padding:22px}
+  @media(min-width:700px){.paybox{padding:30px}}
+  .paysum{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;justify-content:space-between}
+  .paysum .amt{font-size:30px;font-weight:800;color:var(--green);line-height:1}
+  .paysum .amt small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-top:6px}
+  .paysteps{margin:18px 0 0;padding-left:20px;color:var(--ink);font-size:15.5px}
+  .paysteps li{margin-bottom:6px}
+  #paydetails{margin-top:20px}
+  #pay,#register{scroll-margin-top:84px}
   .paywarn{background:#FBF3DC;border:1px solid #EAD9A6;border-left:5px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-size:14.5px;margin-top:14px;color:var(--ink)}
   footer{background:var(--green);color:#C9D6CF;padding:30px 0 34px;font-size:15px}
   footer a{color:#F0D28A;text-decoration:none}
@@ -106,7 +117,7 @@
 <header>
   <div class="wrap bar">
     <a href="index.html" aria-label="SAIS Events home"><img src="sais-events-logo-full-light.png" alt="SAIS Events" width="948" height="420"></a>
-    <a class="reg" href="#register">Apply</a>
+    <div class="hdr-btns"><a class="pay-link" href="#pay">Pay now</a><a class="reg" href="#register">Apply</a></div>
   </div>
 </header>
 
@@ -121,7 +132,8 @@
       <li><b>Markets</b>UAE, China, Egypt, Turkey, India, Europe, Americas</li>
       <li><b>Membership fee</b>USD 300, paid once. No yearly renewal</li>
     </ul>
-    <a class="btn btn-gold" href="#register">Apply for VIP membership</a> <a class="btn btn-ghost" href="terms.html#vip" target="_blank" rel="noopener">Terms and conditions</a>
+    <a class="btn btn-gold" href="#register">Apply for VIP membership</a> <a class="btn btn-ghost" href="#pay">Pay now</a>
+    <p style="margin:14px 0 0;font-size:15px"><a href="terms.html#vip" target="_blank" rel="noopener" style="color:#F0D28A">Terms and conditions</a></p>
   </div>
 </section>
 
@@ -148,12 +160,12 @@
 <section class="tint">
   <div class="wrap">
     <h2>How it works</h2>
-    <p class="sub">Three steps from application to your first expo.</p>
+    <p class="sub">Four steps from application to your first expo. Open to importers, exporters, manufacturers, distributors, retailers, co-operatives and SMEs ready to trade across borders.</p>
     <div class="cards">
       <div class="card"><h3>1. Apply</h3><p>Fill in the form below with your company details, products and the expos you want.</p></div>
-      <div class="card"><h3>2. We vet your company</h3><p>Our team reviews your business and import or export capacity, then confirms your membership on WhatsApp or email.</p></div>
-      <div class="card"><h3>3. We recommend you</h3><p>We put your company forward to organisers, manufacturers and buyers for every expo that fits you.</p></div>
-      <div class="card"><h3>Who can apply</h3><p>Importers, exporters, manufacturers, distributors, retailers, co-operatives and SMEs ready to trade across borders.</p></div>
+      <div class="card"><h3>2. Pay the membership fee</h3><p>USD 300, paid once. Tap <a href="#pay">Pay now</a> for our bank and M-Pesa details, then send us your payment confirmation.</p></div>
+      <div class="card"><h3>3. We vet your company</h3><p>Our team reviews your business and import or export capacity, then confirms your membership and sends your welcome email.</p></div>
+      <div class="card"><h3>4. We recommend you</h3><p>We put your company forward to organisers, manufacturers and buyers for every expo that fits you.</p></div>
     </div>
   </div>
 </section>
@@ -255,7 +267,7 @@
           <span class="hint">Opens in a new tab, so your answers here stay safe.</span></div>
         <div class="field"><label for="notes">Your goals and travel plans</label><textarea id="notes" name="notes" placeholder="What do you want to achieve and when do you plan to travel" required></textarea></div>
 
-        <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. Payment details appear on this page as soon as you apply. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
+        <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. After you apply, tap Pay now for our bank and M-Pesa details. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
 
         <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I accept the <a href="terms.html#vip" target="_blank" rel="noopener">terms and conditions</a> and the one-time USD 300 VIP membership fee, and I agree to be contacted by SAIS Events.</label>
 
@@ -267,10 +279,24 @@
       <div class="thanks" id="thanks" hidden>
         <h3>Thank you, your application is in</h3>
         <p id="thanksText">Our team will review your company and contact you shortly on WhatsApp or email.</p>
-        <div class="pay" id="payment">
-          <h4>How to pay your USD 300 VIP membership fee</h4>
-          <p class="lead">Pay into SAIS Expo Coordinators, our registered business account. Use your company name as the payment reference, then send the payment confirmation to info@saisevents.com or WhatsApp +254 722 170 385.</p>
-          <div class="paygrid">
+        <a class="btn btn-gold" href="#pay" style="margin-bottom:12px">Pay now</a><br>
+        <a class="btn btn-gold" href="index.html#expos">See our upcoming expos</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="pay">
+  <div class="wrap">
+    <h2>Pay your VIP membership fee</h2>
+    <p class="sub">Pay into SAIS Expo Coordinators, our registered business account. Apply first, so we can match your payment to your company.</p>
+    <div class="paybox">
+      <div class="paysum">
+        <div class="amt">USD 300<small>Paid once. No yearly renewal</small></div>
+        <button type="button" class="btn btn-gold" id="payBtn" aria-expanded="false" aria-controls="paydetails">Pay now</button>
+      </div>
+      <div id="paydetails" hidden>
+        <div class="paygrid">
             <div class="acct"><h5>USD account</h5><dl>
               <dt>Bank</dt><dd>Equity Bank (Kenya) Ltd</dd>
               <dt>Account name</dt><dd>SAIS EXPO COORDINATORS</dd>
@@ -297,8 +323,12 @@
             </dl></div>
           </div>
           <p class="paywarn"><b>Stay safe.</b> SAIS Events only receives payments into the accounts above, all in the name SAIS EXPO COORDINATORS. If anyone gives you different payment details, do not pay. Call or WhatsApp +254 722 170 385 first.</p>
-        </div>
-        <a class="btn btn-gold" href="index.html#expos">See our upcoming expos</a>
+        <ol class="paysteps">
+          <li>Pay by bank transfer or M-Pesa using the details above.</li>
+          <li>Use your company name as the payment reference.</li>
+          <li>Send your payment confirmation to info@saisevents.com or WhatsApp +254 722 170 385.</li>
+          <li>We confirm your membership and send your welcome email.</li>
+        </ol>
       </div>
     </div>
   </div>
@@ -313,6 +343,19 @@
 </footer>
 
 <script>
+(function(){
+  var btn = document.getElementById("payBtn"), box = document.getElementById("paydetails");
+  function openPay(scroll){
+    box.hidden = false; btn.setAttribute("aria-expanded","true"); btn.textContent = "Payment details below";
+    if (scroll) document.getElementById("pay").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  btn.addEventListener("click", function(){ openPay(false); });
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#pay"]'), function(a){
+    a.addEventListener("click", function(ev){ ev.preventDefault(); history.replaceState(null,"","#pay"); openPay(true); });
+  });
+  if (location.hash === "#pay") openPay(true);
+  window.addEventListener("hashchange", function(){ if (location.hash === "#pay") openPay(true); });
+})();
 (function(){
   var form = document.getElementById("vipForm");
   var err = document.getElementById("err");
