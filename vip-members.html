@@ -84,6 +84,17 @@
   .thanks{text-align:center;padding:10px 0}
   .thanks h3{font-size:22px;color:var(--green);margin:0 0 8px}
   .thanks p{color:var(--muted);margin:0 0 16px}
+  .pay{text-align:left;margin:6px 0 20px}
+  .pay h4{font-size:18px;color:var(--green);margin:0 0 4px}
+  .pay .lead{font-size:15px;color:var(--muted);margin:0 0 14px}
+  .paygrid{display:grid;gap:12px;grid-template-columns:1fr}
+  @media(min-width:700px){.paygrid{grid-template-columns:1fr 1fr 1fr}}
+  .acct{background:#FDFBF5;border:1.5px solid var(--line);border-top:4px solid var(--gold);border-radius:10px;padding:14px 16px}
+  .acct h5{margin:0 0 8px;font-size:15px;color:var(--green);letter-spacing:.3px}
+  .acct dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14.5px}
+  .acct dt{color:var(--muted)}
+  .acct dd{margin:0;font-weight:700;color:var(--ink);word-break:break-word;font-variant-numeric:tabular-nums}
+  .paywarn{background:#FBF3DC;border:1px solid #EAD9A6;border-left:5px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-size:14.5px;margin-top:14px;color:var(--ink)}
   footer{background:var(--green);color:#C9D6CF;padding:30px 0 34px;font-size:15px}
   footer a{color:#F0D28A;text-decoration:none}
   .foot{display:flex;flex-wrap:wrap;gap:14px 26px;justify-content:space-between;align-items:center}
@@ -244,7 +255,7 @@
           <span class="hint">Opens in a new tab, so your answers here stay safe.</span></div>
         <div class="field"><label for="notes">Your goals and travel plans</label><textarea id="notes" name="notes" placeholder="What do you want to achieve and when do you plan to travel" required></textarea></div>
 
-        <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. Our team sends payment details after we receive your application. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
+        <p class="feebox"><b>VIP membership fee: USD 300, paid once.</b> No yearly renewal. Payment details appear on this page as soon as you apply. Tick the box below to confirm you accept the terms and conditions and the fee. You cannot complete registration without it.</p>
 
         <label class="consent"><input type="checkbox" id="consent" name="consent" value="Yes" required>I accept the <a href="terms.html#vip" target="_blank" rel="noopener">terms and conditions</a> and the one-time USD 300 VIP membership fee, and I agree to be contacted by SAIS Events.</label>
 
@@ -256,6 +267,37 @@
       <div class="thanks" id="thanks" hidden>
         <h3>Thank you, your application is in</h3>
         <p id="thanksText">Our team will review your company and contact you shortly on WhatsApp or email.</p>
+        <div class="pay" id="payment">
+          <h4>How to pay your USD 300 VIP membership fee</h4>
+          <p class="lead">Pay into SAIS Expo Coordinators, our registered business account. Use your company name as the payment reference, then send the payment confirmation to info@saisevents.com or WhatsApp +254 722 170 385.</p>
+          <div class="paygrid">
+            <div class="acct"><h5>USD account</h5><dl>
+              <dt>Bank</dt><dd>Equity Bank (Kenya) Ltd</dd>
+              <dt>Account name</dt><dd>SAIS EXPO COORDINATORS</dd>
+              <dt>Account no.</dt><dd>1320187898447</dd>
+              <dt>Currency</dt><dd>USD</dd>
+              <dt>SWIFT code</dt><dd>EQBLKENA</dd>
+              <dt>Bank code</dt><dd>068</dd>
+              <dt>Branch</dt><dd>Embakasi Taj Mall</dd>
+              <dt>Branch code</dt><dd>132</dd>
+              <dt>Bank address</dt><dd>P.O. Box 75104-00200, Nairobi</dd>
+            </dl></div>
+            <div class="acct"><h5>KES account</h5><dl>
+              <dt>Bank</dt><dd>Equity Bank (Kenya) Ltd</dd>
+              <dt>Account name</dt><dd>SAIS EXPO COORDINATORS</dd>
+              <dt>Account no.</dt><dd>1320187898366</dd>
+              <dt>Currency</dt><dd>KES</dd>
+              <dt>Branch</dt><dd>Embakasi Taj Mall</dd>
+            </dl></div>
+            <div class="acct"><h5>M-Pesa (Kenya)</h5><dl>
+              <dt>Lipa na M-Pesa</dt><dd>Paybill</dd>
+              <dt>Business no.</dt><dd>247247</dd>
+              <dt>Account no.</dt><dd>1320187898366</dd>
+              <dt>Account name</dt><dd>SAIS EXPO COORDINATORS</dd>
+            </dl></div>
+          </div>
+          <p class="paywarn"><b>Stay safe.</b> SAIS Events only receives payments into the accounts above, all in the name SAIS EXPO COORDINATORS. If anyone gives you different payment details, do not pay. Call or WhatsApp +254 722 170 385 first.</p>
+        </div>
         <a class="btn btn-gold" href="index.html#expos">See our upcoming expos</a>
       </div>
     </div>
