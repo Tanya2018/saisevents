@@ -62,7 +62,7 @@ const SHOWS = {
     where: "Nairobi, Kenya",
     vet: "https://saisevents.com/market.html?expo=WCI%20Forum%20Kenya%202027",
     type: "visitor",
-    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+    perks: "If you have not done it yet, complete your registration on the official WCI Forum Kenya form here: https://docs.google.com/forms/d/e/1FAIpQLScnN5c7pqlj_xY0KVpYmMpZb_pgVCropYZxJa1-kcl4XDQ1hA/viewform . SAIS Events helps with B2B meetings at the forum, and with the Kenya eTA, hotels and transfers for visitors from outside Kenya.",
   },
   "expo-west-2027-registration": {
     expo: "Expo West 2027",
