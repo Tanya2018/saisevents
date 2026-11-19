@@ -48,6 +48,86 @@ const SHOWS = {
     type: "exhibitor",
     perks: "Our team will send you the exhibitor packages and help you book your stand. Stands are confirmed by the organisers once payment is received.",
   },
+  "global-tea-fair-2026-registration": {
+    expo: "Global Tea Fair 2026",
+    when: "17 to 21 December 2026",
+    where: "Shenzhen Convention and Exhibition Center, Shenzhen, China",
+    vet: "https://saisevents.com/market.html?expo=Global%20Tea%20Fair%202026",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "wci-forum-kenya-2027-registration": {
+    expo: "WCI Forum Kenya 2027",
+    when: "27 to 28 January 2027",
+    where: "Nairobi, Kenya",
+    vet: "https://saisevents.com/market.html?expo=WCI%20Forum%20Kenya%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "expo-west-2027-registration": {
+    expo: "Expo West 2027",
+    when: "2 to 5 March 2027",
+    where: "Anaheim Convention Center, Anaheim, USA",
+    vet: "https://saisevents.com/market.html?expo=Expo%20West%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "india-mattresstech-2027-registration": {
+    expo: "India Mattresstech Expo 2027",
+    when: "3 to 6 March 2027",
+    where: "India Expo Mart, Greater Noida, India",
+    vet: "https://saisevents.com/market.html?expo=India%20Mattresstech%20Expo%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "hotelex-shanghai-2027-registration": {
+    expo: "HOTELEX Shanghai 2027",
+    when: "30 March to 2 April 2027",
+    where: "National Exhibition and Convention Center, Shanghai, China",
+    vet: "https://saisevents.com/market.html?expo=HOTELEX%20Shanghai%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "inter-foodtech-2027-registration": {
+    expo: "Inter FoodTech 2027",
+    when: "15 to 17 April 2027",
+    where: "Bombay Exhibition Centre, Mumbai, India",
+    vet: "https://saisevents.com/market.html?expo=Inter%20FoodTech%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "sial-canada-2027-registration": {
+    expo: "SIAL Canada 2027",
+    when: "27 to 29 April 2027",
+    where: "Enercare Centre, Toronto, Canada",
+    vet: "https://saisevents.com/market.html?expo=SIAL%20Canada%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "fi-africa-2027-registration": {
+    expo: "Fi Africa 2027",
+    when: "1 to 3 June 2027",
+    where: "Egypt International Exhibition Center, Cairo, Egypt",
+    vet: "https://saisevents.com/market.html?expo=Fi%20Africa%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "propak-china-2027-registration": {
+    expo: "ProPak China 2027",
+    when: "22 to 24 June 2027",
+    where: "National Exhibition and Convention Center, Shanghai, China",
+    vet: "https://saisevents.com/market.html?expo=ProPak%20China%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
+  "cosmoprof-las-vegas-2027-registration": {
+    expo: "Cosmoprof Las Vegas 2027",
+    when: "13 to 15 July 2027",
+    where: "Mandalay Bay Convention Center, Las Vegas, USA",
+    vet: "https://saisevents.com/market.html?expo=Cosmoprof%20Las%20Vegas%202027",
+    type: "visitor",
+    perks: "SAIS Events helps with visa invitation letters, visa processing, flights, hotels and B2B meetings at the show.",
+  },
   "woc-dubai-2027-registration": {
     expo: "World of Coffee Dubai 2027",
     when: "26 to 28 January 2027",
@@ -124,7 +204,11 @@ exports.handler = async (event) => {
 <p>Dear ${esc(first)},</p>
 <p>Thank you for registering for <b>${show.expo}</b>, ${show.when}, at the ${show.where}. We have received your details for <b>${esc(d.company)}</b>.</p>
 <p><b>What happens next</b></p>
-${show.type === "exhibitor" ? `<ol>
+${show.type === "visitor" ? `<ol>
+<li>Create your free company profile on SAIS MatchMarket so we can vet your company and plan your B2B meetings: <a href="${show.vet}">${show.vet}</a></li>
+<li>Our team will contact you on WhatsApp or email to confirm your trip and your registration with the organisers.</li>
+<li>We will guide you on your visa, flights and hotel.</li>
+</ol>` : show.type === "exhibitor" ? `<ol>
 <li>Our team will contact you on WhatsApp or by phone about your stand.</li>
 <li>Create your free company profile on SAIS MatchMarket so buyers and partners can find you: <a href="${show.vet}">${show.vet}</a></li>
 </ol>` : `<ol>
@@ -135,7 +219,7 @@ ${show.type === "exhibitor" ? `<ol>
 <p>${show.perks}</p>
 ${show.passport ? `<p>Please keep your passport valid until at least ${show.passport}.</p>` : ""}
 <p>If you have any questions, simply reply to this email or WhatsApp us on +254 722 170 385.</p>
-<p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, official delegate sourcing agent for East Africa<br><a href="https://saisevents.com">saisevents.com</a></p>
+<p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, MICE, International Trade &amp; Business Events<br><a href="https://saisevents.com">saisevents.com</a></p>
 </div>`;
       await send(key, {
         from: FROM,
