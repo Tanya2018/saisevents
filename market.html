@@ -241,6 +241,9 @@ body.nonav nav.side,body.nonav nav.tabs{display:none!important}
 .additem input{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 10px;min-width:0}
 .compose input:disabled{opacity:.6}
 @media (max-width:820px){.additem{grid-template-columns:1fr 1fr}.additem input:first-child{grid-column:1/-1}.acct span{display:none}}
+.msearch{margin:6px 0 14px}.msearch input{width:100%}
+[data-s][hidden]{display:none!important}
+.qcount{font-size:13px;color:var(--muted,#667);margin:-6px 0 12px}
 </style></head>
 <body>
 <header class="top">
@@ -292,7 +295,7 @@ const COLORS=['#0B6E4F','#7A5A0E','#2D4E8C','#8C2D4E','#4E6B2D','#5B3F8C','#8C5A
 const STEPS=['Proposed','Negotiating','Accepted','Delivered'];
 const STOP=new Set('and the for with from our your that this are have has its into per all any can new more less than also only very who what when where which their they them you we us of in on to a an or as at by be is it'.split(' '));
 
-const S={user:null,me:null,admin:false,view:'matches',filter:'All',open:null,cos:[],matches:[],convs:[],msgs:{},last:{},meetings:[],deals:[],items:{},events:{},loading:true};
+const S={user:null,me:null,admin:false,view:'matches',filter:'All',open:null,cos:[],matches:[],convs:[],msgs:{},last:{},meetings:[],deals:[],items:{},events:{},loading:true,qs:{}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ini=n=>String(n||'?').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
@@ -437,6 +440,9 @@ function pendingBanner(){
   :`<div class="banner warn"><b>Waiting for SAIS vetting.</b> You can look around now. Messages, meetings and deals open once your company is approved, usually within 1 working day.</div>`;
 }
 
+function sTxt(c,extra){return esc([c.name,c.role,c.city,c.country,c.sells,c.wants,(c.expos||[]).join(' '),extra||''].join(' ').toLowerCase())}
+function searchBox(id,ph){return `<label class="f msearch">Search<input type="search" data-q="${id}" value="${esc(S.qs[id]||'')}" placeholder="${ph}" autocomplete="off"></label><p class="qcount" id="${id}-n" aria-live="polite"></p>`}
+function applySearch(){document.querySelectorAll('[data-q]').forEach(q=>{const t=(q.value||'').trim().toLowerCase(),box=document.getElementById(q.dataset.q);if(!box)return;const items=box.querySelectorAll('[data-s]');let n=0;items.forEach(el=>{const hit=!t||t.split(/\s+/).every(w=>el.dataset.s.includes(w));el.hidden=!hit;if(hit)n++});const lab=document.getElementById(q.dataset.q+'-n');if(lab)lab.textContent=t?(n+(n===1?' company matches':' companies match')+' your search'):''})}
 function viewMatches(){
  const JV='Joint Venture Programmes';
  const list=suggestions().filter(x=>S.filter==='All'||(S.filter===JV?x.c.jv_open:x.c.role===S.filter)).filter(x=>!S.expoF||(x.c.expos||[]).includes(S.expoF));
@@ -445,7 +451,8 @@ function viewMatches(){
  <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
  <label class="f expof">Going to the same expo<select id="expoFilter"><option value="">Any expo</option>${EXPOS.map(e=>`<option ${S.expoF===e.n?'selected':''}>${esc(e.n)}</option>`).join('')}</select></label>
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
- ${list.length?`<div class="grid">${list.map(({c,score,why,agent})=>`<article class="card">
+ ${searchBox('mgrid','Search by company, product, country or city')}
+ ${list.length?`<div class="grid" id="mgrid">${list.map(({c,score,why,agent})=>`<article class="card" data-s="${sTxt(c)}">
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
    <div class="tags"><span class="tag role">${esc(c.role)}</span>${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
@@ -605,14 +612,14 @@ function viewAdmin(){
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
-  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span>${aiNote(p.id)}</div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
+  ${pend.length?`<div class="list">${pend.map(p=>`<div class="li" data-s="${sTxt(p,em(p.owner)||'')}"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span>${aiNote(p.id)}</div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
  </div>
  <div class="card"><h3 class="h3">Signed up, company form not finished</h3>
   ${S.users===null||S.users===undefined?'<p class="muted small">Run the admin setup step in Supabase to see this list.</p>':unfinished.length?`<p class="muted small">These people made an account but have not added their company. Email them to finish.</p><div class="list">${unfinished.map(u=>`<div class="li"><div class="t"><b>${esc(u.email)}</b><span>Signed up ${fmtTime(u.created_at)}</span></div></div>`).join('')}</div>`:'<p class="empty">Everyone who signed up has added a company.</p>'}
  </div>
  <div class="card"><h3 class="h3">Interest by expo</h3><div class="bars">${(()=>{const c=EXPOS.map(e=>[e.n,S.cos.filter(x=>(x.expos||[]).includes(e.n)).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);const mx=Math.max(1,...c.map(x=>x[1]));return c.length?c.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><em>${v}</em></div>`).join(''):'<p class="muted small">No expo choices yet.</p>'})()}</div></div>
  <div class="card"><h3 class="h3">Vetted members by type</h3><div class="bars">${counts.map(([k,v])=>`<div class="bar"><span>${k}</span><i style="width:${v/max*100}%"></i><em>${v}</em></div>`).join('')}</div></div>
- <div class="card"><h3 class="h3">All companies</h3><div class="list">${S.cos.map(p=>`<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${(()=>{const r=S.reviews&&S.reviews.get(p.id);return r&&r.risk&&r.risk!=='low'?riskPill(r):''})()}${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
+ <div class="card"><h3 class="h3">All companies</h3>${searchBox('alllist','Search by company, email, country, product or status')}<div class="list" id="alllist">${S.cos.map(p=>`<div class="li" data-s="${sTxt(p,(em(p.owner)||'')+' '+p.status)}"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span></div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${(()=>{const r=S.reviews&&S.reviews.get(p.id);return r&&r.risk&&r.risk!=='low'?riskPill(r):''})()}${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
 }
 
 function render(){
@@ -625,6 +632,7 @@ function render(){
  else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline}[S.view]||viewAdmin)();
  else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
+ applySearch();
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
 }
 
@@ -699,6 +707,7 @@ document.addEventListener('click',async e=>{
  }catch(err){fail(err)}
 });
 
+document.addEventListener('input',e=>{const q=e.target.closest&&e.target.closest('[data-q]');if(!q)return;S.qs[q.dataset.q]=q.value;applySearch()});
 document.addEventListener('change',async e=>{if(e.target.dataset&&e.target.dataset.stage){const id=e.target.dataset.stage,st=e.target.value;const a=(S.apps||[]).find(x=>x.id===id);const v={stage:st};if(st==='approved'||st==='declined')v.decision_at=new Date().toISOString().slice(0,10);const r=await sb.from('applications').update(v).eq('id',id).select(APPSEL).single();if(r.error){fail(r.error,'Could not save the stage');render();return}if(a)Object.assign(a,r.data);toast('Moved to '+stageName(st));render();return}if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
 document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('#compose').requestSubmit()}});
 document.addEventListener('submit',async e=>{
