@@ -24,6 +24,10 @@ const SHOWS = {
     perks: "Approved hosted buyers get 2 nights in a 3-star hotel, shuttle between hotel and fair, VIP entry and VIP Lounge access, the İzmir Bay networking dinner cruise, and pre-arranged B2B meetings. Buyers pay their own flights, and air tickets, a company tax certificate and a business or chamber of commerce registration must reach the organisers by 18 December 2026.",
     passport: "6 August 2027",
   },
+  "agroexpo-2027-application": {
+    expo: "AGROEXPO 2027",
+    type: "application",
+  },
   "aluminium-china-2027-registration": {
     expo: "ALUMINIUM CHINA 2027",
     when: "7 to 9 July 2027",
@@ -186,6 +190,42 @@ async function send(key, msg) {
   if (!r.ok) console.log("Resend error", r.status, await r.text());
 }
 
+// Official hosted buyer application (approved delegates). Receipt to the delegate, full answers to SAIS.
+async function handleApplication(key, show, d, payload) {
+  if (!key) return;
+  const email = String(d.direct_email || d.email || "").trim();
+  const first = String(d.name || "").trim().split(/\s+/)[0] || "there";
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    await send(key, {
+      from: FROM, to: [email], reply_to: ADMIN,
+      subject: `Your ${show.expo} Hosted Buyer application is received`,
+      html: `<div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.6;color:#0D1411;max-width:560px">
+<p>Dear ${esc(first)},</p>
+<p>Thank you. We have received the official ${show.expo} Hosted Buyer application for <b>${esc(d.company)}</b>, with your documents.</p>
+<p>Our team will check everything and send your application to the organisers. If anything is missing, we will contact you on WhatsApp or email.</p>
+<p>Please do not buy your air ticket yet. We will guide you on your visa invitation letter first.</p>
+<p>If you have any questions, simply reply to this email or WhatsApp us on +254 722 170 385.</p>
+<p>Warm regards,<br>Catherine Kinyanjui<br>SAIS Events, MICE, International Trade &amp; Business Events<br><a href="https://saisevents.com">saisevents.com</a></p></div>`,
+    });
+  }
+  const rows = [
+    ["Company", d.company], ["Country / City", [d.country, d.city].filter(Boolean).join(" / ")], ["Website", d.website],
+    ["Company email", d.email], ["Company phone", d.phone], ["Registration / tax number", d.reg_tax], ["Employees", d.employees],
+    ["Year established", d.year], ["Branches", d.branches], ["Business type", d.business_type],
+    ["Portfolio", [d.portfolio, d.portfolio_other].filter(Boolean).join(", ")],
+    ["Attendee", d.name], ["Job title", d.jobtitle], ["Direct email", d.direct_email], ["WhatsApp", d.whatsapp],
+    ["Turnover", d.turnover], ["Buying budget (USD)", d.budget],
+    ["Product interests", [d.interests, d.interest_other].filter(Boolean).join(", ")], ["Purpose of visit", d.purpose],
+    ["Attended before", d.attended], ["Imports from Türkiye", [d.imports_turkey, d.turkey_products].filter(Boolean).join(": ")],
+    ["Imports from", d.import_countries], ["Commitment", d.commitment], ["Signature", d.signature], ["Date", d.submitted_date],
+  ].map(([k, v]) => `<tr><td style="padding:4px 10px 4px 0;color:#46524D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join("");
+  await send(key, {
+    from: FROM, to: [ADMIN], reply_to: email || ADMIN,
+    subject: `New ${show.expo} Hosted Buyer application: ${String(d.company || "").slice(0, 80)}`,
+    html: `<div style="font-family:Arial,sans-serif;font-size:15px"><p>New official application for ${show.expo}.</p><table>${rows}</table><p>The business card, registration certificate and tax certificate are in Netlify, under Forms, ${payload.form_name}.</p></div>`,
+  });
+}
+
 exports.handler = async (event) => {
   try {
     const key = process.env.RESEND_API_KEY;
@@ -194,6 +234,7 @@ exports.handler = async (event) => {
     if (!show) return { statusCode: 200, body: "skipped" };
 
     const d = payload.data || {};
+    if (show.type === "application") { await handleApplication(key, show, d, payload); return { statusCode: 200, body: "ok" }; }
     try { await saveToPipeline(show, d); } catch (e) { console.log("pipeline save error", e && e.message); }
     if (!key) return { statusCode: 200, body: "saved, no email key" };
     const first = String(d.name || "").trim().split(/\s+/)[0] || "there";

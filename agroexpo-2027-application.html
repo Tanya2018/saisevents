@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGROEXPO 2027 Hosted Buyer Application | SAIS Events</title>
+<meta name="description" content="Official AGROEXPO 2027 Hosted Buyer application for approved SAIS Events delegates. Fill in on your phone and upload your documents.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="sais-globe-icon.png">
+<meta property="og:title" content="AGROEXPO 2027: your Hosted Buyer application">
+<meta property="og:description" content="Approved SAIS Events delegates: fill in your official application on your phone in about 10 minutes.">
+<meta property="og:image" content="https://saisevents.com/sais-events-share.jpg">
+<style>
+  :root{--green:#04211A;--gold:#d6a63c;--gold-ink:#7A5A0E;--cream:#F7F2E6;--soft:#F1ECDD;--ink:#0D1411;--muted:#46524D;--line:#E2D8BF;--white:#FFFDF8}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:"Inter","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;font-size:17px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  header{background:var(--green);padding:12px 0;border-bottom:1px solid rgba(214,166,60,.35)}
+  header img{height:42px;width:auto;display:block}
+  .hero{background:linear-gradient(160deg,#03190F 0%,#04211A 60%,#0B3A2E 100%);color:#fff;padding:30px 0 28px}
+  .flag{display:inline-block;border:1px solid rgba(214,166,60,.6);color:#F0D28A;font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+  .hero h1{font-size:28px;line-height:1.2;margin:14px 0 10px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{color:#DCE7E1;margin:0;font-size:16.5px}
+  .steps{display:grid;gap:8px;margin:18px 0 0;padding:0;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;background:rgba(255,255,255,.07);border-left:3px solid var(--gold);padding:9px 12px;border-radius:0 8px 8px 0;font-size:15px}
+  .steps li:before{content:counter(s) ". ";font-weight:800;color:#F0D28A}
+  main{padding:24px 0 48px}
+  .formbox{background:var(--white);border:2px solid var(--gold);border-radius:16px;padding:18px}
+  @media(min-width:700px){.hero h1{font-size:38px}.formbox{padding:30px}}
+  .part{font-size:12.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--gold-ink);margin:28px 0 2px}
+  .part:first-of-type{margin-top:0}
+  h2{font-size:21px;color:var(--green);margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .grid2{display:grid;gap:0 14px;grid-template-columns:1fr}
+  @media(min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+  label{display:block;font-weight:700;font-size:15px;margin-bottom:6px;color:var(--green)}
+  .hint{display:block;font-size:13.5px;color:var(--muted);margin-top:4px;font-weight:400}
+  input[type=text],input[type=email],input[type=tel],select{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:#FDFBF5;color:var(--ink)}
+  input:focus,select:focus{outline:none;border-color:var(--gold);background:#fff}
+  .field{margin-bottom:14px;min-width:0}
+  fieldset{border:0;margin:4px 0 16px;padding:0;min-width:0}
+  legend{font-weight:700;font-size:15px;color:var(--green);margin-bottom:8px;padding:0}
+  .checks{display:grid;gap:8px;grid-template-columns:1fr}
+  @media(min-width:560px){.checks{grid-template-columns:1fr 1fr}}
+  .checks label{display:flex;gap:10px;align-items:flex-start;font-weight:500;color:var(--ink);background:#FDFBF5;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;margin:0;cursor:pointer}
+  .checks input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--green);flex:none}
+  .checks label:has(input:checked){border-color:var(--green);background:#EEF4F1}
+  .other{margin-top:8px}
+  .up{position:relative;margin-bottom:14px}
+  .up input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+  .upbtn{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--green);background:#FDFBF5;border:1.5px dashed var(--gold-ink);border-radius:10px;padding:14px 16px;cursor:pointer;margin:0}
+  .upbtn span{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+  .upbtn svg{flex:none}
+  .upbtn.ok{border-style:solid;border-color:var(--green);background:#EEF4F1}
+  .commit{display:flex;gap:12px;align-items:flex-start;background:#EEF2FB;border:2px solid #1F3A8A;border-radius:12px;padding:14px;font-weight:700;color:#1F3A8A;font-size:15px;margin:0 0 14px;cursor:pointer}
+  .commit input{width:22px;height:22px;flex:none;margin-top:1px;accent-color:#1F3A8A}
+  .note{background:#FBF3DC;border:1px solid #EAD9A6;border-left:5px solid var(--gold);border-radius:0 12px 12px 0;padding:14px 16px;font-size:15px;margin:0 0 18px}
+  .hp{position:absolute;left:-9999px}
+  .err{color:#B3261E;font-weight:600;font-size:15px;margin:10px 0 0;min-height:1em}
+  .btn{display:block;width:100%;font:inherit;font-weight:800;font-size:17px;border:0;border-radius:999px;padding:16px;cursor:pointer;background:var(--green);color:#fff;margin-top:8px}
+  .btn:disabled{opacity:.6}
+  .thanks{text-align:center;padding:10px 0}
+  .thanks h2{border:0;padding:0}
+  .thanks p{color:var(--muted)}
+  footer{background:var(--green);color:#C9D6CF;padding:24px 0;font-size:14.5px;text-align:center}
+  footer a{color:#F0D28A;text-decoration:none}
+</style>
+<link rel="canonical" href="https://saisevents.com/agroexpo-2027-application.html">
+</head>
+<body>
+<header><div class="wrap"><a href="/"><img src="sais-events-logo-full-light.png" alt="SAIS Events"></a></div></header>
+
+<div class="hero"><div class="wrap">
+  <span class="flag">Approved delegates only</span>
+  <h1>AGROEXPO 2027 <em>Hosted Buyer application</em></h1>
+  <p>İzmir, Türkiye, 2 to 6 February 2027. This is the official application the organisers need. It takes about 10 minutes on your phone.</p>
+  <ol class="steps">
+    <li>Fill in your details below.</li>
+    <li>Upload a photo of your business card, registration certificate and tax certificate.</li>
+    <li>Tick the commitment box, type your name and press Submit.</li>
+  </ol>
+</div></div>
+
+<main><div class="wrap">
+  <div class="note">Please send your application by <b>Friday, 11 December 2026</b>. Do not buy your air ticket yet. We will guide you on your visa first.</div>
+  <div class="formbox">
+    <form id="appForm" name="agroexpo-2027-application" method="POST" action="/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="agroexpo-2027-application">
+      <input type="hidden" name="expo" value="AGROEXPO 2027">
+      <input type="hidden" name="portfolio">
+      <input type="hidden" name="interests">
+      <input type="hidden" name="purpose">
+      <input type="hidden" name="submitted_date">
+      <p class="hp" aria-hidden="true"><label>Do not fill this in <input name="bot-field" tabindex="-1" autocomplete="new-password"></label></p>
+
+      <p class="part">Part 1 of 5</p>
+      <h2>Your company</h2>
+      <div class="field"><label for="company">Company name</label><input type="text" id="company" name="company" autocomplete="organization" required></div>
+      <div class="grid2">
+        <div class="field"><label for="country">Country</label><input type="text" id="country" name="country" autocomplete="country-name" required></div>
+        <div class="field"><label for="city">City</label><input type="text" id="city" name="city" autocomplete="address-level2" required></div>
+        <div class="field"><label for="website">Company website</label><input type="text" id="website" name="website" placeholder="yourcompany.com" required><span class="hint">The organisers require a website. If you only have a Facebook page, add that link.</span></div>
+        <div class="field"><label for="email">Company email</label><input type="email" id="email" name="email" autocomplete="email" required></div>
+        <div class="field"><label for="phone">Company phone</label><input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+254 7XX XXX XXX" required></div>
+        <div class="field"><label for="reg_tax">Registration or tax number</label><input type="text" id="reg_tax" name="reg_tax" placeholder="For example, KRA PIN or TIN" required></div>
+        <div class="field"><label for="employees">Number of employees</label><input type="text" id="employees" name="employees" inputmode="numeric" required></div>
+        <div class="field"><label for="year">Year the company started</label><input type="text" id="year" name="year" inputmode="numeric" placeholder="For example, 2015" required></div>
+        <div class="field"><label for="branches">Number of branches or offices</label><input type="text" id="branches" name="branches" inputmode="numeric" required></div>
+      </div>
+      <fieldset>
+        <legend>Main type of business (choose one)</legend>
+        <div class="checks" data-radio="business_type">
+          <label><input type="radio" name="business_type" value="Importer" required> Importer</label>
+          <label><input type="radio" name="business_type" value="Distributor"> Distributor</label>
+          <label><input type="radio" name="business_type" value="Wholesaler"> Wholesaler</label>
+          <label><input type="radio" name="business_type" value="Manufacturer"> Manufacturer</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>What your company deals in now (choose all that apply)</legend>
+        <div class="checks" data-group="portfolio">
+          <label><input type="checkbox" value="Tractors"> Tractors</label>
+          <label><input type="checkbox" value="Agricultural Machinery"> Farm machinery</label>
+          <label><input type="checkbox" value="Irrigation"> Irrigation</label>
+          <label><input type="checkbox" value="Greenhouse"> Greenhouses</label>
+          <label><input type="checkbox" value="Seeds"> Seeds</label>
+          <label><input type="checkbox" value="Fertilizers"> Fertilisers</label>
+          <label><input type="checkbox" value="Animal Husbandry"> Livestock and poultry</label>
+          <label><input type="checkbox" value="Dairy Equipment"> Dairy equipment</label>
+          <label><input type="checkbox" value="Spare Parts"> Spare parts</label>
+          <label><input type="checkbox" value="Agricultural Tech"> Farm technology</label>
+          <label><input type="checkbox" value="Other" data-other="portfolio_other_wrap"> Other</label>
+        </div>
+        <div class="other" id="portfolio_other_wrap" hidden><input type="text" name="portfolio_other" placeholder="What else? For example, coffee, avocado, ginger"></div>
+      </fieldset>
+
+      <p class="part">Part 2 of 5</p>
+      <h2>The person attending</h2>
+      <div class="grid2">
+        <div class="field"><label for="name">Full name (as on passport)</label><input type="text" id="name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="jobtitle">Job title</label><input type="text" id="jobtitle" name="jobtitle" placeholder="For example, Managing Director" required></div>
+        <div class="field"><label for="direct_email">Direct email</label><input type="email" id="direct_email" name="direct_email" required></div>
+        <div class="field"><label for="whatsapp">WhatsApp number</label><input type="tel" id="whatsapp" name="whatsapp" placeholder="+254 7XX XXX XXX" required></div>
+      </div>
+
+      <p class="part">Part 3 of 5</p>
+      <h2>Size of your business</h2>
+      <fieldset>
+        <legend>Average yearly turnover (USD)</legend>
+        <div class="checks" data-radio="turnover">
+          <label><input type="radio" name="turnover" value="Under $1M" required> Under $1 million</label>
+          <label><input type="radio" name="turnover" value="$1M-$5M"> $1 million to $5 million</label>
+          <label><input type="radio" name="turnover" value="$5M-$10M"> $5 million to $10 million</label>
+          <label><input type="radio" name="turnover" value="Over $10M"> Over $10 million</label>
+        </div>
+      </fieldset>
+      <div class="field"><label for="budget">Yearly buying budget (USD)</label><input type="text" id="budget" name="budget" inputmode="numeric" placeholder="For example, 50,000" required><span class="hint">How much you plan to spend buying equipment, inputs or products in a year.</span></div>
+
+      <p class="part">Part 4 of 5</p>
+      <h2>What you want at AGROEXPO</h2>
+      <fieldset>
+        <legend>Products you want to source (choose all that apply)</legend>
+        <div class="checks" data-group="interests">
+          <label><input type="checkbox" value="Tractors"> Tractors</label>
+          <label><input type="checkbox" value="Agri-Machinery"> Farm machinery</label>
+          <label><input type="checkbox" value="Harvesting"> Harvesting equipment</label>
+          <label><input type="checkbox" value="Irrigation"> Irrigation</label>
+          <label><input type="checkbox" value="Greenhouse"> Greenhouses</label>
+          <label><input type="checkbox" value="Seeds"> Seeds</label>
+          <label><input type="checkbox" value="Fertilizers"> Fertilisers</label>
+          <label><input type="checkbox" value="Plant Protection"> Crop protection</label>
+          <label><input type="checkbox" value="Animal Husbandry"> Livestock and poultry</label>
+          <label><input type="checkbox" value="Dairy Tech"> Dairy technology</label>
+          <label><input type="checkbox" value="Feed Tech"> Animal feed</label>
+          <label><input type="checkbox" value="Spare Parts"> Spare parts</label>
+          <label><input type="checkbox" value="Agricultural Tech"> Farm technology</label>
+          <label><input type="checkbox" value="Other" data-other="interest_other_wrap"> Other</label>
+        </div>
+        <div class="other" id="interest_other_wrap" hidden><input type="text" name="interest_other" placeholder="What else? For example, packaging, cold rooms"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Why are you visiting? (choose all that apply)</legend>
+        <div class="checks" data-group="purpose">
+          <label><input type="checkbox" value="Looking for new suppliers"> Find new suppliers</label>
+          <label><input type="checkbox" value="Exclusive distributorship"> Become a distributor</label>
+          <label><input type="checkbox" value="OEM"> Have products made for me (OEM)</label>
+          <label><input type="checkbox" value="Private label"> Private label</label>
+          <label><input type="checkbox" value="Technology partnership"> Technology partnership</label>
+          <label><input type="checkbox" value="Investment"> Investment</label>
+        </div>
+      </fieldset>
+      <div class="grid2">
+        <fieldset>
+          <legend>Have you attended AGROEXPO before?</legend>
+          <div class="checks" data-radio="attended" style="grid-template-columns:1fr 1fr">
+            <label><input type="radio" name="attended" value="Yes" required> Yes</label>
+            <label><input type="radio" name="attended" value="No"> No</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Do you import from Türkiye?</legend>
+          <div class="checks" data-radio="imports_turkey" style="grid-template-columns:1fr 1fr">
+            <label><input type="radio" name="imports_turkey" value="Yes" required> Yes</label>
+            <label><input type="radio" name="imports_turkey" value="No"> No</label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="field" id="turkey_products_wrap" hidden><label for="turkey_products">Which products do you import from Türkiye?</label><input type="text" id="turkey_products" name="turkey_products"></div>
+      <div class="field"><label for="import_countries">Which countries do you import from now?</label><input type="text" id="import_countries" name="import_countries" placeholder="For example, China, Egypt, India. Write None if you do not import." required></div>
+
+      <p class="part">Part 5 of 5</p>
+      <h2>Documents and signature</h2>
+      <p class="hint" style="margin:-6px 0 14px">A clear phone photo is fine. You can also upload a PDF.</p>
+      <div class="up"><label class="upbtn" for="business_card"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 15h6M7 11h10"/></svg><span id="business_card_l">Business card</span></label><input type="file" id="business_card" name="business_card" accept="image/*,.pdf" required></div>
+      <div class="up"><label class="upbtn" for="registration_cert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span id="registration_cert_l">Business registration or chamber of commerce certificate</span></label><input type="file" id="registration_cert" name="registration_cert" accept="image/*,.pdf" required></div>
+      <div class="up"><label class="upbtn" for="tax_cert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span id="tax_cert_l">Tax certificate (for example, KRA PIN)</span></label><input type="file" id="tax_cert" name="tax_cert" accept="image/*,.pdf" required></div>
+
+      <label class="commit"><input type="checkbox" name="commitment" value="Agreed" required> I understand and agree that attending the pre-scheduled B2B matchmaking sessions is strictly mandatory for all hosted buyers accepted into the programme.</label>
+      <div class="field"><label for="signature">Type your full name as your signature</label><input type="text" id="signature" name="signature" required></div>
+
+      <button class="btn" type="submit" id="submitBtn">Submit my application</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+    <div class="thanks" id="thanks" hidden>
+      <h2>Thank you. Your application is received.</h2>
+      <p>We will check your details and documents, then send your application to the AGROEXPO organisers. We will contact you on WhatsApp or email if anything is missing.</p>
+      <p>Questions? WhatsApp us on <a href="https://wa.me/254722170385">+254 722 170 385</a>.</p>
+    </div>
+  </div>
+</div></main>
+
+<footer><div class="wrap">SAIS Events, official Africa regional coordinator for AGROEXPO 2027 &middot; <a href="mailto:info@saisevents.com">info@saisevents.com</a> &middot; <a href="https://wa.me/254722170385">+254 722 170 385</a></div></footer>
+
+<script>
+(function(){
+  var form = document.getElementById("appForm"), err = document.getElementById("err");
+  // Prefill from a personal link: ?company=...&email=...
+  var q = new URLSearchParams(location.search);
+  ["company","country","city","website","email","phone","name","jobtitle","whatsapp"].forEach(function(k){
+    if (q.get(k) && form.elements[k]) form.elements[k].value = q.get(k);
+  });
+  if (q.get("email")) form.elements["direct_email"].value = q.get("email");
+  if (q.get("phone") && !q.get("whatsapp")) form.elements["whatsapp"].value = q.get("phone");
+
+  Array.prototype.forEach.call(form.querySelectorAll("[data-other]"), function(cb){
+    cb.addEventListener("change", function(){
+      var w = document.getElementById(cb.getAttribute("data-other")); w.hidden = !cb.checked;
+      if (cb.checked) w.querySelector("input").focus();
+    });
+  });
+  Array.prototype.forEach.call(form.querySelectorAll('[name="imports_turkey"]'), function(r){
+    r.addEventListener("change", function(){ document.getElementById("turkey_products_wrap").hidden = form.elements["imports_turkey"].value !== "Yes"; });
+  });
+
+  // Shrink large photos so the upload works on slow connections.
+  var ready = {};
+  function shrink(file){
+    return new Promise(function(res){
+      if (!/^image\//.test(file.type) || file.size < 900*1024) return res(file);
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function(){
+        var s = Math.min(1, 1800 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+        c.width = Math.round(img.width*s); c.height = Math.round(img.height*s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        c.toBlob(function(b){ URL.revokeObjectURL(url); res(b ? new File([b], file.name.replace(/\.\w+$/,"") + ".jpg", {type:"image/jpeg"}) : file); }, "image/jpeg", 0.8);
+      };
+      img.onerror = function(){ res(file); };
+      img.src = url;
+    });
+  }
+  ["business_card","registration_cert","tax_cert"].forEach(function(id){
+    var inp = document.getElementById(id), lab = document.getElementById(id + "_l"), def = lab.textContent;
+    inp.addEventListener("change", function(){
+      var f = inp.files[0]; if (!f) { lab.textContent = def; lab.parentNode.classList.remove("ok"); delete ready[id]; return; }
+      lab.textContent = "Preparing...";
+      shrink(f).then(function(g){ ready[id] = g; lab.textContent = "✓ " + def + ": " + f.name; lab.parentNode.classList.add("ok"); });
+    });
+  });
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault(); err.textContent = "";
+    var bad = null, msg = "";
+    Array.prototype.forEach.call(form.querySelectorAll("[required]"), function(el){
+      if (bad) return;
+      var empty = el.type === "radio" ? !form.querySelector('[name="'+el.name+'"]:checked') : el.type === "checkbox" ? !el.checked : el.type === "file" ? !ready[el.id] : !String(el.value).trim();
+      if (empty) bad = el;
+    });
+    if (bad && bad.type === "file") msg = "Please upload all 3 documents.";
+    if (bad && bad.type === "checkbox") msg = "Please tick the commitment box.";
+    if (bad && bad.type === "radio") msg = "Please choose one answer for each question.";
+    if (!bad && !form.querySelector('[data-group="interests"] input:checked')) { bad = form.querySelector('[data-group="interests"] input'); msg = "Please choose at least one product you want to source."; }
+    if (!bad && !form.querySelector('[data-group="purpose"] input:checked')) { bad = form.querySelector('[data-group="purpose"] input'); msg = "Please choose at least one reason for visiting."; }
+    ["email","direct_email"].forEach(function(k){ var e = form.elements[k]; if (!bad && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim())) { bad = e; msg = "Please check the email address."; } });
+    var total = 0; Object.keys(ready).forEach(function(k){ total += ready[k].size; });
+    if (!bad && total > 7.5*1024*1024) { bad = document.getElementById("business_card"); msg = "Your files are too large together. Please upload smaller photos or PDFs."; }
+    if (bad) { err.textContent = msg || "Please fill in every field."; (bad.type === "file" || bad.type === "radio" ? bad.closest(".up,fieldset") : bad).scrollIntoView({behavior:"smooth", block:"center"}); if (bad.focus) bad.focus({preventScroll:true}); return; }
+    ["portfolio","interests","purpose"].forEach(function(g){
+      form.elements[g].value = Array.prototype.map.call(form.querySelectorAll('[data-group="'+g+'"] input:checked'), function(i){ return i.value; }).join(", ");
+    });
+    var d = new Date(); form.elements["submitted_date"].value = ("0"+d.getDate()).slice(-2) + "/" + ("0"+(d.getMonth()+1)).slice(-2) + "/" + d.getFullYear();
+    var fd = new FormData(form);
+    Object.keys(ready).forEach(function(k){ fd.set(k, ready[k], ready[k].name); });
+    var btn = document.getElementById("submitBtn"); btn.disabled = true; btn.textContent = "Sending, please wait...";
+    fetch("/", {method:"POST", body: fd}).then(function(r){
+      if (!r.ok) throw 0;
+      form.hidden = true; var t = document.getElementById("thanks"); t.hidden = false; t.scrollIntoView({behavior:"smooth", block:"center"});
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = "Submit my application";
+      err.textContent = "We could not send your application. Please check your internet and try again, or WhatsApp us on +254 722 170 385.";
+    });
+  });
+})();
+</script>
+</body>
+</html>
