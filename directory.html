@@ -90,6 +90,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function(){
+  var ORG_EXPOS=[{"n": "Kenya Homes Expo 2026", "d": "19 to 22 Nov 2026", "p": "KICC, Nairobi, Kenya", "s": "Homes, building materials and interiors", "u": "kenya-homes-expo-2026.html", "k": "Exhibitors", "end": "2026-11-22"}, {"n": "Mombasa SACCOs and SMEs Expo 2026", "d": "26 to 29 Nov 2026", "p": "Mombasa, Kenya", "s": "SACCOs, SMEs, agribusiness and blue economy", "u": "mombasa-saccos-smes-expo-2026.html", "k": "Exhibitors", "end": "2026-11-29"}, {"n": "Food Africa 2026", "d": "7 to 10 Dec 2026", "p": "Cairo, Egypt", "s": "Food and beverage", "u": "food-africa-2026.html", "k": "Hosted Buyer Programme", "end": "2026-12-10"}, {"n": "Global Tea Fair 2026", "d": "17 to 21 Dec 2026", "p": "Shenzhen, China", "s": "Tea, tea drinks and teaware", "u": "global-tea-fair-2026.html", "k": "Buyer delegation", "end": "2026-12-21"}, {"n": "AFROPLAST 2027", "d": "9 to 12 Jan 2027", "p": "Cairo, Egypt", "s": "Plastics, rubber, packaging and recycling", "u": "afroplast-2027.html", "k": "Hosted Buyer Programme", "end": "2027-01-12"}, {"n": "World of Coffee Dubai 2027", "d": "26 to 28 Jan 2027", "p": "Dubai, UAE", "s": "Specialty coffee", "u": "world-of-coffee-dubai-2027.html", "k": "Buyer delegation", "end": "2027-01-28"}, {"n": "WCI Forum Kenya 2027", "d": "27 to 28 Jan 2027", "p": "Nairobi, Kenya", "s": "Türkiye and Africa trade, investment and B2B forum", "u": "wci-forum-kenya-2027.html", "k": "Exhibitors and delegates", "end": "2027-01-28"}, {"n": "AGROEXPO 2027", "d": "2 to 6 Feb 2027", "p": "İzmir, Türkiye", "s": "Agriculture, farm machinery, irrigation and livestock", "u": "agroexpo-2027.html", "k": "Hosted Buyer Programme", "end": "2027-02-06"}, {"n": "IFCO 2027", "d": "3 to 6 Feb 2027", "p": "Istanbul, Türkiye", "s": "Apparel and fashion", "u": "ifco-2027.html", "k": "Buyer delegation", "end": "2027-02-06"}, {"n": "Expo West 2027", "d": "2 to 5 Mar 2027", "p": "Anaheim, USA", "s": "Natural and organic products", "u": "expo-west-2027.html", "k": "Buyer delegation", "end": "2027-03-05"}, {"n": "India Mattresstech Expo 2027", "d": "3 to 6 Mar 2027", "p": "Greater Noida, India", "s": "Mattress and upholstery machinery and supplies", "u": "india-mattresstech-2027.html", "k": "Buyer delegation", "end": "2027-03-06"}, {"n": "HOTELEX Shanghai 2027", "d": "30 Mar to 2 Apr 2027", "p": "Shanghai, China", "s": "Hospitality and foodservice", "u": "hotelex-shanghai-2027.html", "k": "Buyer delegation", "end": "2027-04-02"}, {"n": "Inter FoodTech 2027", "d": "15 to 17 Apr 2027", "p": "Mumbai, India", "s": "Food processing and packaging", "u": "inter-foodtech-2027.html", "k": "Buyer delegation", "end": "2027-04-17"}, {"n": "IE expo 2027", "d": "20 to 22 Apr 2027", "p": "Shanghai, China", "s": "Water, waste, recycling and environmental technology", "u": "ie-expo-2027.html", "k": "Buyer delegation", "end": "2027-04-22"}, {"n": "SIAL Canada 2027", "d": "27 to 29 Apr 2027", "p": "Toronto, Canada", "s": "Food and beverage", "u": "sial-canada-2027.html", "k": "Buyer delegation", "end": "2027-04-29"}, {"n": "Fi Africa 2027", "d": "1 to 3 Jun 2027", "p": "Cairo, Egypt", "s": "Food ingredients", "u": "fi-africa-2027.html", "k": "Buyer delegation", "end": "2027-06-03"}, {"n": "ProPak China 2027", "d": "22 to 24 Jun 2027", "p": "Shanghai, China", "s": "Processing and packaging", "u": "propak-china-2027.html", "k": "Buyer delegation", "end": "2027-06-24"}, {"n": "ALUMINIUM CHINA 2027", "d": "7 to 9 Jul 2027", "p": "Shanghai, China", "s": "Aluminium, copper, magnesium, foil and metal recycling", "u": "aluminium-china-2027.html", "k": "Hosted Buyer Programme", "end": "2027-07-09"}, {"n": "Cosmoprof Las Vegas 2027", "d": "13 to 15 Jul 2027", "p": "Las Vegas, USA", "s": "Beauty", "u": "cosmoprof-las-vegas-2027.html", "k": "Buyer delegation", "end": "2027-07-15"}].filter(function(e){return new Date(e.end+"T23:59:59")>=new Date()});
   var TYPES=["All","Organisers","Buyer","Importer","Exporter","Supplier","Manufacturer","Service provider","Open to joint ventures"];
   var S={all:[],type:"All",q:"",expo:""};
   var $=function(id){return document.getElementById(id)};
@@ -109,8 +110,11 @@
       if(S.expo&&(c.expos||[]).indexOf(S.expo)<0)return false;
       if(S.q){var h=[c.name,c.role,c.city,c.country,c.sells,c.wants,c.markets,(c.expos||[]).join(" ")].join(" ").toLowerCase();if(h.indexOf(S.q)<0)return false}
       return true});
+    var taken={};S.all.forEach(function(c){if(c.role==="Organiser")(c.expos||[]).forEach(function(e){taken[e]=1})});
+    var X=(S.type==="All"||S.type==="Organisers")?ORG_EXPOS.filter(function(e){if(taken[e.n])return false;if(S.expo&&S.expo!==e.n)return false;if(S.q&&[e.n,e.p,e.s,e.k].join(" ").toLowerCase().indexOf(S.q)<0)return false;return true}):[];
+    var XH=X.map(function(e){return '<article class="co org"><div class="head"><div class="av">'+esc(initials(e.n))+'</div><div><h3>'+esc(e.n)+'</h3><small>'+esc(e.p)+'</small></div></div><div class="tags"><span class="tag">Expo</span><span class="tag hb">'+esc(e.k)+'</span><span class="tag ok">SAIS registration open</span></div><p><b>Dates:</b> '+esc(e.d)+'</p><p><b>Sector:</b> '+esc(e.s)+'</p><div class="lock"><span>Open to everyone</span><a href="'+esc(e.u)+'">Register for this expo</a></div></article>'}).join("");
     $("count").textContent=L.length+" vetted "+(L.length===1?"company":"companies")+(S.all.length!==L.length?(L.length===1?" matches":" match")+" your search":" on MatchMarket");
-    $("list").innerHTML=L.length?L.map(function(c){
+    $("list").innerHTML=(L.length||X.length)?XH+L.map(function(c){
       var hb=/hosted buyer/i.test(c.name||""), org=c.role==="Organiser", name=String(c.name||"").replace(/\s*\|\s*hosted buyer programme\s*$/i,"");
       return '<article class="co'+(org?' org':'')+'"><div class="head"><div class="av">'+esc(initials(name))+'</div><div><h3>'+esc(name)+'</h3><small>'+esc([c.city,c.country].filter(Boolean).join(", "))+'</small></div></div>'+
         '<div class="tags"><span class="tag">'+esc(org?"Expo organiser":c.role)+'</span>'+(hb?'<span class="tag hb">Hosted Buyer Programme</span>':'')+(c.jv_open?'<span class="tag hb">Open to joint ventures</span>':'')+'<span class="tag ok">Vetted by SAIS</span></div>'+
@@ -121,14 +125,13 @@
   try{
     var sb=window.supabase.createClient("https://hbobppslyikleonzvzxp.supabase.co","sb_publishable_G-a5q9AhRKqdAWIwDUonuA_BGVupI6s",{auth:{persistSession:false,autoRefreshToken:false}});
     sb.rpc("public_directory").then(function(r){
-      if(r.error){$("list").innerHTML='<div class="state">The directory is being updated. Please check back shortly, or <a href="market.html">join MatchMarket</a> now.</div>';return}
-      S.all=r.data||[];
-      var ex={};S.all.forEach(function(c){(c.expos||[]).forEach(function(e){ex[e]=1})});
+      S.all=(!r.error&&r.data)||[];
+      var ex={};ORG_EXPOS.forEach(function(e){ex[e.n]=1});S.all.forEach(function(c){(c.expos||[]).forEach(function(e){ex[e]=1})});
       $("expo").innerHTML='<option value="">Any expo</option>'+Object.keys(ex).sort().map(function(e){return '<option>'+esc(e)+'</option>'}).join("");
       var p=new URLSearchParams(location.search).get("expo");if(p&&ex[p]){S.expo=p;$("expo").value=p}
       render();
     });
-  }catch(e){$("list").innerHTML='<div class="state">Could not load the directory. <a href="market.html">Join MatchMarket</a></div>'}
+  }catch(e){render()}
 })();
 </script>
 </body>
