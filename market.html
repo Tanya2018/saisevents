@@ -344,6 +344,7 @@ function suggestions(){
 /* ---------- data ---------- */
 const EXPO=(()=>{let e='';try{e=new URLSearchParams(location.search).get('expo')||'';if(e)sessionStorage.setItem('sais_expo',e);else e=sessionStorage.getItem('sais_expo')||''}catch(x){}return e.slice(0,80)})();
 const expoNote=()=>EXPO?`<div class="banner warn"><b>You are applying for ${esc(EXPO)}.</b> First add your company details for vetting. Once SAIS approves you, we register you with the organiser and apply for any hosted buyer places.</div>`:'';
+async function mmNotify(id,subject){try{const t=(await sb.auth.getSession()).data.session;if(!t)return;fetch('/.netlify/functions/mm-notify',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t.access_token},body:JSON.stringify(subject?{message_id:id,subject}:{message_id:id})}).catch(()=>{})}catch(e){}}
 function notify(fields){if(EXPO)fields.expo=EXPO;try{const b=new URLSearchParams({'form-name':'matchmarket-signups',...fields});fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString()}).catch(()=>{})}catch(e){}}
 async function loadAll(){
  const uid=S.user.id;
@@ -650,6 +651,10 @@ function viewAdmin(){
  const unfinished=(S.users||[]).filter(u=>!u.company);
  return `<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Platform overview</h1><p>You approve every company before it can trade on the platform.</p></div></div>
  <div class="stats"><div class="stat"><b>${by('approved').length}</b><span>Vetted companies</span></div><div class="stat"><b>${pend.length}</b><span>Waiting for vetting</span></div><div class="stat"><b>${S.convs.length}</b><span>Conversations</span></div><div class="stat"><b>${S.deals.length}</b><span>Deal rooms</span></div></div>
+ ${S.me?`<form class="card" id="bcast" style="margin:16px 0"><h2>Message a group of delegates</h2><p class="muted small">Each company gets the message in its MatchMarket Messages and an email alert with your subject line.</p>
+  <label>Send to<select id="bcAud"><option value="all">All vetted companies</option>${EXPOS_ALL.map(e=>`<option>${esc(e.n)}</option>`).join('')}</select></label>
+  <label>Email subject<input id="bcSub" maxlength="140" value="Action needed: update your SAIS MatchMarket profile"></label>
+  <label>Message<textarea id="bcMsg" rows="6"></textarea></label><button class="btn pri">Send to group</button></form>`:''}
  <div class="card"><h3 class="h3">Waiting for vetting</h3>
   ${pend.length?`<div class="list">${pend.map(p=>`<div class="li" data-s="${sTxt(p,em(p.owner)||'')}"><div class="t"><b>${esc(p.name)}</b><span>${esc([p.city,p.country].filter(Boolean).join(', '))} · ${esc(p.role)}</span><br><span>Email: ${esc(em(p.owner)||'not loaded')} · WhatsApp: ${esc(p.whatsapp||'none')}</span><br><span>Website: ${esc(p.website||'none')}</span>${(p.expos||[]).length?`<br><span><b>Expos:</b> ${esc(p.expos.join(', '))}</span>`:''}${adminDetails(p)}${coLinks(p)}<br><span>Offers: ${esc(p.sells)}</span><br><span>Wants: ${esc(p.wants)}</span>${aiNote(p.id)}</div>${/\.|\//.test(p.website||'')?'<span class="pill good">Has a link</span>':'<span class="pill bad">No link</span>'}<div class="row"><button class="btn pri" data-approve="${p.id}">Approve</button><button class="btn ghost" data-decline="${p.id}">Decline</button></div></div>`).join('')}</div>`:'<p class="empty">All companies are vetted.</p>'}
  </div>
@@ -792,7 +797,14 @@ document.addEventListener('submit',async e=>{
   toast(first?'Submitted. SAIS will vet your company shortly.':'Saved');go('matches')}
  else if(f.id==='compose'){const i=$('#msgIn');let body=i.value.trim();if(!body)return;i.value='';const masked=S.admin?body:maskContacts(body);if(masked!==body){body=masked;toast('Phone numbers and emails are hidden in chats. SAIS shares contacts once a deal is confirmed.')}
   const r=await sb.from('messages').insert({conversation_id:S.open,sender_company:S.me.id,body}).select().single();if(r.error){i.value=body;return fail(r.error,'Message not sent')}
-  addMsg(r.data)}
+  addMsg(r.data);mmNotify(r.data.id,S.admin?'Message from SAIS Events: please read and reply on MatchMarket':'')}
+ else if(f.id==='bcast'){const aud=$('#bcAud').value,sub=$('#bcSub').value.trim(),body=$('#bcMsg').value.trim();if(!sub||!body){toast('Add a subject and a message');return}
+  const to=S.cos.filter(c=>c.status==='approved'&&c.id!==S.me.id&&c.role!=='Organiser'&&(aud==='all'||(c.expos||[]).includes(aud)));if(!to.length){toast('No vetted companies in that group');return}
+  const btn=f.querySelector('button');btn.disabled=true;let ok=0;
+  for(const c of to){btn.textContent='Sending '+(ok+1)+' of '+to.length;const [a,b]=[S.me.id,c.id].sort();let cv=S.convs.find(x=>x.company_a===a&&x.company_b===b);
+   if(!cv){let r=await sb.from('conversations').insert({company_a:a,company_b:b}).select().single();if(r.error)r=await sb.from('conversations').select('*').eq('company_a',a).eq('company_b',b).maybeSingle();if(!r.data)continue;cv=r.data;S.convs.push(cv)}
+   const m=await sb.from('messages').insert({conversation_id:cv.id,sender_company:S.me.id,body}).select().single();if(m.error)continue;mmNotify(m.data.id,sub);ok++}
+  btn.disabled=false;btn.textContent='Send to group';$('#bcMsg').value='';toast('Sent to '+ok+' of '+to.length+' companies, with an email to each')}
  else if(f.id==='bookForm'){const when=new Date($('#mWhen').value);if(isNaN(when)||when<new Date()){toast('Pick a future day and time');return}
   const r=await sb.from('meetings').insert({from_company:S.me.id,to_company:f.dataset.to,starts_at:when.toISOString(),meeting_type:$('#mType').value}).select().single();if(r.error)return fail(r.error,'Invite not sent');
   S.meetings.push(r.data);S.meetings.sort((a,b)=>new Date(a.starts_at)-new Date(b.starts_at));$('#dlg').close();toast('Invite sent to '+co(f.dataset.to).name);go('meetings')}
