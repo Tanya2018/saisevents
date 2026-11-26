@@ -9,3 +9,6 @@
 
 [functions."weekly-report"]
   schedule = "0 5 * * 5"
+
+[functions."lead-analyst"]
+  schedule = "*/30 * * * *"

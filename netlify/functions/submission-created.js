@@ -226,10 +226,38 @@ async function handleApplication(key, show, d, payload) {
   });
 }
 
+// New MatchMarket company: tell them how to get seen by buyers and suppliers.
+async function profileTips(key, d) {
+  if (!key || !/Company submitted/i.test(String(d.event || ""))) return;
+  const email = String(d.email || "").trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+  const company = esc(d.company || "your company");
+  const html = `<div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.6;color:#0D1411;max-width:560px">
+<p>Dear ${company} Team,</p>
+<p>Welcome to SAIS MatchMarket, and thank you for registering your company. We are now vetting your profile.</p>
+<p><b>Get seen by more buyers and suppliers</b></p>
+<p>Buyers, suppliers and organisers decide who to contact from your profile. Profiles with full details get far more meetings. Please complete these 3 things:</p>
+<ol>
+<li><b>Add your website or social page.</b> A working link lets buyers see your products and trust your company.</li>
+<li><b>Upload your company profile document</b> (PDF or Word). Show your products, capacity, clients and certificates.</li>
+<li><b>Write a strong company description.</b> Say what you make or trade, your main products, who you sell to, how long you have been in business and what you want to buy or sell. Two or three clear sentences are enough.</li>
+</ol>
+<p><a href="https://saisevents.com/market.html#profile" style="display:inline-block;background:#04211A;color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:999px">Complete my profile</a></p>
+<p>Log in, open <b>My company</b>, update your details and press Save.</p>
+<p>Warm regards,<br>SAIS Events, MICE, International Trade &amp; Business Events<br><a href="https://saisevents.com">saisevents.com</a></p></div>`;
+  const r = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from: FROM, to: [email], reply_to: ADMIN, subject: "Get seen by buyers on SAIS MatchMarket: complete your company profile", html }),
+  });
+  if (!r.ok) console.log("profile tips email failed", r.status, await r.text());
+}
+
 exports.handler = async (event) => {
   try {
     const key = process.env.RESEND_API_KEY;
     const payload = JSON.parse(event.body || "{}").payload || {};
+    if (payload.form_name === "matchmarket-signups") { await profileTips(process.env.RESEND_API_KEY, payload.data || {}); return { statusCode: 200, body: "ok" }; }
     const show = SHOWS[payload.form_name];
     if (!show) return { statusCode: 200, body: "skipped" };
 

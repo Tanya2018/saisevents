@@ -338,8 +338,9 @@ function suggestions(){
  const passed=new Set(S.matches.filter(x=>x.status==='passed').map(x=>x.match_company));
  return S.cos.filter(c=>c.id!==S.me.id&&c.status==='approved'&&!passed.has(c.id)).map(c=>{
   const a=fromAgent.get(c.id);
-  return {c,score:a?a.score:quickScore(c),why:a?a.reason:null,agent:!!a};
- }).sort((x,y)=>(y.agent-x.agent)||(y.score-x.score));
+  const myOrg=c.role==='Organiser'&&(c.expos||[]).some(e=>(S.me.expos||[]).includes(e));
+  return {c,score:a?a.score:quickScore(c),why:a?a.reason:null,agent:!!a,myOrg};
+ }).sort((x,y)=>(y.myOrg-x.myOrg)||(y.agent-x.agent)||(y.score-x.score));
 }
 
 /* ---------- data ---------- */
@@ -428,6 +429,7 @@ function profileForm(m,first){
   <label class="f">I am a<select id="p_role" required><option value="">Choose one</option>${ROLES.map(r=>`<option ${r===m.role?'selected':''}>${r}</option>`).join('')}</select></label>
   <label class="f">City<input id="p_city" value="${esc(m.city)}" required></label>
   <label class="f">Country<select id="p_country" required>${countryOpts(m.country)}</select></label>
+  <label class="f full">About your company<textarea id="p_about" rows="4" maxlength="1200" placeholder="What you make or trade, your main products, who you sell to, how long you have been in business, and what you want to buy or sell.">${esc(m.about)}</textarea><span class="muted small">A clear description helps buyers and suppliers decide to contact you.</span></label>
   <label class="f full">What we sell or offer<textarea id="p_sells" rows="2" placeholder="For example: hotel furniture, lighting, FF&E" required>${esc(m.sells)}</textarea></label>
   <label class="f full">What we want to buy, or who we want to meet<textarea id="p_wants" rows="2" placeholder="For example: hotel developers and interior designers in Africa and the Middle East" required>${esc(m.wants)}</textarea></label>
   <label class="f">Target markets<input id="p_markets" value="${esc(m.markets)}" placeholder="Kenya, UAE, Egypt" required></label>
@@ -464,6 +466,8 @@ function profileForm(m,first){
 function viewOnboard(){
  return `${expoNote()}<div class="head"><div><span class="eyebrow">Step 1 of 2</span><h1>Tell us about your company</h1><p>SAIS vets every company before it can trade. Our AI matchmaker uses these answers to find your best partners.</p></div></div>${profileForm(null,true)}`;
 }
+function profileGaps(c){c=c||S.me;if(!c)return[];const g=[];if(!webUrl(c.website)&&!c.profile_file)g.push('a website or a company profile document');if(!c.profile_file)g.push('your company profile document (PDF or Word)');if(String(c.about||'').trim().length<120)g.push('a strong company description');return g}
+function profileBanner(){const g=profileGaps();if(!g.length)return'';return `<div class="banner warn"><b>Get seen by more buyers and suppliers.</b> Add ${esc(g.join(', and '))} to your company profile. Full profiles get far more messages and meetings. <button class="link" data-go="profile">Complete my profile</button></div>`}
 function pendingBanner(){
  if(!S.me||S.me.status==='approved')return '';
  return S.me.status==='declined'
@@ -486,15 +490,16 @@ function viewMatches(){
  const JV='Joint Venture Programmes';
  const list=suggestions().filter(x=>S.filter==='All'||(S.filter===JV?x.c.jv_open:x.c.role===S.filter)).filter(x=>!S.expoF||(x.c.expos||[]).includes(S.expoF));
  const fromAgent=S.matches.length;
- return `${pendingBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
+ return `${pendingBanner()}${profileBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
  <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
  <label class="f expof">Going to the same expo<select id="expoFilter"><option value="">Any expo</option>${EXPOS.map(e=>`<option ${S.expoF===e.n?'selected':''}>${esc(e.n)}</option>`).join('')}</select></label>
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
  ${searchBox('mgrid','Search by company, product, country or city')}
- ${(()=>{const xc=S.filter==='Organiser'?expoCards():'';return (list.length||xc)?`<div class="grid" id="mgrid">${xc}${list.map(({c,score,why,agent})=>`<article class="card" data-s="${sTxt(c)}">
+ ${(()=>{const xc=S.filter==='Organiser'?expoCards():'';return (list.length||xc)?`<div class="grid" id="mgrid">${xc}${list.map(({c,score,why,agent,myOrg})=>`<article class="card" data-s="${sTxt(c)}">
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
-   <div class="tags"><span class="tag role">${esc(c.role)}</span>${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
+   <div class="tags"><span class="tag role">${esc(c.role)}</span>${myOrg?'<span class="tag jv">Organiser of your expo</span>':''}${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
+   ${c.about?`<p class="small muted" style="margin:0">${esc(String(c.about).slice(0,220))}${String(c.about).length>220?'…':''}</p>`:''}
    ${(c.expos||[]).length?`<p class="going"><b>Going to:</b> ${esc(c.expos.join(', '))}</p>`:''}
    ${coLinks(c)}
    <div class="row"><button class="btn pri" data-msg="${c.id}">Message</button><button class="btn gold" data-book="${c.id}">Book meeting</button><button class="btn ghost" data-pass="${c.id}">Not now</button></div>
@@ -548,7 +553,7 @@ function viewDeals(){
 
 function viewProfile(){
  const m=S.me;
- return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
+ return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileBanner().replace(/ <button class="link" data-go="profile">Complete my profile<\/button>/,'')}${profileForm(m,false)}`;
 }
 
 function riskPill(r){if(!r||!r.risk)return '';const c=r.risk==='low'?'good':r.risk==='high'?'bad':'warn';return ` <span class="pill ${c}">${r.risk==='high'?'Scam risk: HIGH':'Scam risk: '+esc(r.risk)}</span>`}
@@ -851,7 +856,7 @@ document.addEventListener('submit',async e=>{
   if(f.dataset.mode==='signup')notify({event:'New account created, company form not filled yet',email});if(f.dataset.mode==='signup'){try{fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'matchmarket-welcome',email}).toString()}).catch(()=>{})}catch(e){}}
   if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
  }
- else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.public_listing=$('#p_public').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
+ else if(f.id==='prof'){const keys=['name','role','city','country','about','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.public_listing=$('#p_public').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
   v.established=$('#p_established').value.trim();const xc=readExpoCats();v.expo_details={};v.expos.forEach(n=>{if(xc[n])v.expo_details[n]=xc[n]});
   const pd={surname:$('#p_surname').value.trim(),first_name:$('#p_first').value.trim(),job_title:$('#p_jobtitle').value.trim(),turnover_2025:$('#p_turnover').value,imports_2025:$('#p_imports').value,imported_from:$('#p_impfrom').value.trim(),imported_products:$('#p_impprod').value.trim()};v.private_details=pd;
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}

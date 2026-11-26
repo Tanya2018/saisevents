@@ -10,7 +10,7 @@
 const SB = "https://hbobppslyikleonzvzxp.supabase.co";
 const MODEL = "claude-sonnet-5-5";
 const REPEAT_DAYS = 14;
-const MIN_SCORE = 60; // weaker fits are not saved, so the list and the digest stay clean
+const MIN_SCORE = 70; // weaker fits are not saved, so the list and the digest stay clean
 
 function sbFetch(path, opts = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -75,10 +75,12 @@ async function hunt(h, known, camp) {
     system:
       "You find real companies to invite as hosted buyer delegates to trade expos. SAIS Events recruits company owners, managers and buyers from Africa and the Middle East. " +
       "Be strict: a wrong company wastes a sales call. Only list a company if its MAIN business matches the 'Find' line exactly and it is based in the requested country. " +
+      "A company in a nearby but different industry is NOT a match: for example a hardware shop is not an aluminium fabricator, a hotel is not a food manufacturer, a consultancy is not a recycler. " +
+      "For each company state its main business in its own words and say honestly whether it matches the Find line. " +
       "Leave out traders, shops, consultants, NGOs, government bodies, schools, media, event companies and foreign suppliers, unless the 'Find' line asks for them. " +
       "Only list companies you found in search results that are active. Use only public business contacts shown on the company's own website or a business directory. " +
       "Never guess or invent a phone number, email or website: leave it empty if you did not see it. It is fine to return fewer companies, or none. Reply with JSON only.",
-    messages: [{ role: "user", content: `Expo: ${h.expo}\n${brief ? brief + "\n" : ""}Find: ${h.sector}\nCountry: ${h.country}\n\nSearch tips: look for member lists of the industry association in ${h.country}, government or export directories, and company websites, for example "${h.sector} ${h.country} members directory".\n\nFind up to 6 companies whose main business is "${h.sector}" in ${h.country}, that would buy machines, materials or supplies at this expo and fit the organiser's criteria. Prefer medium and large companies that make or grow their own products.\nSkip these, we already have them: ${skip || "none"}\n\nScore honestly: 80+ means a clear match for the Find line and the expo; below 60 means a weak or doubtful match.\n\nReply with JSON only:\n{"leads":[{"name":"","country":"","city":"","makes":"what they make, short","fit_reason":"one plain sentence on why they should attend ${h.expo}","score":0-100,"website":"","phone":"","email":"","source_url":"page where you found them"}]}` }],
+    messages: [{ role: "user", content: `Expo: ${h.expo}\n${brief ? brief + "\n" : ""}Find: ${h.sector}\nCountry: ${h.country}\n\nSearch tips: look for member lists of the industry association in ${h.country}, government or export directories, and company websites, for example "${h.sector} ${h.country} members directory".\n\nFind up to 6 companies whose main business is "${h.sector}" in ${h.country}, that would buy machines, materials or supplies at this expo and fit the organiser's criteria. Prefer medium and large companies that make or grow their own products.\nSkip these, we already have them: ${skip || "none"}\n\nScore honestly: 80+ means a clear match for the Find line and the expo; below 60 means a weak or doubtful match.\n\nReply with JSON only:\n{"leads":[{"name":"","country":"","city":"","main_business":"what the company mainly does, from its own site","category_match":"exact or close or no","makes":"what they make, short","fit_reason":"one plain sentence on why they should attend ${h.expo}","score":0-100,"website":"","phone":"","email":"","source_url":"page where you found them"}]}` }],
   }, 23000);
   const out = (parseJSON(text).leads || []).filter((l) => l && l.name);
   const rows = [];
@@ -91,11 +93,12 @@ async function hunt(h, known, camp) {
     const score = Math.round(Number(l.score) || 0);
     const inCountry = !l.country || String(l.country).toLowerCase().includes(wantCountry) || wantCountry.includes(String(l.country).toLowerCase());
     const reachable = l.website || l.phone || l.email;
-    if (score < MIN_SCORE || !inCountry || !reachable) { dropped++; continue; }
+    const match = String(l.category_match || "").toLowerCase().trim();
+    if (score < MIN_SCORE || !inCountry || !reachable || match !== "exact") { dropped++; continue; }
     seen.add(k);
     rows.push({
       name: clean(l.name, 160), name_key: k, country: h.country, city: clean(l.city, 80), sector: h.sector, expo: h.expo,
-      makes: clean(l.makes, 300), fit_reason: clean(l.fit_reason, 400), score: Math.max(0, Math.min(100, Math.round(Number(l.score) || 0))),
+      makes: clean(l.makes, 300), main_business: clean(l.main_business, 300), fit_reason: clean(l.fit_reason, 400), score: Math.max(0, Math.min(100, Math.round(Number(l.score) || 0))),
       website: site(l.website), phone: clean(l.phone, 60), email: clean(l.email, 120), source_url: site(l.source_url), hunt_id: h.id,
     });
   }
