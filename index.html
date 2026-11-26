@@ -279,6 +279,40 @@ h3{font-size:1.3rem;font-weight:700}
 @media(min-width:760px){.chips{display:flex;flex-wrap:wrap}.chips li{border-radius:999px;padding:10px 16px;font-size:15px}}
 
 /* Team */
+.partners{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin:26px 0 56px}
+.partner{background:#fff;border:1px solid rgba(4,33,26,.12);border-radius:14px;padding:20px 22px;min-width:0}
+.partner b{display:block;font-size:18px;color:var(--jungle)}
+.partner span{display:block;font-size:14px;color:rgba(4,33,26,.7);margin-top:2px}
+.partner i{display:inline-block;font-style:normal;font-size:12.5px;font-weight:700;letter-spacing:.4px;color:var(--gold-deep);background:rgba(217,180,73,.18);border-radius:999px;padding:4px 10px;margin-top:12px}
+.alu-ad{width:300px;max-width:100%;background:linear-gradient(160deg,#0A2F24,#04211A);color:var(--cream);border-radius:14px;padding:22px 20px;box-shadow:0 18px 40px -18px rgba(4,33,26,.5);border-top:4px solid var(--gold)}
+.alu-ad small{display:block;font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);font-weight:700}
+.alu-ad b{display:block;font-size:22px;margin:4px 0 2px;letter-spacing:.3px}
+.alu-ad .when{display:block;font-size:13.5px;opacity:.8}
+.alu-ad p{margin:14px 0 6px;font-size:14px;font-weight:700}
+.travel .alu-ad ul{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:5px}
+.travel .alu-ad li{font-size:14px;padding-left:18px;position:relative;color:var(--cream)}
+.alu-ad li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
+.alu-ad a{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14px;border-radius:999px;padding:10px 12px;margin-top:8px}
+.alu-ad .go{background:var(--gold);color:var(--jungle)}
+.alu-ad .fl{border:1.5px solid rgba(246,240,226,.5);color:var(--cream)}
+.alu-ad em{display:block;font-style:normal;font-size:11.5px;opacity:.7;margin-top:10px;text-align:center}
+.deal-img{display:block;width:300px;max-width:100%;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(4,33,26,.45)}
+.deal-img img{display:block;width:100%;height:auto}
+.deal{display:block;width:300px;max-width:100%;background:var(--jungle);color:var(--cream);border-radius:12px;padding:18px 20px;text-decoration:none;box-shadow:0 18px 40px -18px rgba(4,33,26,.45)}
+.deal small{display:block;font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);font-weight:700}
+.deal b{display:block;font-size:24px;margin:4px 0 2px}
+.deal span{display:block;font-size:14px;opacity:.8}
+.deal em{display:inline-block;font-style:normal;margin-top:12px;background:var(--gold);color:var(--jungle);font-weight:700;border-radius:999px;padding:8px 16px;font-size:14px}
+.deal:hover em{background:#E6C560}
+.travel{display:grid;gap:28px;align-items:center}
+@media(min-width:860px){.travel{grid-template-columns:1.2fr 300px;gap:56px}}
+.travel ul{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:8px}
+.travel li{padding-left:22px;position:relative;color:rgba(4,33,26,.86)}
+.travel li:before{content:"";position:absolute;left:0;top:10px;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.travel .note{font-size:14px;color:rgba(4,33,26,.7);margin-top:14px}
+.travel .ad{width:300px;max-width:100%;justify-self:center;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px -18px rgba(4,33,26,.45);background:#fff}
+.travel .ad iframe{display:block;width:300px;height:250px;max-width:100%;border:0}
+.travel-sec{border-top:1px solid rgba(4,33,26,.12)}
 .about{display:grid;gap:22px}
 @media(min-width:860px){.about{grid-template-columns:1fr 1fr;gap:48px;align-items:start}}
 .about-text p{color:rgba(4,33,26,.86)}
@@ -592,6 +626,7 @@ section[id]{scroll-margin-top:130px}
       <a href="#organisers">For Organisers</a>
       <a href="#matchmarket" class="nav-new">MatchMarket</a>
       <a href="vip-members.html">Membership</a>
+      <a href="#partners">Partners</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -601,7 +636,7 @@ section[id]{scroll-margin-top:130px}
     </div>
   </div>
   <nav class="jump" aria-label="Jump to section">
-    <a href="#top">Home</a><a href="#expos">Expos</a><a href="vip-members.html" class="jm">Membership</a><a href="#programmes">Hosted buyers</a><a href="#matchmarket">MatchMarket</a><a href="#services">Services</a><a href="#organisers">Organisers</a><a href="#past-expos">Past expos</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <a href="#top">Home</a><a href="#expos">Expos</a><a href="vip-members.html" class="jm">Membership</a><a href="#programmes">Hosted buyers</a><a href="#matchmarket">MatchMarket</a><a href="#services">Services</a><a href="#organisers">Organisers</a><a href="#past-expos">Past expos</a><a href="#partners">Partners</a><a href="#about">About</a><a href="#contact">Contact</a>
   </nav>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
     <ul>
@@ -1264,6 +1299,53 @@ section[id]{scroll-margin-top:130px}
 </section>
 
 <!-- REGISTER -->
+<section class="sec light travel-sec" id="partners">
+  <span id="travel"></span>
+  <div class="wrap">
+    <p class="eyebrow">Our partners</p>
+    <h2>Organisers we work with</h2>
+    <p style="max-width:680px;color:rgba(4,33,26,.86)">We hold working agreements with these exhibition organisers and matchmaking partners to bring qualified buyers and exhibitors from Africa and the Middle East.</p>
+    <div class="partners">
+      <div class="partner"><b>Orion Fair</b><span>AGROEXPO 2027, Izmir, Turkey</span><i>Official Africa regional coordinator</i></div>
+      <div class="partner"><b>RX China</b><span>ALUMINIUM CHINA 2027, Shanghai</span><i>Buyer delegation partner</i></div>
+      <div class="partner"><b>IFP Group</b><span>Food Africa, Cairo, Egypt</span><i>Exhibitor sourcing agent, East Africa</i></div>
+      <div class="partner"><b>Tashbeek</b><span>AFROPLAST 2027, Cairo, Egypt</span><i>Regional buyer and exhibitor sourcing agent</i></div>
+      <div class="partner"><b>WCI Forum</b><span>WCI Forum Kenya 2027, Nairobi</span><i>Delegate and exhibitor sourcing partner</i></div>
+      <div class="partner"><b>Kenya Homes Expo</b><span>KICC, Nairobi</span><i>Official marketing partner</i></div>
+    </div>
+    <p class="eyebrow">Travel partner</p>
+    <div class="travel">
+      <div>
+        <h2>Book your expo trip with Trip.com</h2>
+        <p>SAIS Events is now a Trip.com partner. Our delegates and exhibitors can book their whole trip in one place at Trip.com's prices.</p>
+        <ul>
+          <li>Flights to every expo city on our calendar</li>
+          <li>Hotels near the exhibition venues</li>
+          <li>Airport transfers and car hire</li>
+          <li>Tours, excursions and attraction tickets for your free days</li>
+          <li>Train tickets in China and other host countries</li>
+        </ul>
+        <a class="btn btn-gold" href="https://www.trip.com/?Allianceid=11513363&amp;SID=337170093" target="_blank" rel="noopener sponsored">Book on Trip.com</a>
+        <p class="note">Bookings and payments are made directly with Trip.com. If you are on a hosted buyer programme, check with us first which costs the organiser covers before you book.</p>
+      </div>
+      <div style="display:grid;gap:16px;justify-items:center">
+        <div class="alu-ad">
+          <small>Hosted buyer offer</small>
+          <b>ALUMINIUM CHINA 2027</b>
+          <span class="when">7 to 9 July 2027 &middot; Shanghai, China</span>
+          <p>Qualified buyers get from the organiser:</p>
+          <ul><li>Up to 3 nights hotel with breakfast</li><li>Shuttle bus to the venue</li><li>Free lunch on 7 and 8 July</li><li>Pre-arranged B2B meetings</li><li>Airport pickup for groups of 10 or more</li></ul>
+          <a class="go" href="market.html?expo=ALUMINIUM%20CHINA%202027">Apply free as a hosted buyer</a>
+          <a class="fl" href="https://www.trip.com/flights/?Allianceid=11513363&amp;SID=337170093&amp;trip_sub1=aluminium-china-2027" target="_blank" rel="noopener sponsored">Book your flight to Shanghai on Trip.com</a>
+          <em>Flights are not included. Hosted places are approved by the organiser.</em>
+        </div>
+        <div class="ad"><iframe src="https://www.trip.com/partners/ad/SB21585797?Allianceid=11513363&amp;SID=337170093&amp;trip_sub1=" title="Trip.com: book flights and hotels for ALUMINIUM CHINA 2027" loading="lazy" scrolling="no" frameborder="0" style="width:300px;height:250px;border:none" id="SB21585797"></iframe></div>
+        <a class="deal-img" href="https://uk.trip.com/sale/w/27435/holidaydeals2025.html?locale=en-GB&amp;Allianceid=11513363&amp;SID=337170093&amp;trip_sub1=&amp;trip_sub3=P21586077" target="_blank" rel="noopener sponsored"><img src="https://dimg04.tripcdn.com/images/1zp5g12000tvxdi3v53FE.png" alt="Trip.com: up to 80% off hotels, valid until 31 December 2026" width="300" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="sec dark" id="register">
   <div class="wrap">
     <p class="eyebrow">Register your interest</p>
