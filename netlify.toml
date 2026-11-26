@@ -12,3 +12,6 @@
 
 [functions."lead-analyst"]
   schedule = "*/30 * * * *"
+
+[functions."reg-scorer"]
+  schedule = "*/30 * * * *"

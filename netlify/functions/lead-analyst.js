@@ -11,7 +11,7 @@
 // Needs: ANTHROPIC_API_KEY, SUPABASE_SERVICE_ROLE_KEY.
 
 const SB = "https://hbobppslyikleonzvzxp.supabase.co";
-const MODEL = "claude-haiku-5-5";
+const MODEL = "claude-sonnet-5-5"; // same model as the finder, which runs web search reliably
 const PER_RUN = 2;
 const PASS_SCORE = 30;
 
@@ -114,7 +114,10 @@ async function verify(l) {
     a = await check(l);
   } catch (e) {
     // A failed check is retried on a later run, up to 3 days after the lead was found.
-    if (Date.now() - new Date(l.created_at).getTime() < 3 * 864e5) return `${l.name}: check failed, will retry (${e.message})`;
+    if (Date.now() - new Date(l.created_at).getTime() < 3 * 864e5) {
+      await sbPatch(`leads?id=eq.${l.id}`, { analyst_note: `Check failed, will retry: ${String(e.message).slice(0, 250)}` }).catch(() => {});
+      return `${l.name}: check failed, will retry (${e.message})`;
+    }
     a = { note: "Could not be checked" };
   }
   const match = String(a.category_match || "").toLowerCase().trim();
