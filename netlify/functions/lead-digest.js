@@ -7,6 +7,8 @@
 
 const SB = "https://hbobppslyikleonzvzxp.supabase.co";
 const ADMIN = "info@saisevents.com";
+// Cindy also gets the leads for these campaigns, in her own email.
+const CINDY = { to: "cindy@saisevents.com", expos: ["ALUMINIUM CHINA 2027", "IE expo China 2027", "WCI Forum Kenya 2027"] };
 const MODEL = "claude-haiku-5-5";
 const PER_DAY = 10;
 
@@ -156,7 +158,7 @@ exports.handler = async () => {
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.RESEND_API_KEY) return { statusCode: 200, body: "missing keys" };
   try {
     // Up to 10 leads a day, shared fairly between campaigns (best score first within each)
-    const pool = await sbGet("leads?select=*&status=eq.new&digest_sent_at=is.null&order=score.desc.nullslast,created_at.asc&limit=200");
+    const pool = await sbGet("leads?select=*&status=eq.new&digest_sent_at=is.null&analyst_pass=is.true&order=score.desc.nullslast,created_at.asc&limit=200");
     if (!pool.length) return { statusCode: 200, body: "no new leads" };
     const queues = new Map();
     pool.forEach((l) => { if (!queues.has(l.expo)) queues.set(l.expo, []); queues.get(l.expo).push(l); });
@@ -174,7 +176,7 @@ exports.handler = async () => {
       const a = byI.get(i) || {};
       const em = emailText(l, x, a);
       const to = firstEmail(l.email);
-      const wa = waNumber(l.phone, l.country);
+      const wa = waNumber(l.whatsapp || l.phone, l.country);
       const mail = to ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(em.subject)}&body=${encodeURIComponent(em.body)}` : "";
       const whats = wa ? `https://wa.me/${wa}?text=${encodeURIComponent(waText(l, x, a))}` : "";
       const btn = (href, label, bg) => `<a href="${href}" style="display:inline-block;background:${bg};color:#fff;text-decoration:none;font-weight:bold;padding:10px 16px;border-radius:8px;margin:6px 6px 0 0">${label}</a>`;
@@ -184,25 +186,33 @@ exports.handler = async () => {
 <div style="font-size:18px;font-weight:bold;margin:4px 0">${esc(l.name)}</div>
 <div style="color:#444">${esc(l.makes || l.sector)}</div>
 <div style="color:#1d6b3a;margin:6px 0">${esc(l.fit_reason || "")}</div>
+${l.verify_score != null ? `<div style="font-size:13px;color:#555;margin:0 0 6px">Checked by research analyst: ${l.verify_score}%${l.whatsapp ? " · WhatsApp " + esc(l.whatsapp) : ""}${l.main_business ? " · " + esc(l.main_business) : ""}</div>` : ""}
 <div style="font-size:14px;color:#333">${l.phone ? "Phone: " + esc(l.phone) + "<br>" : ""}${l.email ? "Email: " + esc(l.email) + "<br>" : ""}${l.website ? `Website: <a href="${esc(l.website)}">${esc(l.website.replace(/^https?:\/\//, ""))}</a>` : ""}</div>
 ${whats ? btn(whats, "WhatsApp them", "#1FA855") : ""}${mail ? btn(mail, "Email them", "#B8955F") : ""}
 </div>`;
     });
 
     const date = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "Africa/Nairobi" });
-    const html = `<div style="font-family:Arial,sans-serif;font-size:15px;max-width:640px;margin:auto;color:#1a1714">
-<h2 style="margin:0 0 4px">Your ${leads.length} calls for today</h2>
-<p style="margin:0 0 16px;color:#666">${date}. Best first. Tap WhatsApp or Email to open a ready message. Send the invitation card first on WhatsApp.</p>
-${blocks.join("\n")}
-<p style="color:#666;font-size:13px">After each call, move the company to its new stage in the campaign pipeline on MatchMarket. ${left > 0 ? left + (left === 1 ? " more new lead is" : " more new leads are") + " waiting for the next mornings." : ""}</p>
+    const page = (list, idx, tail) => `<div style="font-family:Arial,sans-serif;font-size:15px;max-width:640px;margin:auto;color:#1a1714">
+<h2 style="margin:0 0 4px">Your ${list.length} calls for today</h2>
+<p style="margin:0 0 16px;color:#666">${date}. Best first. Every company was checked by the research analyst: right category, active, and a WhatsApp ready mobile number. Tap WhatsApp or Email to open a ready message. Send the invitation card first on WhatsApp.</p>
+${idx.map((i) => blocks[i]).join("\n")}
+<p style="color:#666;font-size:13px">After each call, move the company to its new stage in the campaign pipeline on MatchMarket. ${tail}</p>
 </div>`;
-
-    const r = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: "SAIS Events <info@saisevents.com>", to: [ADMIN], subject: `Today's ${leads.length} delegate calls: ${[...new Set(leads.map((l) => l.expo))].join(", ")}`, html }),
-    });
-    if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+    const send = async (to, list, html) => {
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from: "SAIS Events <info@saisevents.com>", to: [to], subject: `Today's ${list.length} delegate calls: ${[...new Set(list.map((l) => l.expo))].join(", ")}`, html }),
+      });
+      if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+    };
+    const tail = left > 0 ? left + (left === 1 ? " more checked lead is" : " more checked leads are") + " waiting for the next mornings." : "";
+    await send(ADMIN, leads, page(leads, leads.map((_, i) => i), tail));
+    const ci = leads.map((l, i) => (CINDY.expos.includes(l.expo) ? i : -1)).filter((i) => i >= 0);
+    if (ci.length) {
+      try { await send(CINDY.to, ci.map((i) => leads[i]), page(ci.map((i) => leads[i]), ci, "")); } catch (e) { console.log("cindy digest failed", e.message); }
+    }
 
     const ids = leads.map((l) => l.id).join(",");
     const p = await sbFetch(`leads?id=in.(${ids})`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ digest_sent_at: new Date().toISOString() }) });

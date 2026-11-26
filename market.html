@@ -282,6 +282,7 @@ const SB_KEY='sb_publishable_G-a5q9AhRKqdAWIwDUonuA_BGVupI6s';
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 
 const ICON={
+ organisers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="11" rx="1"/><rect x="17" y="4" width="4" height="7" rx="1"/></svg>',
  matches:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5 5.6.8-4 3.9.9 5.5L12 15.6 7.1 18.2l.9-5.5-4-3.9 5.6-.8z"/></svg>',
  messages:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
  meetings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
@@ -337,8 +338,9 @@ function suggestions(){
  const passed=new Set(S.matches.filter(x=>x.status==='passed').map(x=>x.match_company));
  return S.cos.filter(c=>c.id!==S.me.id&&c.status==='approved'&&!passed.has(c.id)).map(c=>{
   const a=fromAgent.get(c.id);
-  return {c,score:a?a.score:quickScore(c),why:a?a.reason:null,agent:!!a};
- }).sort((x,y)=>(y.agent-x.agent)||(y.score-x.score));
+  const myOrg=c.role==='Organiser'&&(c.expos||[]).some(e=>(S.me.expos||[]).includes(e));
+  return {c,score:a?a.score:quickScore(c),why:a?a.reason:null,agent:!!a,myOrg};
+ }).sort((x,y)=>(y.myOrg-x.myOrg)||(y.agent-x.agent)||(y.score-x.score));
 }
 
 /* ---------- data ---------- */
@@ -367,6 +369,7 @@ async function loadAll(){
   const [it,ev]=await Promise.all([sb.from('deal_items').select('*').in('deal_id',ids),sb.from('deal_events').select('*').in('deal_id',ids).order('created_at')]);
   S.items={};S.events={};(it.data||[]).forEach(i=>(S.items[i.deal_id]=S.items[i.deal_id]||[]).push(i));(ev.data||[]).forEach(e=>(S.events[e.deal_id]=S.events[e.deal_id]||[]).push(e));}
  {const pv=await sb.from('company_private').select('company_id,whatsapp,details');if(!pv.error){const w=new Map((pv.data||[]).map(x=>[x.company_id,x]));S.cos.forEach(c=>{const x=w.get(c.id);if(x){c.whatsapp=x.whatsapp;c.private=x.details||{}}});if(S.me&&w.has(S.me.id)){S.me.whatsapp=w.get(S.me.id).whatsapp;S.me.private=w.get(S.me.id).details||{}}}}
+ if(S.admin){const od=await sb.from('organiser_deals').select('*').order('updated_at',{ascending:false});S.odeals=od.error?null:(od.data||[])}
  if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[]);const ap=await sb.from('applications').select('campaign_id,stage');S.appCounts=ap.error?null:(ap.data||[]);const fu=await sb.from('applications').select('id,campaign_id,stage,next_follow_up,businesses(name)').lte('next_follow_up',todayISO()).not('stage','in','(declined,not_interested,attended)').order('next_follow_up');S.follow=fu.error?[]:(fu.data||[])}
  if(S.admin){const [u,rv]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]))}
  S.loading=false;
@@ -376,9 +379,9 @@ async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('c
 /* ---------- nav ---------- */
 function navItems(){
  // Team admins without a company profile get the admin tabs only
- if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['campaigns','Campaigns']];
+ if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']];
  const items=[['matches','Matches'],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
- if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['campaigns','Campaigns']);
+ if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']);
  return items;
 }
 function renderNav(){
@@ -426,6 +429,7 @@ function profileForm(m,first){
   <label class="f">I am a<select id="p_role" required><option value="">Choose one</option>${ROLES.map(r=>`<option ${r===m.role?'selected':''}>${r}</option>`).join('')}</select></label>
   <label class="f">City<input id="p_city" value="${esc(m.city)}" required></label>
   <label class="f">Country<select id="p_country" required>${countryOpts(m.country)}</select></label>
+  <label class="f full">About your company<textarea id="p_about" rows="4" maxlength="1200" placeholder="What you make or trade, your main products, who you sell to, how long you have been in business, and what you want to buy or sell.">${esc(m.about)}</textarea><span class="muted small">A clear description helps buyers and suppliers decide to contact you.</span></label>
   <label class="f full">What we sell or offer<textarea id="p_sells" rows="2" placeholder="For example: hotel furniture, lighting, FF&E" required>${esc(m.sells)}</textarea></label>
   <label class="f full">What we want to buy, or who we want to meet<textarea id="p_wants" rows="2" placeholder="For example: hotel developers and interior designers in Africa and the Middle East" required>${esc(m.wants)}</textarea></label>
   <label class="f">Target markets<input id="p_markets" value="${esc(m.markets)}" placeholder="Kenya, UAE, Egypt" required></label>
@@ -462,6 +466,8 @@ function profileForm(m,first){
 function viewOnboard(){
  return `${expoNote()}<div class="head"><div><span class="eyebrow">Step 1 of 2</span><h1>Tell us about your company</h1><p>SAIS vets every company before it can trade. Our AI matchmaker uses these answers to find your best partners.</p></div></div>${profileForm(null,true)}`;
 }
+function profileGaps(c){c=c||S.me;if(!c)return[];const g=[];if(!webUrl(c.website)&&!c.profile_file)g.push('a website or a company profile document');if(!c.profile_file)g.push('your company profile document (PDF or Word)');if(String(c.about||'').trim().length<120)g.push('a strong company description');return g}
+function profileBanner(){const g=profileGaps();if(!g.length)return'';return `<div class="banner warn"><b>Get seen by more buyers and suppliers.</b> Add ${esc(g.join(', and '))} to your company profile. Full profiles get far more messages and meetings. <button class="link" data-go="profile">Complete my profile</button></div>`}
 function pendingBanner(){
  if(!S.me||S.me.status==='approved')return '';
  return S.me.status==='declined'
@@ -484,15 +490,16 @@ function viewMatches(){
  const JV='Joint Venture Programmes';
  const list=suggestions().filter(x=>S.filter==='All'||(S.filter===JV?x.c.jv_open:x.c.role===S.filter)).filter(x=>!S.expoF||(x.c.expos||[]).includes(S.expoF));
  const fromAgent=S.matches.length;
- return `${pendingBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
+ return `${pendingBanner()}${profileBanner()}<div class="head"><div><span class="eyebrow">AI matchmaking</span><h1>Your best matches</h1><p>Vetted companies ranked by how well they fit what you sell, buy and the markets you want.</p></div></div>
  <div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Matchmaker agent</b><p>${fromAgent?`Found ${fromAgent} matches for ${esc(S.me.name)}. New matches arrive as new companies join.`:`Ranking ${(n=>n===1?'1 vetted company':n+' vetted companies')(Math.max(0,S.cos.filter(c=>c.status==='approved').length-(approved()?1:0)))} against your profile. Deeper AI matches with reasons arrive as the network grows.`}</p></div></div>
  <label class="f expof">Going to the same expo<select id="expoFilter"><option value="">Any expo</option>${EXPOS.map(e=>`<option ${S.expoF===e.n?'selected':''}>${esc(e.n)}</option>`).join('')}</select></label>
  <div class="chips" role="group" aria-label="Filter by type">${['All',JV,...ROLES].map(r=>`<button class="chip" data-filter="${r}" aria-pressed="${S.filter===r}">${r}</button>`).join('')}</div>
  ${searchBox('mgrid','Search by company, product, country or city')}
- ${(()=>{const xc=S.filter==='Organiser'?expoCards():'';return (list.length||xc)?`<div class="grid" id="mgrid">${xc}${list.map(({c,score,why,agent})=>`<article class="card" data-s="${sTxt(c)}">
+ ${(()=>{const xc=S.filter==='Organiser'?expoCards():'';return (list.length||xc)?`<div class="grid" id="mgrid">${xc}${list.map(({c,score,why,agent,myOrg})=>`<article class="card" data-s="${sTxt(c)}">
    <div class="co">${av(c)}<div><h3>${esc(c.name)}</h3><small>${esc([c.city,c.country].filter(Boolean).join(', '))}</small></div><div class="score"><b>${score}%</b><span>${agent?'AI match':'fit'}</span></div></div>
-   <div class="tags"><span class="tag role">${esc(c.role)}</span>${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
+   <div class="tags"><span class="tag role">${esc(c.role)}</span>${myOrg?'<span class="tag jv">Organiser of your expo</span>':''}${/hosted buyer/i.test(c.name||'')?'<span class="tag jv">Hosted Buyer Programme</span>':''}${c.jv_open?'<span class="tag jv">Open to joint ventures</span>':''}<span class="tag ok">Vetted by SAIS</span></div>
    <div class="why"><span class="eyebrow">${why?'Why this match':'What they do'}</span>${esc(why||[c.sells&&('Offers: '+c.sells),c.wants&&('Looking for: '+c.wants)].filter(Boolean).join('. '))}</div>
+   ${c.about?`<p class="small muted" style="margin:0">${esc(String(c.about).slice(0,220))}${String(c.about).length>220?'…':''}</p>`:''}
    ${(c.expos||[]).length?`<p class="going"><b>Going to:</b> ${esc(c.expos.join(', '))}</p>`:''}
    ${coLinks(c)}
    <div class="row"><button class="btn pri" data-msg="${c.id}">Message</button><button class="btn gold" data-book="${c.id}">Book meeting</button><button class="btn ghost" data-pass="${c.id}">Not now</button></div>
@@ -546,7 +553,7 @@ function viewDeals(){
 
 function viewProfile(){
  const m=S.me;
- return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileForm(m,false)}`;
+ return `<div class="head"><div><span class="eyebrow">Company profile</span><h1>${esc(m.name)}</h1><p>The matchmaker reads this profile. The more precise it is, the better your matches.</p></div><span class="pill ${m.status==='approved'?'good':m.status==='declined'?'bad':'warn'}">${m.status==='approved'?'Vetted by SAIS':m.status==='declined'?'Not approved':'Waiting for vetting'}</span></div>${profileBanner().replace(/ <button class="link" data-go="profile">Complete my profile<\/button>/,'')}${profileForm(m,false)}`;
 }
 
 function riskPill(r){if(!r||!r.risk)return '';const c=r.risk==='low'?'good':r.risk==='high'?'bad':'warn';return ` <span class="pill ${c}">${r.risk==='high'?'Scam risk: HIGH':'Scam risk: '+esc(r.risk)}</span>`}
@@ -556,6 +563,60 @@ function fmtDay(d){if(!d)return'';const x=new Date(d+'T00:00:00');return x.toLoc
 function daysTo(d){if(!d)return null;const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+'T00:00:00')-t)/864e5)}
 function followBox(){const f=(S.follow||[]);if(!f.length)return'';
  return `<div class="card"><h3 class="h3" style="margin:0">Follow-ups due (${f.length})</h3><div class="list">${f.map(a=>{const c=(S.camps||[]).find(x=>x.id===a.campaign_id)||{};return `<div class="li"><div class="t" style="flex:1"><b>${esc((a.businesses||{}).name||'')}</b><span>${esc(c.name||'')} · ${esc(stageName(a.stage))} · ${a.next_follow_up<todayISO()?'overdue since '+esc(fmtDay(a.next_follow_up)):'today'}</span></div><button class="btn small" data-pipe="${a.campaign_id}">Open pipeline</button></div>`}).join('')}</div></div>`}
+const OSTAGE={pitched:'Pitched',replied:'Replied',terms:'Agreeing terms',signed:'Contract signed',recruiting:'Recruiting',paid:'Paid',lost:'Closed, no deal'};
+const OORDER=['pitched','replied','terms','signed','recruiting','paid','lost'];
+const OHINT={pitched:'Email sent, no reply yet',replied:'They answered, keep talking',terms:'Fees and conditions being agreed',signed:'Agreement signed, prepare to recruit',recruiting:'Finding and vetting delegates',paid:'SAIS has been paid',lost:'Not going ahead'};
+function odDue(){const t=todayISO();return (S.odeals||[]).filter(d=>d.next_follow_up&&d.next_follow_up<=t&&!['paid','lost'].includes(d.stage))}
+function viewOrganisers(){
+ const head=`<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Organiser pipeline</h1><p>Every organiser you pitch, from the first email to the day SAIS is paid.</p></div><button class="btn pri" data-odeal="new">Add organiser</button></div>`;
+ if(S.odeals===null)return head+`<div class="banner warn">The organiser pipeline could not load. Refresh the page.</div>`;
+ const all=S.odeals||[];const f=S.odF||'open';
+ const cnt=k=>all.filter(d=>d.stage===k).length;
+ const chips=`<div class="chips" style="margin-bottom:14px"><button class="chip" data-odf="open" ${f==='open'?'aria-pressed="true" style="border-color:var(--gold);color:var(--gold)"':''}>All open (${all.filter(d=>!['paid','lost'].includes(d.stage)).length})</button>${OORDER.map(k=>`<button class="chip" data-odf="${k}" ${f===k?'aria-pressed="true" style="border-color:var(--gold);color:var(--gold)"':''}>${OSTAGE[k]} (${cnt(k)})</button>`).join('')}</div>`;
+ const due=odDue();const t=todayISO();
+ const dueBox=due.length?`<div class="card" style="margin-bottom:14px"><h3 class="h3" style="margin:0">Follow up today (${due.length})</h3><div class="list">${due.map(d=>`<div class="li"><div class="t" style="flex:1"><b>${esc(d.organiser)}</b><span>${esc(d.expo||'')} · ${esc(OSTAGE[d.stage])} · ${d.next_follow_up<t?'overdue since '+esc(fmtDay(d.next_follow_up)):'due today'}</span></div><button class="btn small" data-onote="${d.id}">Add note</button></div>`).join('')}</div></div>`:'';
+ const stages=f==='open'?OORDER.filter(k=>!['paid','lost'].includes(k)):[f];
+ const card=d=>{const fu=d.next_follow_up,late=fu&&fu<t,today=fu===t;const i=OORDER.indexOf(d.stage),nx=i>=0&&i<5?OORDER[i+1]:null;
+  return `<article class="card" style="gap:8px">
+  <div class="row" style="justify-content:space-between;align-items:flex-start"><div><h3 class="h3" style="margin:0">${esc(d.organiser)}</h3><small class="muted">${esc([d.expo,d.expo_dates,d.city].filter(Boolean).join(' · '))}</small></div><span class="pill ${d.stage==='paid'||d.stage==='signed'||d.stage==='recruiting'?'good':d.stage==='lost'?'bad':'warn'}">${esc(OSTAGE[d.stage])}</span></div>
+  ${d.contact_name||d.email||d.whatsapp?`<div class="small"><span class="muted">Contact:</span> ${esc([d.contact_name,d.email,d.whatsapp].filter(Boolean).join(' · '))}</div>`:''}
+  ${d.terms?`<div class="small"><span class="eyebrow">Terms</span><br>${esc(d.terms)}</div>`:''}
+  ${d.notes?`<div class="small muted">${esc(d.notes)}</div>`:''}
+  <div class="small">${fu?`<span class="pill ${late?'bad':today?'warn':''}">Follow up ${late?'overdue, ':''}${esc(fmtDay(fu))}</span>`:'<span class="muted">No follow-up date</span>'}</div>
+  <div class="row">${nx?`<button class="btn small gold" data-onext="${d.id}">Move to ${esc(OSTAGE[nx])}</button>`:''}<button class="btn small" data-onote="${d.id}">Notes</button><button class="btn small" data-odeal="${d.id}">Edit</button></div></article>`};
+ const body=stages.map(k=>{const l=all.filter(d=>d.stage===k).sort((a,b)=>String(a.next_follow_up||'9').localeCompare(String(b.next_follow_up||'9')));if(!l.length&&f==='open')return'';
+  return `<section style="margin-bottom:22px"><h2 class="h3" style="margin:0 0 4px">${esc(OSTAGE[k])} <span class="muted small">(${l.length})</span></h2><p class="muted small" style="margin:0 0 10px">${esc(OHINT[k])}</p>${l.length?`<div class="grid">${l.map(card).join('')}</div>`:'<p class="empty">Nothing here.</p>'}</section>`}).join('');
+ return head+dueBox+chips+(body||'<p class="empty">No organisers yet. Add the first one.</p>');
+}
+function openDeal(id){
+ const d=id==='new'?{stage:'pitched'}:(S.odeals||[]).find(x=>x.id===id);if(!d)return;
+ const v=k=>esc(d[k]==null?'':String(d[k]));
+ $('#dlgBody').innerHTML=`<h3 class="h3">${id==='new'?'Add organiser':'Edit organiser'}</h3>
+ <form id="odealForm" class="stack" data-id="${id==='new'?'':esc(id)}">
+ <label class="f">Organiser company<input id="o_organiser" value="${v('organiser')}" required></label>
+ <label class="f">Expo<input id="o_expo" value="${v('expo')}" placeholder="IE expo 2027"></label>
+ <div class="row"><label class="f" style="flex:1">Expo dates<input id="o_expo_dates" value="${v('expo_dates')}" placeholder="20 to 22 Apr 2027"></label><label class="f" style="flex:1">City, country<input id="o_city" value="${v('city')}"></label></div>
+ <div class="row"><label class="f" style="flex:1">Contact person<input id="o_contact_name" value="${v('contact_name')}"></label><label class="f" style="flex:1">WhatsApp<input id="o_whatsapp" value="${v('whatsapp')}"></label></div>
+ <label class="f">Email<input id="o_email" type="email" value="${v('email')}"></label>
+ <div class="row"><label class="f" style="flex:1">Stage<select id="o_stage">${OORDER.map(k=>`<option value="${k}" ${d.stage===k?'selected':''}>${OSTAGE[k]}</option>`).join('')}</select></label><label class="f" style="flex:1">Next follow-up<input id="o_next_follow_up" type="date" value="${v('next_follow_up')}"></label></div>
+ <label class="f">Terms agreed (fees, what they pay for)<textarea id="o_terms" rows="3">${v('terms')}</textarea></label>
+ <label class="f">Notes<textarea id="o_notes" rows="3">${v('notes')}</textarea></label>
+ <p class="err" id="odErr" role="alert"></p>
+ <div class="row"><button class="btn pri">Save</button><button type="button" class="btn ghost" data-close>Cancel</button>${id!=='new'?`<button type="button" class="btn ghost" data-odel="${esc(id)}" style="margin-left:auto">Delete</button>`:''}</div></form>`;
+ $('#dlg').showModal();
+}
+async function openDealNotes(id){
+ const d=(S.odeals||[]).find(x=>x.id===id);if(!d)return;
+ const r=await sb.from('organiser_notes').select('*').eq('deal_id',id).order('created_at',{ascending:false});
+ const notes=r.data||[];
+ $('#dlgBody').innerHTML=`<h3 class="h3" style="margin-bottom:2px">${esc(d.organiser)}</h3><p class="muted small" style="margin:0 0 12px">${esc([d.expo,OSTAGE[d.stage]].filter(Boolean).join(' · '))}</p>
+ <form id="onoteForm" class="stack" data-id="${esc(id)}">
+ <label class="f">What happened (call, email, WhatsApp, meeting)<textarea id="on_body" rows="3" required placeholder="Sent quote for USD 985. Mary will reply by Monday."></textarea></label>
+ <label class="f">Next follow-up<input id="on_next" type="date" value="${esc(d.next_follow_up||'')}"></label>
+ <div class="row"><button class="btn pri">Save note</button><button type="button" class="btn ghost" data-close>Close</button></div></form>
+ <div class="list" style="margin-top:14px">${notes.length?notes.map(n=>`<div class="li"><div class="t"><b>${esc(fmtDay(String(n.created_at).slice(0,10)))}</b><span style="white-space:pre-wrap">${esc(n.body)}</span></div></div>`).join(''):'<p class="empty">No notes yet.</p>'}</div>`;
+ $('#dlg').showModal();
+}
 function viewCampaigns(){
  const head=`<div class="head"><div><span class="eyebrow">SAIS admin</span><h1>Campaigns</h1><p>One campaign per expo contract: the organiser's rules, your target and your deadlines in one place.</p></div><button class="btn pri" data-camp="new">Add campaign</button></div>`;
  if(S.camps===null)return head+`<div class="banner warn">Run the Step 2 setup in Supabase to switch on campaigns.</div>`;
@@ -673,8 +734,8 @@ function render(){
  else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me&&!S.admin)html=viewOnboard();
- else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline}[S.view]||viewAdmin)();
- else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches}[S.view]||viewMatches)();
+ else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline,organisers:viewOrganisers}[S.view]||viewAdmin)();
+ else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  applySearch();
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
@@ -726,6 +787,14 @@ document.addEventListener('click',async e=>{
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
  else if(ds.camp){openCampaign(ds.camp)}
+ else if(ds.odeal){openDeal(ds.odeal)}
+ else if(ds.onote){openDealNotes(ds.onote)}
+ else if('odf' in ds){S.odF=ds.odf;render()}
+ else if(ds.onext){const d=(S.odeals||[]).find(x=>x.id===ds.onext);if(!d)return;const nx=OORDER[OORDER.indexOf(d.stage)+1];if(!nx)return;
+  const r=await sb.from('organiser_deals').update({stage:nx}).eq('id',d.id).select().single();if(r.error)return fail(r.error,'Could not move the organiser');
+  Object.assign(d,r.data);await sb.from('organiser_notes').insert({deal_id:d.id,body:'Moved to '+OSTAGE[nx]});toast(d.organiser+' moved to '+OSTAGE[nx]);render()}
+ else if(ds.odel){const d=(S.odeals||[]).find(x=>x.id===ds.odel);if(!d)return;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='Tap again to delete';return}
+  const r=await sb.from('organiser_deals').delete().eq('id',d.id);if(r.error)return fail(r.error,'Could not delete');S.odeals=S.odeals.filter(x=>x.id!==d.id);$('#dlg').close();toast('Deleted');render()}
  else if(ds.pipe){$('#dlg').open&&$('#dlg').close();openPipeline(ds.pipe)}
  else if(ds.log){openLog(ds.log)}
  else if(ds.csv){pipelineCsv()}
@@ -763,6 +832,15 @@ document.addEventListener('submit',async e=>{
   const u=await sb.from('applications').select(APPSEL).eq('id',id).single();const a=(S.apps||[]).find(x=>x.id===id);if(a&&u.data)Object.assign(a,u.data);
   S.follow=(S.follow||[]).filter(x=>x.id!==id);if(v.next_follow_up&&v.next_follow_up<=todayISO()&&a)S.follow.push({id,campaign_id:a.campaign_id,stage:a.stage,next_follow_up:v.next_follow_up,businesses:{name:(a.businesses||{}).name}});
   $('#dlg').close();toast('Note saved');render();return}
+ if(f.id==='odealForm'){const keys=['organiser','expo','expo_dates','city','contact_name','whatsapp','email','stage','next_follow_up','terms','notes'];
+  const v={};keys.forEach(k=>{const x=$('#o_'+k).value.trim();v[k]=x===''?null:x});if(!v.organiser){$('#odErr').textContent='Add the organiser name.';return}
+  const id=f.dataset.id;const r=id?await sb.from('organiser_deals').update(v).eq('id',id).select().single():await sb.from('organiser_deals').insert(v).select().single();
+  if(r.error){$('#odErr').textContent='Could not save: '+r.error.message;return}
+  const i=(S.odeals||[]).findIndex(x=>x.id===r.data.id);if(i>=0)S.odeals[i]=r.data;else(S.odeals=S.odeals||[]).unshift(r.data);$('#dlg').close();toast('Saved');render();return}
+ if(f.id==='onoteForm'){const id=f.dataset.id;const body=$('#on_body').value.trim();if(!body)return;const next=$('#on_next').value||null;
+  const r=await sb.from('organiser_notes').insert({deal_id:id,body});if(r.error)return fail(r.error,'Could not save the note');
+  const u=await sb.from('organiser_deals').update({next_follow_up:next}).eq('id',id).select().single();const d=(S.odeals||[]).find(x=>x.id===id);if(d&&u.data)Object.assign(d,u.data);
+  $('#dlg').close();toast('Note saved');render();return}
  if(f.id==='campForm'){const keys=['name','organiser','city','country','venue','starts_on','ends_on','status','target_delegates','fee_per_delegate','fee_currency','report_day','registration_deadline','buyer_criteria','hosted_benefits','notes','register_url'];
   const v={};keys.forEach(k=>{const x=$('#c_'+k).value.trim();v[k]=x===''?null:x});['target_delegates','fee_per_delegate'].forEach(k=>{if(v[k]!==null)v[k]=Number(v[k])});v.fee_currency=v.fee_currency||'USD';const lines=id=>[...new Set($(id).value.split('\n').map(x=>x.trim()).filter(Boolean))];v.hunt_sectors=lines('#c_hunt_sectors');v.hunt_countries=lines('#c_hunt_countries');v.hunting=$('#c_hunting').checked;if(v.hunting&&(!v.hunt_sectors.length||!v.hunt_countries.length)){$('#campErr').textContent='Add at least one search and one country, or switch hunting off.';return}
   if(v.starts_on&&v.ends_on&&v.ends_on<v.starts_on){$('#campErr').textContent='The end date is before the start date.';return}
@@ -778,7 +856,7 @@ document.addEventListener('submit',async e=>{
   if(f.dataset.mode==='signup')notify({event:'New account created, company form not filled yet',email});if(f.dataset.mode==='signup'){try{fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'matchmarket-welcome',email}).toString()}).catch(()=>{})}catch(e){}}
   if(f.dataset.mode==='signup'&&!r.data.session){err.textContent='Check your email and tap the link to confirm your account, then log in here.';}
  }
- else if(f.id==='prof'){const keys=['name','role','city','country','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.public_listing=$('#p_public').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
+ else if(f.id==='prof'){const keys=['name','role','city','country','about','sells','wants','markets','deal_size','website','whatsapp'];const v={};keys.forEach(k=>v[k]=$('#p_'+k).value.trim());v.jv_open=$('#p_jv').checked;v.public_listing=$('#p_public').checked;v.expos=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);
   v.established=$('#p_established').value.trim();const xc=readExpoCats();v.expo_details={};v.expos.forEach(n=>{if(xc[n])v.expo_details[n]=xc[n]});
   const pd={surname:$('#p_surname').value.trim(),first_name:$('#p_first').value.trim(),job_title:$('#p_jobtitle').value.trim(),turnover_2025:$('#p_turnover').value,imports_2025:$('#p_imports').value,imported_from:$('#p_impfrom').value.trim(),imported_products:$('#p_impprod').value.trim()};v.private_details=pd;
   const err=$('#profErr');if(!/[.@\/]/.test(v.website)){err.textContent='Please add a website or social media link. We use it to vet your company.';return}
@@ -845,7 +923,7 @@ async function handleAuth(ev,session){
  booted=true;S.user=session?session.user:null;S.loading=true;render();
  if(S.user){try{await loadAll();subscribe()}catch(e){S.loading=false;fail(e,'Could not load your data')}}
  else{S.me=null;S.loading=false;if(channel){sb.removeChannel(channel);channel=null}}
- const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin','campaigns'].includes(h))S.view=h;
+ const h=(location.hash||'').slice(1);if(['matches','messages','meetings','deals','profile','admin','campaigns','organisers'].includes(h))S.view=h;
  render();
 }
 setTimeout(()=>{if(S.loading){$('#view').innerHTML='<div class="card empty">This is taking longer than usual. <button class="link" onclick="location.reload()">Tap to reload</button></div>'}},15000);
