@@ -96,6 +96,10 @@
   .must{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:#F8E1DC;color:#9B2C1C;border-radius:6px;padding:3px 8px;margin-left:6px;vertical-align:middle}
   .adimg{max-width:420px;margin:0 auto 0;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(4,33,26,.18)}
   .btn-green{background:var(--green);color:#fff}
+  .unlock{margin:4px 0 0}
+  .unlockrow{display:flex;gap:10px;flex-wrap:wrap}
+  .unlockrow input{flex:1 1 180px;min-width:0;font:inherit;font-size:17px;letter-spacing:1px;text-transform:uppercase;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:#FDFBF5}
+  .unlockrow .btn{padding:13px 22px;font-size:16px}
   .wa{background:#1F7A4D;color:#fff}
 </style>
 <script type="application/ld+json">
@@ -160,10 +164,7 @@
 <section id="register">
   <div class="wrap">
     <h2>How to register</h2>
-    <p class="sub">Registration is free. Complete all 3 steps. Places are given first come, first served, so register today.</p>
-    <p style="margin:0 0 4px;font-weight:700;color:var(--green)">Your SAIS registration code</p>
-    <div class="code">SAIS-AHCI27</div>
-    <p class="hint" style="margin:0 0 22px">Quote this code in every message to SAIS Events about this event.</p>
+    <p class="sub">Registration is free. Complete all 4 steps in order. Places are given first come, first served, so register today.</p>
     <ol class="steps">
       <li>
         <h3>Register your company on SAIS MatchMarket <span class="must">Mandatory</span></h3>
@@ -171,14 +172,28 @@
         <a class="btn btn-green" href="market.html?expo=Advantage%20Healthcare%20India%202027">Register on MatchMarket</a>
       </li>
       <li>
-        <h3>Fill in the official hosted buyer form <span class="must">Mandatory</span></h3>
-        <p>Complete <b>every field</b> on the organiser's Hosted Foreign Delegate form: your full name exactly as in your passport, phone numbers, email, a passport size photo on a white background, and clear scans of your passport pages.</p>
-        <a class="btn btn-gold" href="https://ahcindia.ficci.in/registrations/ahci-hosted-foreign-delegate-registration.php" target="_blank" rel="noopener">Open the hosted buyer form</a>
+        <h3>Get your registration code on WhatsApp</h3>
+        <p>Once your MatchMarket profile is complete, message us on WhatsApp with your company name. We check your profile and send you your SAIS registration code.</p>
+        <a class="btn wa" href="https://wa.me/254722170385?text=Hi%20SAIS%20Events.%20I%20have%20completed%20my%20MatchMarket%20company%20profile.%20Please%20send%20me%20my%20registration%20code%20for%20Advantage%20Healthcare%20India%202027.%20My%20company%20name%20is%3A%20" target="_blank" rel="noopener">Request my code on WhatsApp</a>
       </li>
       <li>
-        <h3>Send us your code and confirmation</h3>
-        <p>Send your registration code <b>SAIS-AHCI27</b> and a screenshot of your submitted form on WhatsApp or to info@saisevents.com. We then submit your application to the organiser as a SAIS Events delegate and follow it up.</p>
-        <a class="btn wa" href="https://wa.me/254722170385?text=Hi%20SAIS%20Events.%20My%20registration%20code%20is%20SAIS-AHCI27.%20I%20have%20registered%20on%20MatchMarket%20and%20filled%20the%20hosted%20buyer%20form%20for%20Advantage%20Healthcare%20India%202027." target="_blank" rel="noopener">Send on WhatsApp</a>
+        <h3>Unlock and fill in the official hosted buyer form <span class="must">Mandatory</span></h3>
+        <p>Enter your registration code to open the organiser's official form. Complete <b>every field</b>: your full name exactly as in your passport, phone numbers, email, a passport size photo on a white background, and clear scans of your passport pages.</p>
+        <div class="lock" style="background:#FBF3DC;border-color:#EAD9A6"><b>Important:</b> under <b>"Nominated / Recommended to FICCI for Advantage Healthcare India by"</b>, choose <b>Others (please specify)</b> and type <b>SAIS Events</b>.</div>
+        <form id="unlock" class="unlock" autocomplete="off">
+          <label for="code">Registration code</label>
+          <div class="unlockrow"><input type="text" id="code" placeholder="Enter your code" autocapitalize="characters" spellcheck="false"><button class="btn btn-gold" type="submit">Unlock form</button></div>
+          <p class="err" id="codeErr" role="alert"></p>
+        </form>
+        <div id="unlocked" hidden>
+          <p style="color:var(--green);font-weight:700;margin:0 0 10px">Code accepted. Remember: recommended by Others, SAIS Events.</p>
+          <a class="btn btn-gold" id="ficciLink" href="#" target="_blank" rel="noopener">Open the official hosted buyer form</a>
+        </div>
+      </li>
+      <li>
+        <h3>Send us your confirmation</h3>
+        <p>Send a screenshot of your submitted form with your registration code on WhatsApp or to info@saisevents.com. We then submit your application to the organiser as a SAIS Events delegate and follow it up.</p>
+        <a class="btn wa" href="https://wa.me/254722170385?text=Hi%20SAIS%20Events.%20I%20have%20submitted%20the%20official%20hosted%20buyer%20form%20for%20Advantage%20Healthcare%20India%202027%2C%20with%20SAIS%20Events%20as%20my%20recommender.%20Here%20is%20my%20screenshot.%20My%20registration%20code%20is%3A%20" target="_blank" rel="noopener">Send my confirmation</a>
       </li>
     </ol>
     <div class="note"><b>Free registration:</b> there is no registration fee for this event. Neither SAIS Events nor FICCI charges you to register, and FICCI does not authorise anyone to charge a registration fee on its behalf. If anyone asks you to pay to register, report it to info@saisevents.com.<br><br><b>Please note:</b> the organiser's screening committee makes the final selection, and SAIS Events cannot guarantee approval. Airfare is a reimbursement: you buy your own ticket and the organiser refunds up to USD 500 under its terms. Do not book flights until your hosted buyer place and visa are confirmed.</div>
@@ -191,5 +206,18 @@
     <div><a href="index.html">Home</a> &nbsp;|&nbsp; <a href="index.html#expos">All expos</a> &nbsp;|&nbsp; <a href="market.html">MatchMarket</a> &nbsp;|&nbsp; <a href="terms.html">Terms</a></div>
   </div>
 </footer>
+<script>
+(function(){
+  var K='SAISAHCI27', L='aHR0cHM6Ly9haGNpbmRpYS5maWNjaS5pbi9yZWdpc3RyYXRpb25zL2FoY2ktaG9zdGVkLWZvcmVpZ24tZGVsZWdhdGUtcmVnaXN0cmF0aW9uLnBocA==';
+  var f=document.getElementById('unlock'), err=document.getElementById('codeErr');
+  function open(){document.getElementById('ficciLink').href=atob(L);f.hidden=true;document.getElementById('unlocked').hidden=false}
+  try{if(localStorage.getItem('ahci27ok')==='1')open()}catch(e){}
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var v=(document.getElementById('code').value||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(v===K){err.textContent='';try{localStorage.setItem('ahci27ok','1')}catch(x){}open()}
+    else err.textContent='That code is not correct. Request your code on WhatsApp in step 2.';
+  });
+})();
+</script>
 </body>
 </html>
