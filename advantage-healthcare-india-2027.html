@@ -172,17 +172,21 @@
         <a class="btn btn-green" href="market.html?expo=Advantage%20Healthcare%20India%202027">Register on MatchMarket</a>
       </li>
       <li>
-        <h3>Get your registration code on WhatsApp</h3>
-        <p>Once your MatchMarket profile is complete, message us on WhatsApp with your company name. We check your profile and send you your SAIS registration code.</p>
-        <a class="btn wa" href="https://wa.me/254722170385?text=Hi%20SAIS%20Events.%20I%20have%20completed%20my%20MatchMarket%20company%20profile.%20Please%20send%20me%20my%20registration%20code%20for%20Advantage%20Healthcare%20India%202027.%20My%20company%20name%20is%3A%20" target="_blank" rel="noopener">Request my code on WhatsApp</a>
+        <h3>Get your one time access code</h3>
+        <p>Enter the email you used on SAIS MatchMarket. We check that your company is registered and has ticked Advantage Healthcare India 2027, then email you your own access code. Each code works for one registration only.</p>
+        <form id="getcode" class="unlock" autocomplete="on">
+          <label for="mmEmail">Your MatchMarket email</label>
+          <div class="unlockrow"><input type="email" id="mmEmail" placeholder="you@company.com" style="text-transform:none;letter-spacing:0"><button class="btn btn-green" type="submit">Email my code</button></div>
+          <p class="err" id="mailMsg" role="status"></p>
+        </form>
       </li>
       <li>
         <h3>Unlock and fill in the official hosted buyer form <span class="must">Mandatory</span></h3>
-        <p>Enter your registration code to open the organiser's official form. Complete <b>every field</b>: your full name exactly as in your passport, phone numbers, email, a passport size photo on a white background, and clear scans of your passport pages.</p>
+        <p>Enter your access code to open the organiser's official form. Complete <b>every field</b>: your full name exactly as in your passport, phone numbers, email, a passport size photo on a white background, and clear scans of your passport pages.</p>
         <div class="lock" style="background:#FBF3DC;border-color:#EAD9A6"><b>Important:</b> under <b>"Nominated / Recommended to FICCI for Advantage Healthcare India by"</b>, choose <b>Others (please specify)</b> and type <b>SAIS Events</b>.</div>
         <form id="unlock" class="unlock" autocomplete="off">
-          <label for="code">Registration code</label>
-          <div class="unlockrow"><input type="text" id="code" placeholder="Enter your code" autocapitalize="characters" spellcheck="false"><button class="btn btn-gold" type="submit">Unlock form</button></div>
+          <label for="code">One time access code</label>
+          <div class="unlockrow"><input type="text" id="code" placeholder="AHCI-XXXXXX" autocapitalize="characters" spellcheck="false"><button class="btn btn-gold" type="submit">Unlock form</button></div>
           <p class="err" id="codeErr" role="alert"></p>
         </form>
         <div id="unlocked" hidden>
@@ -192,7 +196,7 @@
       </li>
       <li>
         <h3>Send us your confirmation</h3>
-        <p>Send a screenshot of your submitted form with your registration code on WhatsApp or to info@saisevents.com. We then submit your application to the organiser as a SAIS Events delegate and follow it up.</p>
+        <p>Send a screenshot of your submitted form with your access code on WhatsApp or to info@saisevents.com. We then submit your application to the organiser as a SAIS Events delegate and follow it up.</p>
         <a class="btn wa" href="https://wa.me/254722170385?text=Hi%20SAIS%20Events.%20I%20have%20submitted%20the%20official%20hosted%20buyer%20form%20for%20Advantage%20Healthcare%20India%202027%2C%20with%20SAIS%20Events%20as%20my%20recommender.%20Here%20is%20my%20screenshot.%20My%20registration%20code%20is%3A%20" target="_blank" rel="noopener">Send my confirmation</a>
       </li>
     </ol>
@@ -208,15 +212,16 @@
 </footer>
 <script>
 (function(){
-  var K='SAISAHCI27', L='aHR0cHM6Ly9haGNpbmRpYS5maWNjaS5pbi9yZWdpc3RyYXRpb25zL2FoY2ktaG9zdGVkLWZvcmVpZ24tZGVsZWdhdGUtcmVnaXN0cmF0aW9uLnBocA==';
-  var f=document.getElementById('unlock'), err=document.getElementById('codeErr');
-  function open(){document.getElementById('ficciLink').href=atob(L);f.hidden=true;document.getElementById('unlocked').hidden=false}
-  try{if(localStorage.getItem('ahci27ok')==='1')open()}catch(e){}
-  f.addEventListener('submit',function(e){e.preventDefault();
-    var v=(document.getElementById('code').value||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
-    if(v===K){err.textContent='';try{localStorage.setItem('ahci27ok','1')}catch(x){}open()}
-    else err.textContent='That code is not correct. Request your code on WhatsApp in step 2.';
-  });
+  var EV='Advantage Healthcare India 2027';
+  function post(body){return fetch('/.netlify/functions/event-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({event:EV},body))}).then(function(r){return r.json()})}
+  var gf=document.getElementById('getcode'),mm=document.getElementById('mailMsg');
+  var uf=document.getElementById('unlock'),err=document.getElementById('codeErr');
+  function show(link){document.getElementById('ficciLink').href=link;uf.hidden=true;document.getElementById('unlocked').hidden=false}
+  try{var saved=localStorage.getItem('ahci27link');if(saved)show(saved)}catch(e){}
+  gf.addEventListener('submit',function(e){e.preventDefault();var b=gf.querySelector('button');b.disabled=true;mm.style.color='';mm.textContent='Checking your MatchMarket profile...';
+    post({action:'issue',email:document.getElementById('mmEmail').value}).then(function(d){mm.style.color=d.ok?'#1d6b3a':'';mm.textContent=d.msg||''}).catch(function(){mm.textContent='Something went wrong. Please try again.'}).then(function(){b.disabled=false})});
+  uf.addEventListener('submit',function(e){e.preventDefault();var b=uf.querySelector('button');b.disabled=true;err.textContent='';
+    post({action:'redeem',code:document.getElementById('code').value}).then(function(d){if(d.ok){try{localStorage.setItem('ahci27link',d.link)}catch(x){}show(d.link)}else err.textContent=d.msg||'That code is not correct.'}).catch(function(){err.textContent='Something went wrong. Please try again.'}).then(function(){b.disabled=false})});
 })();
 </script>
 </body>
