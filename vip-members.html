@@ -101,6 +101,9 @@
   .paysum{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;justify-content:space-between}
   .paysum .amt{font-size:30px;font-weight:800;color:var(--green);line-height:1}
   .paysum .amt small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-top:6px}
+  .paybtns{display:flex;flex-wrap:wrap;gap:10px}
+  .btn-line-dark{background:transparent;color:var(--green);border:2px solid var(--green)}
+  .cardnote{margin:14px 0 0;font-size:14.5px;color:var(--muted)}
   .paysteps{margin:18px 0 0;padding-left:20px;color:var(--ink);font-size:15.5px}
   .paysteps li{margin-bottom:6px}
   #paydetails{margin-top:20px}
@@ -293,8 +296,12 @@
     <div class="paybox">
       <div class="paysum">
         <div class="amt">USD 300<small>Paid once. No yearly renewal</small></div>
-        <button type="button" class="btn btn-gold" id="payBtn" aria-expanded="false" aria-controls="paydetails">Pay now</button>
+        <div class="paybtns">
+          <a class="btn btn-gold" href="https://paystack.shop/pay/sais-vip-membership" target="_blank" rel="noopener">Pay KES 40,500 online</a>
+          <button type="button" class="btn btn-line-dark" id="payBtn" aria-expanded="false" aria-controls="paydetails">Pay by bank transfer</button>
+        </div>
       </div>
+      <p class="cardnote">Secure online payment by Visa, Mastercard or M-Pesa through Paystack, in the name SAIS EXPO COORDINATORS. International clients can also pay USD 300 by bank transfer.</p>
       <div id="paydetails" hidden>
         <div class="paygrid">
             <div class="acct"><h5>USD account</h5><dl>
@@ -322,9 +329,9 @@
               <dt>Account name</dt><dd>SAIS EXPO COORDINATORS</dd>
             </dl></div>
           </div>
-          <p class="paywarn"><b>Stay safe.</b> SAIS Events only receives payments into the accounts above, all in the name SAIS EXPO COORDINATORS. If anyone gives you different payment details, do not pay. Call or WhatsApp +254 722 170 385 first.</p>
+          <p class="paywarn"><b>Stay safe.</b> SAIS Events only receives payments into the accounts above and through our Paystack page at paystack.shop/pay/sais-vip-membership, all in the name SAIS EXPO COORDINATORS. If anyone gives you different payment details, do not pay. Call or WhatsApp +254 722 170 385 first.</p>
         <ol class="paysteps">
-          <li>Pay by bank transfer or M-Pesa using the details above.</li>
+          <li>Pay online by card or M-Pesa, or by bank transfer using the details above.</li>
           <li>Use your company name as the payment reference.</li>
           <li>Send your payment confirmation to info@saisevents.com or WhatsApp +254 722 170 385.</li>
           <li>We confirm your membership and send your welcome email.</li>
