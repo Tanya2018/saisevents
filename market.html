@@ -98,6 +98,7 @@ main{min-width:0;padding-block:22px 110px;padding-left:max(16px,env(safe-area-in
 .tag.ok{background:var(--good-bg);color:var(--good)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px;background:var(--surface-2);color:var(--fg)}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 .btn.pri{background:var(--brand);color:var(--on-brand)}
 @media (prefers-color-scheme: dark){:root:not([data-theme]) .btn.pri{background:var(--gold);color:#04211A}}
 :root[data-theme="jungle"] .btn.pri,:root[data-theme="dark"] .btn.pri,:root[data-theme="ocean"] .btn.pri{background:var(--gold);color:#04211A}
@@ -289,6 +290,7 @@ const ICON={
  deals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
  profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>',
  requests:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l15-6v14L3 13z"/><path d="M7 13v5a2 2 0 0 0 4 0v-4"/></svg>',
+ enquiries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg>',
  campaigns:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
  admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
  bot:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg>'
@@ -373,6 +375,7 @@ async function loadAll(){
  if(S.admin){const od=await sb.from('organiser_deals').select('*').order('updated_at',{ascending:false});S.odeals=od.error?null:(od.data||[])}
  if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[]);const ap=await sb.from('applications').select('campaign_id,stage');S.appCounts=ap.error?null:(ap.data||[]);const fu=await sb.from('applications').select('id,campaign_id,stage,next_follow_up,businesses(name)').lte('next_follow_up',todayISO()).not('stage','in','(declined,not_interested,attended)').order('next_follow_up');S.follow=fu.error?[]:(fu.data||[])}
  if(S.admin){const [u,rv,sc]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*'),sb.from('company_scores').select('company_id,score,grade,gaps')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]));S.scores=new Map(((sc&&sc.data)||[]).map(r=>[r.company_id,r]))}
+ if(S.admin){const en=await sb.from('campaign_enquiries').select('*').order('created_at',{ascending:false});S.enqs=en.error?[]:(en.data||[])}
  {const rq=await sb.from('requests').select('*').order('created_at',{ascending:false}).limit(300);S.reqs=rq.error?[]:(rq.data||[])}
  S.loading=false;
 }
@@ -414,12 +417,36 @@ function openReqForm(){
   <div class="row"><button class="btn pri">Post request</button><button type="button" class="btn ghost" data-close>Cancel</button></div>
  </form>`;$('#dlg').showModal()}
 
+
+/* ---------- campaign enquiries (admin) ---------- */
+const ENQ_NAME={entry:'Africa Market Entry',export:'Africa Export'};
+const ENQ_ST={new:'New',contacted:'Contacted',proposal:'Proposal sent',won:'Won',lost:'Lost'};
+const ENQ_CLS={new:'warn',contacted:'',proposal:'',won:'good',lost:'bad'};
+function viewEnquiries(){
+ const all=S.enqs||[];const f=S.enqF||'';const list=all.filter(x=>!f||x.status===f);
+ const row=(k,v)=>v?`<p class="small" style="margin:0"><b>${k}:</b> ${esc(v)}</p>`:'';
+ const card=x=>{const wa=String(x.whatsapp||'').replace(/[^0-9]/g,'');const web=webUrl(x.website);
+  return `<article class="card" data-s="${esc([x.company,x.country,x.contact_name,x.products,x.target_markets].join(' ').toLowerCase())}">
+   <div class="tags"><span class="tag role">${esc(ENQ_NAME[x.campaign]||x.campaign)}</span><span class="pill ${ENQ_CLS[x.status]||''}">${esc(ENQ_ST[x.status]||x.status)}</span></div>
+   <h3 style="margin:2px 0 0">${esc(x.company)}</h3>
+   <p class="small muted" style="margin:0">${esc(x.contact_name)}${x.job_title?', '+esc(x.job_title):''} · ${esc(x.country)} · ${ago(x.created_at)}</p>
+   ${row('Products',x.products)}${row('Markets',x.target_markets)}${row('Expos',x.expos)}${row('Start',x.timeline)}${row('Budget',x.budget)}${row('Message',x.message)}
+   <p class="small" style="margin:0"><b>Email:</b> ${esc(x.email)}<br><b>WhatsApp:</b> ${esc(x.whatsapp)}${web?`<br><a href="${esc(web)}" target="_blank" rel="noopener">Website</a>`:''}</p>
+   <label class="f">Stage<select data-enq="${x.id}">${Object.entries(ENQ_ST).map(([k,l])=>`<option value="${k}" ${x.status===k?'selected':''}>${l}</option>`).join('')}</select></label>
+   <div class="row">${wa?`<a class="btn pri" href="https://wa.me/${wa}?text=${encodeURIComponent('Hello '+x.contact_name+', thank you for your enquiry about the '+(ENQ_NAME[x.campaign]||'')+' Campaign with SAIS Events.')}" target="_blank" rel="noopener">WhatsApp</a>`:''}<a class="btn ghost" href="mailto:${esc(x.email)}?subject=${encodeURIComponent('Your '+(ENQ_NAME[x.campaign]||'')+' Campaign enquiry')}">Email</a></div>
+  </article>`};
+ return `<div class="head"><div><span class="eyebrow">Market campaigns</span><h1>Campaign enquiries</h1><p>Companies asking for a paid Africa Market Entry or Africa Export campaign. Reply within 2 working days, then move each one along.</p></div><a class="btn ghost" href="/market-campaigns.html" target="_blank" rel="noopener">Open the page</a></div>
+ <div class="chips" role="group" aria-label="Filter enquiries">${[['','All'],...Object.entries(ENQ_ST)].map(([k,l])=>`<button class="chip" data-enqf="${k}" aria-pressed="${f===k}">${l} (${k?all.filter(x=>x.status===k).length:all.length})</button>`).join('')}</div>
+ ${searchBox('egrid','Search by company, country or product')}
+ ${list.length?`<div class="grid" id="egrid">${list.map(card).join('')}</div>`:'<div class="card empty">No enquiries here yet.</div>'}`;
+}
+
 /* ---------- nav ---------- */
 function navItems(){
  // Team admins without a company profile get the admin tabs only
- if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']];
+ if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns'],['enquiries','Enquiries',(S.enqs||[]).filter(x=>x.status==='new').length]];
  const items=[['matches','Matches'],['requests','Requests',(S.reqs||[]).filter(r=>r.status==='open'&&r.company_id!==(S.me&&S.me.id)&&(Date.now()-new Date(r.created_at))<3*864e5).length],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
- if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']);
+ if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns'],['enquiries','Enquiries',(S.enqs||[]).filter(x=>x.status==='new').length]);
  return items;
 }
 function renderNav(){
@@ -773,8 +800,8 @@ function render(){
  else if(S.recovery)html=`<div class="authbox card"><span class="eyebrow">Reset password</span><h1>Choose a new password</h1><form id="newPw" class="stack"><label class="f">New password<input id="np" type="password" minlength="8" autocomplete="new-password" required></label><p class="err" id="npErr" role="alert"></p><button class="btn pri">Save password</button></form></div>`;
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me&&!S.admin)html=viewOnboard();
- else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline,organisers:viewOrganisers}[S.view]||viewAdmin)();
- else html=({requests:viewRequests,matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
+ else if(!S.me)html=({enquiries:viewEnquiries,campaigns:viewCampaigns,pipeline:viewPipeline,organisers:viewOrganisers}[S.view]||viewAdmin)();
+ else html=({requests:viewRequests,matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,enquiries:S.admin?viewEnquiries:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  applySearch();
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
@@ -825,6 +852,7 @@ document.addEventListener('click',async e=>{
   const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#authErr').textContent=r.error?r.error.message:'Check your email for a reset link.'}
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
+ else if('enqf' in ds){S.enqF=ds.enqf;render()}
  else if(ds.reqnew){openReqForm()}
  else if('reqf' in ds){S.reqF=ds.reqf;render()}
  else if(ds.reqreply){const r=(S.reqs||[]).find(x=>x.id===ds.reqreply);if(!r)return;await openChat(r.company_id);const i=$('#msgIn');if(i){i.value='Hello, I saw your request on the Requests board: "'+r.title+'". ';i.focus()}}
@@ -866,7 +894,7 @@ document.addEventListener('click',async e=>{
 
 document.addEventListener('input',e=>{const q=e.target.closest&&e.target.closest('[data-q]');if(!q)return;S.qs[q.dataset.q]=q.value;applySearch()});
 document.addEventListener('change',e=>{if(e.target.name==='p_expo'){const box=document.getElementById('xcats');if(box){const cur=readExpoCats();const sel=[...document.querySelectorAll('input[name=p_expo]:checked')].map(i=>i.value);box.innerHTML=expoCatsHTML(sel,{...(S.me&&S.me.expo_details||{}),...cur})}}});
-document.addEventListener('change',async e=>{if(e.target.dataset&&e.target.dataset.stage){const id=e.target.dataset.stage,st=e.target.value;const a=(S.apps||[]).find(x=>x.id===id);const v={stage:st};if(st==='approved'||st==='declined')v.decision_at=new Date().toISOString().slice(0,10);const r=await sb.from('applications').update(v).eq('id',id).select(APPSEL).single();if(r.error){fail(r.error,'Could not save the stage');render();return}if(a)Object.assign(a,r.data);toast('Moved to '+stageName(st));render();return}if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
+document.addEventListener('change',async e=>{if(e.target.dataset&&e.target.dataset.enq){const id=e.target.dataset.enq,st=e.target.value;const r=await sb.from('campaign_enquiries').update({status:st}).eq('id',id).select().single();if(r.error){fail(r.error,'Could not save the stage');render();return}const x=(S.enqs||[]).find(q=>q.id===id);if(x)Object.assign(x,r.data);toast('Moved to '+ENQ_ST[st]);render();return}if(e.target.dataset&&e.target.dataset.stage){const id=e.target.dataset.stage,st=e.target.value;const a=(S.apps||[]).find(x=>x.id===id);const v={stage:st};if(st==='approved'||st==='declined')v.decision_at=new Date().toISOString().slice(0,10);const r=await sb.from('applications').update(v).eq('id',id).select(APPSEL).single();if(r.error){fail(r.error,'Could not save the stage');render();return}if(a)Object.assign(a,r.data);toast('Moved to '+stageName(st));render();return}if(e.target.id==='expoFilter'){S.expoF=e.target.value;render();return}if(e.target.id==='p_file'){const fl=e.target.files[0];$('#fileLabel').textContent=fl?fl.name:'Upload company profile'}});
 document.addEventListener('keydown',e=>{if(e.target.id==='msgIn'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('#compose').requestSubmit()}});
 document.addEventListener('submit',async e=>{
  e.preventDefault();const f=e.target;
