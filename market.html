@@ -288,6 +288,7 @@ const ICON={
  meetings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
  deals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
  profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>',
+ requests:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l15-6v14L3 13z"/><path d="M7 13v5a2 2 0 0 0 4 0v-4"/></svg>',
  campaigns:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
  admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
  bot:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg>'
@@ -372,15 +373,52 @@ async function loadAll(){
  if(S.admin){const od=await sb.from('organiser_deals').select('*').order('updated_at',{ascending:false});S.odeals=od.error?null:(od.data||[])}
  if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[]);const ap=await sb.from('applications').select('campaign_id,stage');S.appCounts=ap.error?null:(ap.data||[]);const fu=await sb.from('applications').select('id,campaign_id,stage,next_follow_up,businesses(name)').lte('next_follow_up',todayISO()).not('stage','in','(declined,not_interested,attended)').order('next_follow_up');S.follow=fu.error?[]:(fu.data||[])}
  if(S.admin){const [u,rv,sc]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*'),sb.from('company_scores').select('company_id,score,grade,gaps')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]));S.scores=new Map(((sc&&sc.data)||[]).map(r=>[r.company_id,r]))}
+ {const rq=await sb.from('requests').select('*').order('created_at',{ascending:false}).limit(300);S.reqs=rq.error?[]:(rq.data||[])}
  S.loading=false;
 }
 async function loadMsgs(cid){const r=await sb.from('messages').select('*').eq('conversation_id',cid).order('created_at');S.msgs[cid]=r.data||[]}
+
+
+/* ---------- requests board ---------- */
+const RKIND={buy:'Buying',sell:'Selling',meet:'Meet at an expo',partner:'Looking for a partner'};
+const RCLS={buy:'ok',sell:'role',meet:'jv',partner:'jv'};
+function ago(t){const d=Math.floor((Date.now()-new Date(t))/864e5);return d<1?'Today':d===1?'Yesterday':d+' days ago'}
+function reqCard(r,mine){const c=co(r.company_id);
+ return `<article class="card" data-s="${esc([r.title,r.details,r.expo,c.name,c.country,RKIND[r.kind]].join(' ').toLowerCase())}">
+  <div class="tags"><span class="tag ${RCLS[r.kind]||'role'}">${esc(RKIND[r.kind]||r.kind)}</span>${r.expo?`<span class="tag">${esc(r.expo)}</span>`:''}${r.status==='closed'?'<span class="tag">Closed</span>':''}</div>
+  <h3 style="margin:2px 0 0">${esc(r.title)}</h3>
+  ${r.details?`<p class="small" style="margin:0;white-space:pre-line">${esc(r.details)}</p>`:''}
+  <p class="small muted" style="margin:0">${mine?'Posted by you':`${esc(c.name)}${c.country?', '+esc(c.country):''}`} · ${ago(r.created_at)}</p>
+  <div class="row">${mine?(r.status==='open'?`<button class="btn ghost" data-reqclose="${r.id}">Close request</button>`:`<button class="btn ghost" data-reqopen="${r.id}">Reopen</button>`)+`<button class="btn ghost" data-reqdel="${r.id}">Delete</button>`:`<button class="btn pri" data-reqreply="${r.id}">Reply in chat</button>`}</div>
+ </article>`}
+function viewRequests(){
+ const mine=(S.reqs||[]).filter(r=>S.me&&r.company_id===S.me.id);
+ const open=(S.reqs||[]).filter(r=>r.status==='open'&&!(S.me&&r.company_id===S.me.id)&&(!S.reqF||r.kind===S.reqF));
+ const head=`<div class="head"><div><span class="eyebrow">Requests board</span><h1>What members need</h1><p>Post what you want to buy, sell or who you want to meet at an expo. Vetted members reply in chat.</p></div>${approved()?'<button class="btn pri" data-reqnew="1">Post a request</button>':''}</div>`;
+ const promo=`<div class="banner"><b>Launching in a new market?</b> SAIS runs paid Africa Market Entry and Africa Export campaigns for manufacturers and exhibitors. <a href="/market-campaigns.html">See the campaigns</a></div>`;
+ if(!approved())return `${pendingBanner()}${head}<div class="card empty">The Requests board opens after SAIS vets your company.</div>${promo}`;
+ return `${head}${promo}
+ <div class="chips" role="group" aria-label="Filter requests">${[['','All'],...Object.entries(RKIND)].map(([k,l])=>`<button class="chip" data-reqf="${k}" aria-pressed="${(S.reqF||'')===k}">${l}</button>`).join('')}</div>
+ ${searchBox('rgrid','Search requests by product, expo or country')}
+ ${open.length?`<div class="grid" id="rgrid">${open.map(r=>reqCard(r,false)).join('')}</div>`:'<div class="card empty">No open requests here yet. Be the first to post one.</div>'}
+ ${mine.length?`<h2 class="h3" style="margin:28px 0 10px">Your requests</h2><div class="grid">${mine.map(r=>reqCard(r,true)).join('')}</div>`:''}`;
+}
+function openReqForm(){
+ $('#dlgBody').innerHTML=`<h3 class="h3">Post a request</h3><p class="muted small" style="margin:0">Vetted members see it and reply in chat. Phone numbers and emails are hidden.</p>
+ <form id="reqForm" class="stack">
+  <label class="f">I am<select id="rq_kind" required>${Object.entries(RKIND).map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></label>
+  <label class="f">Short title<input id="rq_title" maxlength="120" minlength="5" required placeholder="Example: Looking for LED screen suppliers"></label>
+  <label class="f">Details<textarea id="rq_details" maxlength="1500" rows="4" placeholder="Product, quantity, quality, delivery country, timing"></textarea></label>
+  <label class="f">Expo (optional)<select id="rq_expo"><option value="">Not tied to an expo</option>${EXPOS.map(e=>`<option>${esc(e.n)}</option>`).join('')}</select></label>
+  <p class="err" id="rqErr" role="alert"></p>
+  <div class="row"><button class="btn pri">Post request</button><button type="button" class="btn ghost" data-close>Cancel</button></div>
+ </form>`;$('#dlg').showModal()}
 
 /* ---------- nav ---------- */
 function navItems(){
  // Team admins without a company profile get the admin tabs only
  if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']];
- const items=[['matches','Matches'],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
+ const items=[['matches','Matches'],['requests','Requests',(S.reqs||[]).filter(r=>r.status==='open'&&r.company_id!==(S.me&&S.me.id)&&(Date.now()-new Date(r.created_at))<3*864e5).length],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
  if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns']);
  return items;
 }
@@ -736,7 +774,7 @@ function render(){
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me&&!S.admin)html=viewOnboard();
  else if(!S.me)html=({campaigns:viewCampaigns,pipeline:viewPipeline,organisers:viewOrganisers}[S.view]||viewAdmin)();
- else html=({matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
+ else html=({requests:viewRequests,matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  applySearch();
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
@@ -787,6 +825,11 @@ document.addEventListener('click',async e=>{
   const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});$('#authErr').textContent=r.error?r.error.message:'Check your email for a reset link.'}
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
+ else if(ds.reqnew){openReqForm()}
+ else if('reqf' in ds){S.reqF=ds.reqf;render()}
+ else if(ds.reqreply){const r=(S.reqs||[]).find(x=>x.id===ds.reqreply);if(!r)return;await openChat(r.company_id);const i=$('#msgIn');if(i){i.value='Hello, I saw your request on the Requests board: "'+r.title+'". ';i.focus()}}
+ else if(ds.reqclose||ds.reqopen){const id=ds.reqclose||ds.reqopen,st=ds.reqclose?'closed':'open';const v={status:st};if(st==='open')v.expires_on=new Date(Date.now()+60*864e5).toISOString().slice(0,10);const r=await sb.from('requests').update(v).eq('id',id).select().single();if(r.error)return fail(r.error);Object.assign(S.reqs.find(x=>x.id===id),r.data);toast(st==='closed'?'Request closed':'Request reopened');render()}
+ else if(ds.reqdel){if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='Tap again to delete';return}const r=await sb.from('requests').delete().eq('id',ds.reqdel);if(r.error)return fail(r.error);S.reqs=S.reqs.filter(x=>x.id!==ds.reqdel);toast('Deleted');render()}
  else if(ds.camp){openCampaign(ds.camp)}
  else if(ds.odeal){openDeal(ds.odeal)}
  else if(ds.onote){openDealNotes(ds.onote)}
@@ -848,6 +891,10 @@ document.addEventListener('submit',async e=>{
   const id=f.dataset.id;const r=id?await sb.from('campaigns').update(v).eq('id',id).select().single():await sb.from('campaigns').insert(v).select().single();
   if(r.error){$('#campErr').textContent=/duplicate|unique/i.test(r.error.message)?'A campaign with this name already exists.':'Could not save: '+r.error.message;return}
   const i=(S.camps||[]).findIndex(x=>x.id===r.data.id);if(i>=0)S.camps[i]=r.data;else(S.camps=S.camps||[]).push(r.data);$('#dlg').close();toast('Campaign saved');render();return}
+ if(f.id==='reqForm'){const v={company_id:S.me.id,kind:$('#rq_kind').value,title:$('#rq_title').value.trim(),details:$('#rq_details').value.trim()||null,expo:$('#rq_expo').value||null};
+  if(v.title.length<5){$('#rqErr').textContent='Add a short title.';return}
+  const r=await sb.from('requests').insert(v).select().single();if(r.error){$('#rqErr').textContent='Could not post: '+r.error.message;return}
+  (S.reqs=S.reqs||[]).unshift(r.data);$('#dlg').close();toast('Request posted');render();return}
  if(f.id==='newPw'){const r=await sb.auth.updateUser({password:$('#np').value});if(r.error){$('#npErr').textContent=r.error.message;return}S.recovery=false;toast('Password saved');render();return}
  if(f.id==='authForm'){const email=$('#a_email').value.trim(),pw=$('#a_pw').value;const err=$('#authErr');err.textContent='';
   const btn=f.querySelector('button');btn.disabled=true;
