@@ -422,6 +422,32 @@ function openReqForm(){
 const ENQ_NAME={entry:'Africa Market Entry',export:'Africa Export'};
 const ENQ_ST={new:'New',contacted:'Contacted',proposal:'Proposal sent',won:'Won',lost:'Lost'};
 const ENQ_CLS={new:'warn',contacted:'',proposal:'',won:'good',lost:'bad'};
+function enqWelcome(x){const c=x.company||'your company';return [
+'Hello '+x.contact_name+',',
+'',
+'Thank you for your enquiry about the '+(ENQ_NAME[x.campaign]||'')+' Campaign with SAIS Events. We are glad to hear from '+c+'.',
+'',
+'*How you will use SAIS MatchMarket*',
+'1. Register '+c+' free: https://saisevents.com/market.html',
+'2. Fill in every field and upload your company profile. Our team vets every company.',
+'3. Our AI matchmaker connects you with screened buyers and suppliers. You chat, book meetings and agree deals on the platform.',
+'4. Post what you need on the Requests board, and members reply to you directly.',
+'',
+'*Become a VIP member (USD 300, paid once)*',
+'1. Recommended first for hosted buyer programmes, where organisers cover flights and hotel',
+'2. B2B meetings booked before you travel',
+'3. Joint venture introductions',
+'4. Visa invitation letter support',
+'5. VIP access to side events at our expos',
+'Join here: https://saisevents.com/vip-members.html',
+'',
+'*Find new customers today*',
+'Try our Lead Hunter and get 5 free business leads: https://saisleads.com/#lead-hunter',
+'',
+'We will call you within 2 working days to discuss your campaign plan and price.',
+'',
+'Kind regards,',
+'SAIS Events team'].join('\n')}
 function viewEnquiries(){
  const all=S.enqs||[];const f=S.enqF||'';const list=all.filter(x=>!f||x.status===f);
  const row=(k,v)=>v?`<p class="small" style="margin:0"><b>${k}:</b> ${esc(v)}</p>`:'';
@@ -433,7 +459,7 @@ function viewEnquiries(){
    ${row('Products',x.products)}${row('Markets',x.target_markets)}${row('Expos',x.expos)}${row('Start',x.timeline)}${row('Budget',x.budget)}${row('Message',x.message)}
    <p class="small" style="margin:0"><b>Email:</b> ${esc(x.email)}<br><b>WhatsApp:</b> ${esc(x.whatsapp)}${web?`<br><a href="${esc(web)}" target="_blank" rel="noopener">Website</a>`:''}</p>
    <label class="f">Stage<select data-enq="${x.id}">${Object.entries(ENQ_ST).map(([k,l])=>`<option value="${k}" ${x.status===k?'selected':''}>${l}</option>`).join('')}</select></label>
-   <div class="row">${wa?`<a class="btn pri" href="https://wa.me/${wa}?text=${encodeURIComponent('Hello '+x.contact_name+', thank you for your enquiry about the '+(ENQ_NAME[x.campaign]||'')+' Campaign with SAIS Events.')}" target="_blank" rel="noopener">WhatsApp</a>`:''}<a class="btn ghost" href="mailto:${esc(x.email)}?subject=${encodeURIComponent('Your '+(ENQ_NAME[x.campaign]||'')+' Campaign enquiry')}">Email</a></div>
+   <div class="row">${wa?`<a class="btn pri" href="https://wa.me/${wa}?text=${encodeURIComponent(enqWelcome(x))}" target="_blank" rel="noopener">WhatsApp</a>`:''}<a class="btn ghost" href="mailto:${esc(x.email)}?subject=${encodeURIComponent('Your '+(ENQ_NAME[x.campaign]||'')+' Campaign enquiry')}&body=${encodeURIComponent(enqWelcome(x))}">Email</a></div>
   </article>`};
  return `<div class="head"><div><span class="eyebrow">Market campaigns</span><h1>Campaign enquiries</h1><p>Companies asking for a paid Africa Market Entry or Africa Export campaign. Reply within 2 working days, then move each one along.</p></div><a class="btn ghost" href="/market-campaigns.html" target="_blank" rel="noopener">Open the page</a></div>
  <div class="chips" role="group" aria-label="Filter enquiries">${[['','All'],...Object.entries(ENQ_ST)].map(([k,l])=>`<button class="chip" data-enqf="${k}" aria-pressed="${f===k}">${l} (${k?all.filter(x=>x.status===k).length:all.length})</button>`).join('')}</div>
