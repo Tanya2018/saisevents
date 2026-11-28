@@ -15,3 +15,6 @@
 
 [functions."reg-scorer"]
   schedule = "*/30 * * * *"
+
+[functions."member-leads-worker"]
+  schedule = "* * * * *"

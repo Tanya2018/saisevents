@@ -291,6 +291,7 @@ const ICON={
  profile:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>',
  requests:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l15-6v14L3 13z"/><path d="M7 13v5a2 2 0 0 0 4 0v-4"/></svg>',
  enquiries:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8M8 12h5"/></svg>',
+ leads:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>',
  campaigns:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>',
  admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>',
  bot:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/></svg>'
@@ -376,6 +377,8 @@ async function loadAll(){
  if(S.admin){const cp=await sb.from('campaigns').select('*').order('starts_on',{ascending:true,nullsFirst:false});S.camps=cp.error?null:(cp.data||[]);const ap=await sb.from('applications').select('campaign_id,stage');S.appCounts=ap.error?null:(ap.data||[]);const fu=await sb.from('applications').select('id,campaign_id,stage,next_follow_up,businesses(name)').lte('next_follow_up',todayISO()).not('stage','in','(declined,not_interested,attended)').order('next_follow_up');S.follow=fu.error?[]:(fu.data||[])}
  if(S.admin){const [u,rv,sc]=await Promise.all([sb.rpc('admin_users'),sb.from('company_reviews').select('*'),sb.from('company_scores').select('company_id,score,grade,gaps')]);S.users=u.error?null:(u.data||[]);S.reviews=new Map(((rv&&rv.data)||[]).map(r=>[r.company_id,r]));S.scores=new Map(((sc&&sc.data)||[]).map(r=>[r.company_id,r]))}
  if(S.admin){const en=await sb.from('campaign_enquiries').select('*').order('created_at',{ascending:false});S.enqs=en.error?[]:(en.data||[])}
+ await loadLeads();
+ if(S.admin){const pl=await sb.from('member_plans').select('company_id,vip');S.plans=new Map(((pl&&pl.data)||[]).map(x=>[x.company_id,x.vip]))}
  {const rq=await sb.from('requests').select('*').order('created_at',{ascending:false}).limit(300);S.reqs=rq.error?[]:(rq.data||[])}
  S.loading=false;
 }
@@ -467,11 +470,58 @@ function viewEnquiries(){
  ${list.length?`<div class="grid" id="egrid">${list.map(card).join('')}</div>`:'<div class="card empty">No enquiries here yet.</div>'}`;
 }
 
+
+/* ---------- lead hunter inside MatchMarket ---------- */
+const LEADS_OPEN='vip'; // 'vip' while VIP members get it first, then 'all' (also set LEADS_OPEN_TO on Netlify)
+const KATE_WA='254722170385';
+async function loadLeads(){
+ S.lbal=null;S.lvip=false;S.lsearch=[];S.lleads=[];if(!S.me)return;
+ const [pl,bl,ls,ll]=await Promise.all([
+  sb.from('member_plans').select('vip').eq('company_id',S.me.id).maybeSingle(),
+  sb.rpc('lead_balance',{cid:S.me.id}),
+  sb.from('member_lead_searches').select('*').eq('company_id',S.me.id).order('created_at',{ascending:false}).limit(30),
+  sb.from('member_leads').select('*').eq('company_id',S.me.id).order('created_at',{ascending:false}).limit(500)]);
+ S.lvip=!!(pl&&pl.data&&pl.data.vip);S.lbal=bl&&!bl.error?bl.data:null;S.lsearch=(ls&&ls.data)||[];S.lleads=(ll&&ll.data)||[];
+ if(approved()&&(S.lvip||S.admin||LEADS_OPEN==='all')&&!loadLeads.granted){loadLeads.granted=1;try{const t=(await sb.auth.getSession()).data.session;const r=await fetch('/.netlify/functions/member-leads',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(t&&t.access_token)},body:JSON.stringify({action:'balance'})}).then(x=>x.json());if(r&&r.ok)S.lbal=r.balance}catch(e){}}
+ leadsPoll();
+}
+function leadsBusy(){return (S.lsearch||[]).some(x=>x.status==='queued'||x.status==='running')}
+function leadsPoll(){clearTimeout(leadsPoll.t);if(!leadsBusy())return;leadsPoll.t=setTimeout(async()=>{const before=(S.lsearch||[]).filter(x=>x.status==='done').length;await loadLeads();const after=(S.lsearch||[]).filter(x=>x.status==='done').length;if(after>before)toast('Your leads are ready');if(S.view==='leads')render()},15000)}
+function leadsCsv(){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const rows=[['Company','City','Country','Business','Why it fits','Website','Email','Phone','Found on']].concat((S.lleads||[]).map(l=>[l.name,l.city,l.country,l.main_business,l.fit_reason,l.website,l.email,l.phone,(l.created_at||'').slice(0,10)]));
+ const blob=new Blob(['﻿'+rows.map(r=>r.map(q).join(',')).join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='SAIS-leads.csv';document.body.appendChild(a);a.click();a.remove()}
+function leadCard(l){const web=webUrl(l.website);return `<article class="card" data-s="${esc([l.name,l.city,l.country,l.main_business].join(' ').toLowerCase())}">
+  <h3 style="margin:0">${esc(l.name)}</h3><p class="small muted" style="margin:0">${esc([l.city,l.country].filter(Boolean).join(', '))}</p>
+  ${l.main_business?`<p class="small" style="margin:0">${esc(l.main_business)}</p>`:''}
+  ${l.fit_reason?`<p class="small" style="margin:0"><b>Why it fits:</b> ${esc(l.fit_reason)}</p>`:''}
+  <p class="small" style="margin:0;user-select:all">${l.email?`<b>Email:</b> ${esc(l.email)}<br>`:''}${l.phone?`<b>Phone:</b> ${esc(l.phone)}<br>`:''}</p>
+  ${web?`<div class="row"><a class="btn ghost" href="${esc(web)}" target="_blank" rel="noopener">Open website</a></div>`:''}
+ </article>`}
+function viewLeads(){
+ const head=`<div class="head"><div><span class="eyebrow">Lead Hunter</span><h1>Find buyers</h1><p>Tell our agent what customers you want. It searches the web and brings you real companies with their website, email and phone.</p></div></div>`;
+ if(!approved())return `${pendingBanner()}${head}<div class="card empty">Lead Hunter opens after SAIS vets your company.</div>`;
+ const locked=LEADS_OPEN!=='all'&&!S.lvip&&!S.admin;
+ if(locked)return `${head}<div class="card"><h2 class="h3" style="margin:0 0 6px">VIP members get Lead Hunter first</h2><p class="muted" style="margin:0 0 12px">VIP members get 50 new leads every month, plus first place for hosted buyer programmes. It opens to all members soon, with 5 free leads each.</p><div class="row"><a class="btn pri" href="/vip-members.html">Become a VIP member</a></div></div>`;
+ const bal=S.lbal==null?'':S.lbal;const busy=leadsBusy();
+ const balBox=`<div class="banner ${S.lbal===0?'warn':''}"><b>${bal===''?'Your':bal} lead${bal===1?'':'s'} left.</b> ${S.lvip?'As a VIP member you get 50 new leads every month.':'Every vetted member gets 5 free leads.'} Each company found uses 1 lead. A search that finds nothing is free.</div>`;
+ const buy=`<div class="card"><h2 class="h3" style="margin:0 0 6px">Get more leads</h2><p class="muted" style="margin:0 0 12px">25 leads for USD 25, or 100 leads for USD 80. VIP members get 50 leads every month.</p><div class="row"><a class="btn pri" href="https://wa.me/${KATE_WA}?text=${encodeURIComponent('Hello SAIS Events, I want to buy more leads for '+S.me.name+' on MatchMarket.')}" target="_blank" rel="noopener">Buy leads on WhatsApp</a><a class="btn ghost" href="/vip-members.html">Become VIP</a></div></div>`;
+ const form=busy?`<div class="agent"><span class="dot pulse">${ICON.bot}</span><div><b>Our agent is searching</b><p>Your leads will appear here in about 2 minutes. You can leave this page; we will email you when they are ready.</p></div></div>`
+  :S.lbal===0?buy:`<form id="leadForm" class="card stack">
+   <label class="f">What customers do you want?<input id="ld_q" maxlength="160" minlength="5" required placeholder="Example: hotels that buy LED screens and stage lighting"></label>
+   <label class="f">In which country?<select id="ld_c" required>${countryOpts(S.me.country||'')}</select></label>
+   <p class="err" id="ldErr" role="alert"></p>
+   <button class="btn pri">Find my leads</button></form>`;
+ const st={queued:['warn','Waiting'],running:['warn','Searching'],done:['good','Done'],failed:['bad','Not finished']};
+ const hist=(S.lsearch||[]).length?`<h2 class="h3" style="margin:24px 0 10px">Your searches</h2><div class="list">${S.lsearch.map(x=>`<div class="li"><div class="t"><b>${esc(x.query)}</b><span>${esc(x.country)} · ${ago(x.created_at)}${x.status==='done'?' · '+x.found+(x.found===1?' lead':' leads'):''}</span>${x.note?`<br><span class="small muted">${esc(x.note)}</span>`:''}</div><span class="pill ${st[x.status][0]}">${st[x.status][1]}</span></div>`).join('')}</div>`:'';
+ const leads=(S.lleads||[]).length?`<div class="head" style="margin-top:24px"><div><h2 class="h3" style="margin:0">Your leads (${S.lleads.length})</h2><p class="muted small" style="margin:0">Only you can see these. Contact them politely, and say you found them through SAIS MatchMarket.</p></div><button class="btn" data-leadcsv="1">Download all</button></div>${searchBox('lgrid','Search your leads')}<div class="grid" id="lgrid">${S.lleads.map(leadCard).join('')}</div>`:'';
+ return `${head}${balBox}${form}${hist}${leads}`;
+}
+function vipCtl(p){if(!S.plans)return'';const v=S.plans.get(p.id);return `<br><span class="row" style="gap:6px;margin-top:6px">${v?'<span class="pill good">VIP</span>':''}<button class="btn ghost small" data-vip="${p.id}">${v?'Remove VIP':'Make VIP'}</button><button class="btn ghost small" data-addleads="${p.id}">Add 25 leads</button></span>`}
+
 /* ---------- nav ---------- */
 function navItems(){
  // Team admins without a company profile get the admin tabs only
  if(S.admin&&!S.me)return [['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns'],['enquiries','Enquiries',(S.enqs||[]).filter(x=>x.status==='new').length]];
- const items=[['matches','Matches'],['requests','Requests',(S.reqs||[]).filter(r=>r.status==='open'&&r.company_id!==(S.me&&S.me.id)&&(Date.now()-new Date(r.created_at))<3*864e5).length],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
+ const items=[['matches','Matches'],['leads','Leads'],['requests','Requests',(S.reqs||[]).filter(r=>r.status==='open'&&r.company_id!==(S.me&&S.me.id)&&(Date.now()-new Date(r.created_at))<3*864e5).length],['messages','Messages'],['meetings','Meetings',S.meetings.filter(m=>m.status==='pending'&&S.me&&m.to_company===S.me.id).length],['deals','Deals'],['profile','My company']];
  if(S.admin)items.push(['admin','Admin',S.cos.filter(c=>c.status==='pending').length],['organisers','Organisers',odDue().length],['campaigns','Campaigns'],['enquiries','Enquiries',(S.enqs||[]).filter(x=>x.status==='new').length]);
  return items;
 }
@@ -816,7 +866,7 @@ function viewAdmin(){
  </div>
  <div class="card"><h3 class="h3">Interest by expo</h3><div class="bars">${(()=>{const c=EXPOS.map(e=>[e.n,S.cos.filter(x=>(x.expos||[]).includes(e.n)).length]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);const mx=Math.max(1,...c.map(x=>x[1]));return c.length?c.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><em>${v}</em></div>`).join(''):'<p class="muted small">No expo choices yet.</p>'})()}</div></div>
  <div class="card"><h3 class="h3">Vetted members by type</h3><div class="bars">${counts.map(([k,v])=>`<div class="bar"><span>${k}</span><i style="width:${v/max*100}%"></i><em>${v}</em></div>`).join('')}</div></div>
- <div class="card"><h3 class="h3">All companies</h3>${searchBox('alllist','Search by company, email, country, product or status')}<div class="list" id="alllist">${S.cos.map(p=>`<div class="li" data-s="${sTxt(p,(em(p.owner)||'')+' '+p.status)}"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span>${adminDetails(p)}<br>${scorePill(p.id,1)}</div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${(()=>{const r=S.reviews&&S.reviews.get(p.id);return r&&r.risk&&r.risk!=='low'?riskPill(r):''})()}${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
+ <div class="card"><h3 class="h3">All companies</h3>${searchBox('alllist','Search by company, email, country, product or status')}<div class="list" id="alllist">${S.cos.map(p=>`<div class="li" data-s="${sTxt(p,(em(p.owner)||'')+' '+p.status)}"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.role)} · ${esc(p.country||'')}${em(p.owner)?' · '+esc(em(p.owner)):''}</span>${adminDetails(p)}<br>${scorePill(p.id,1)}${vipCtl(p)}</div><span class="pill ${p.status==='approved'?'good':p.status==='declined'?'bad':'warn'}">${p.status}</span>${(()=>{const r=S.reviews&&S.reviews.get(p.id);return r&&r.risk&&r.risk!=='low'?riskPill(r):''})()}${p.status!=='pending'?`<button class="btn ghost small" data-${p.status==='approved'?'decline':'approve'}="${p.id}">${p.status==='approved'?'Suspend':'Approve'}</button>`:''}</div>`).join('')}</div></div>`;
 }
 
 function render(){
@@ -827,7 +877,7 @@ function render(){
  else if(!S.user)html=viewAuth(S.authMode||'signup');
  else if(!S.me&&!S.admin)html=viewOnboard();
  else if(!S.me)html=({enquiries:viewEnquiries,campaigns:viewCampaigns,pipeline:viewPipeline,organisers:viewOrganisers}[S.view]||viewAdmin)();
- else html=({requests:viewRequests,matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,enquiries:S.admin?viewEnquiries:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
+ else html=({leads:viewLeads,requests:viewRequests,matches:viewMatches,messages:viewMessages,meetings:viewMeetings,deals:viewDeals,profile:viewProfile,admin:S.admin?viewAdmin:viewMatches,enquiries:S.admin?viewEnquiries:viewMatches,campaigns:S.admin?viewCampaigns:viewMatches,pipeline:S.admin?viewPipeline:viewMatches,organisers:S.admin?viewOrganisers:viewMatches}[S.view]||viewMatches)();
  $('#view').innerHTML=html;
  applySearch();
  const ms=$('#msgs');if(ms)ms.scrollTop=ms.scrollHeight;
@@ -879,6 +929,9 @@ document.addEventListener('click',async e=>{
  else if('logout' in ds){await sb.auth.signOut()}
  else if('close' in ds){$('#dlg').close()}
  else if('enqf' in ds){S.enqF=ds.enqf;render()}
+ else if(ds.leadcsv){leadsCsv()}
+ else if(ds.vip){const id=ds.vip,v=!(S.plans&&S.plans.get(id));const r=await sb.from('member_plans').upsert({company_id:id,vip:v,vip_since:v?todayISO():null,updated_at:new Date().toISOString()});if(r.error)return fail(r.error,'Could not save VIP');S.plans.set(id,v);toast(co(id).name+(v?' is now VIP':' is no longer VIP'));render()}
+ else if(ds.addleads){const id=ds.addleads;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='Tap again to add 25';return}const r=await sb.from('lead_credits').insert({company_id:id,amount:25,reason:'pack',note:'Added by SAIS admin'});if(r.error)return fail(r.error,'Could not add leads');toast('25 leads added for '+co(id).name);render()}
  else if(ds.reqnew){openReqForm()}
  else if('reqf' in ds){S.reqF=ds.reqf;render()}
  else if(ds.reqreply){const r=(S.reqs||[]).find(x=>x.id===ds.reqreply);if(!r)return;await openChat(r.company_id);const i=$('#msgIn');if(i){i.value='Hello, I saw your request on the Requests board: "'+r.title+'". ';i.focus()}}
@@ -945,6 +998,12 @@ document.addEventListener('submit',async e=>{
   const id=f.dataset.id;const r=id?await sb.from('campaigns').update(v).eq('id',id).select().single():await sb.from('campaigns').insert(v).select().single();
   if(r.error){$('#campErr').textContent=/duplicate|unique/i.test(r.error.message)?'A campaign with this name already exists.':'Could not save: '+r.error.message;return}
   const i=(S.camps||[]).findIndex(x=>x.id===r.data.id);if(i>=0)S.camps[i]=r.data;else(S.camps=S.camps||[]).push(r.data);$('#dlg').close();toast('Campaign saved');render();return}
+ if(f.id==='leadForm'){const q=$('#ld_q').value.trim(),c=$('#ld_c').value;const err=$('#ldErr');err.textContent='';if(q.length<5){err.textContent='Tell us what customers you want, in a few words.';return}if(!c){err.textContent='Choose a country.';return}
+  const btn=f.querySelector('button');btn.disabled=true;btn.textContent='Starting the search…';
+  const t=(await sb.auth.getSession()).data.session;const r=await fetch('/.netlify/functions/member-leads',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(t&&t.access_token)},body:JSON.stringify({query:q,country:c})}).then(x=>x.json()).catch(()=>({ok:false,msg:'Could not reach the agent. Please try again.'}));
+  btn.disabled=false;btn.textContent='Find my leads';
+  if(!r.ok){err.textContent=r.msg||'Please try again.';if(r.noCredits){S.lbal=0;render()}return}
+  toast('Search started');await loadLeads();render();return}
  if(f.id==='reqForm'){const v={company_id:S.me.id,kind:$('#rq_kind').value,title:$('#rq_title').value.trim(),details:$('#rq_details').value.trim()||null,expo:$('#rq_expo').value||null};
   if(v.title.length<5){$('#rqErr').textContent='Add a short title.';return}
   const r=await sb.from('requests').insert(v).select().single();if(r.error){$('#rqErr').textContent='Could not post: '+r.error.message;return}
