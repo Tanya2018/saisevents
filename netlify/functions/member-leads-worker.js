@@ -9,7 +9,7 @@
 const SB = "https://hbobppslyikleonzvzxp.supabase.co";
 const MODEL = "claude-sonnet-5-5";
 const MAX_LEADS = 8;
-const MIN_SCORE = 70;
+const MIN_SCORE = 80; // only strong fits reach the member
 const APP = "https://saisevents.com/market.html";
 
 function h(sk, extra) {
@@ -51,29 +51,51 @@ const esc = (v) => String(v == null ? "" : v).replace(/[&<>"']/g, (c) => ({ "&":
 async function find(s, me, known, limit) {
   const text = await claude({
     model: MODEL,
-    max_tokens: 2000,
-    tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 2 }],
-    system:
-      "You find real companies a business can sell to or buy from. Be strict: a wrong company wastes the member's time. " +
-      "Only list a company if its MAIN business matches what the member asked for and it is based in the requested country. " +
-      "Only list companies you found in search results that are active. Use only public business contacts shown on the company's own website or a business directory: " +
-      "company emails and office or business phone numbers, never personal details. Never guess or invent a phone number, email or website: leave it empty if you did not see it. " +
-      "It is fine to return fewer companies, or none. Reply with JSON only.",
+    max_tokens: 2400,
+    tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+    system: [
+      "You are the SAIS Lead Hunter. Paying members rely on your leads to make sales calls, so quality matters more than quantity.",
+      "Rules you must follow:",
+      "1. Only list a company you actually found in this search, with a page that shows it is a real, active business today.",
+      "2. Its MAIN business must match what the member asked for. A company in a nearby industry is NOT a match: a hardware shop is not a manufacturer, a hotel is not a food factory, a consultancy is not a buyer.",
+      "3. It must be based in, or have an office in, the requested country.",
+      "4. It must be a real end company. Leave out directories, marketplaces, listing sites, news articles, job adverts, government bodies, NGOs and schools, unless the member asked for them.",
+      "5. Contacts: only public business contacts shown on the company's own website or a trusted business directory: company emails and office or business phone numbers. Never personal details.",
+      "6. Never guess or invent a website, email or phone number. Leave a field empty if you did not see it.",
+      "7. The website field is the company's OWN site, never a directory or social media page. Put the page where you found the company in source_url.",
+      "8. For each company write evidence: one short fact you saw that proves the fit (for example 'Website lists 3 conference halls and event services').",
+      "9. Rate category_match honestly as exact, close or no, and score 0 to 100. Only give 80 or more when you are sure.",
+      "10. Fewer strong companies are better than many weak ones. Returning none is fine.",
+      "Reply with JSON only.",
+    ].join("\n"),
     messages: [{
       role: "user",
       content:
         `The member: ${me.name || "a company"}${me.sells ? ", which sells " + me.sells : ""}${me.country ? ", based in " + me.country : ""}.\n` +
         `They want: ${s.query}\nCountry: ${s.country}\n\n` +
-        `Search tips: business directories, industry association member lists and company websites in ${s.country}.\n` +
+        `Search tips: industry association member lists, chamber of commerce and export directories, and company websites in ${s.country}.\n` +
         (known.length ? `Leave out these companies they already have: ${known.slice(0, 80).join("; ")}\n` : "") +
-        `\nFind up to ${limit} companies. Reply with JSON only: {"leads":[{"name":"","city":"","country":"","main_business":"","fit_reason":"one short sentence","website":"","email":"","phone":"","source_url":"","score":0}]} ` +
-        `where score is 0 to 100 for how well the company fits what the member asked for.`,
+        `\nFind up to ${limit} companies. Reply with JSON only: {"leads":[{"name":"","city":"","country":"","main_business":"in the company's own words","category_match":"exact|close|no","evidence":"","fit_reason":"one short sentence on why they fit the member","website":"","email":"","phone":"","source_url":"","score":0}]}`,
     }],
-  }, 23000);
+  }, 21000);
   const m = text.match(/\{[\s\S]*\}/);
   if (!m) return [];
   try { return (JSON.parse(m[0]).leads || []).filter((l) => l && l.name); } catch { return []; }
 }
+
+// Websites that are listings, not the company itself.
+const NOT_OWN_SITE = /(facebook|instagram|linkedin|twitter|x\.com|tiktok|youtube|jiji\.|yellowpages|yellow\.co|businesslist|kenyaplex|cybo\.|kompass|europages|alibaba|indiamart|tradekey|google\.|goo\.gl|wikipedia|pharmchoices|2merkato|africa-business\.com|findglocal|beautynailhairsalons)/i;
+const EMAIL_OK = (e) => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(e || "");
+const PHONE_OK = (p) => String(p || "").replace(/\D/g, "").length >= 9;
+async function siteWorks(url) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 3500);
+  try {
+    const r = await fetch(url, { method: "GET", redirect: "follow", signal: ctl.signal, headers: { "User-Agent": "Mozilla/5.0 SAIS-LeadCheck" } });
+    return r.status < 400 || r.status === 403 || r.status === 429; // 403/429: site is up but blocks checks
+  } catch { return false; } finally { clearTimeout(t); }
+}
+const domain = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } };
 
 async function emailMember(sk, rk, s, me, rows) {
   if (!rk || !me.owner) return;
@@ -119,20 +141,42 @@ exports.handler = async () => {
     const known = (await get(sk, `member_leads?select=name&company_id=eq.${s.company_id}&order=created_at.desc&limit=300`)).map((r) => r.name);
     const seen = new Set(known.map(key));
     const out = await find(s, me || {}, known, limit);
-    const rows = [];
+    const want = String(s.country || "").toLowerCase();
+    const cands = [];
+    const seenDomains = new Set();
     for (const l of out) {
       const k = key(l.name);
       if (!k || seen.has(k)) continue;
       if (Math.round(Number(l.score) || 0) < MIN_SCORE) continue;
-      if (!(l.website || l.email || l.phone)) continue;
-      seen.add(k);
+      if (String(l.category_match || "").toLowerCase().trim() !== "exact") continue;
+      if (!clean(l.evidence, 300)) continue;
+      const lc = String(l.country || "").toLowerCase();
+      if (lc && !lc.includes(want) && !want.includes(lc)) continue;
+      let web = site(l.website);
+      if (web && NOT_OWN_SITE.test(web)) web = null;
+      const d = web ? domain(web) : "";
+      if (d && seenDomains.has(d)) continue;
+      const email = EMAIL_OK(l.email) ? clean(l.email, 120) : null;
+      const phone = PHONE_OK(l.phone) ? clean(l.phone, 60) : null;
+      if (!web && !(email && phone)) continue; // needs its own website, or both an email and a phone
+      seen.add(k); if (d) seenDomains.add(d);
+      cands.push({ l, web, email, phone });
+    }
+    // Check every website really opens. A dead site is removed; a lead left too thin is dropped.
+    const live = await Promise.all(cands.map((c) => (c.web ? siteWorks(c.web) : Promise.resolve(false))));
+    const rows = [];
+    cands.forEach((c, i) => {
+      const web = live[i] ? c.web : null;
+      if (!web && !(c.email && c.phone)) return;
+      if (rows.length >= limit) return;
+      const l = c.l;
       rows.push({
         search_id: s.id, company_id: s.company_id, name: clean(l.name, 160), city: clean(l.city, 80), country: clean(l.country, 80) || s.country,
-        main_business: clean(l.main_business, 300), fit_reason: clean(l.fit_reason, 400),
-        website: site(l.website), email: clean(l.email, 120), phone: clean(l.phone, 60), source_url: site(l.source_url),
+        main_business: clean(l.main_business, 300),
+        fit_reason: clean([l.fit_reason, l.evidence ? "Seen: " + l.evidence : ""].filter(Boolean).join(" "), 500),
+        website: web, email: c.email, phone: c.phone, source_url: site(l.source_url),
       });
-      if (rows.length >= limit) break;
-    }
+    });
     if (rows.length) {
       await post(sk, "member_leads", rows);
       await post(sk, "lead_credits", { company_id: s.company_id, amount: -rows.length, reason: "spend", note: `Search: ${s.query}`.slice(0, 200) });
