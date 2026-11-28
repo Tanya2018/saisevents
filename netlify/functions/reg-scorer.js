@@ -1,6 +1,6 @@
 // SAIS registration scorer. Runs every 30 minutes (see netlify.toml).
 // 1. Scores every MatchMarket company profile out of 100 whenever it is new or has changed:
-//    all fields filled, a clear description, a website that opens, a WhatsApp ready mobile number,
+//    all fields filled, a clear description, a company logo, a website that opens, a WhatsApp ready mobile number,
 //    the contact person, trade figures, expos and expo categories, and the company profile document.
 //    Grade A is 80 or more (ready to send to an organiser), B is 60 to 79, C is below 60.
 // 2. Reminds companies that still have gaps: once 3 days after they registered and once after 7 days,
@@ -84,13 +84,14 @@ function score(c, pv, site) {
     ["Description", 15, about.length >= 120 ? 15 : about.length >= 40 ? 7 : 0, "a full company description (at least 2 or 3 sentences)"],
     ["Products and needs", 10, (has(c.sells) ? 5 : 0) + (has(c.wants) ? 5 : 0), "what you sell and what you want to buy"],
     ["Markets and deal size", 5, (has(c.markets) ? 3 : 0) + (has(c.deal_size) ? 2 : 0), "your target markets and usual deal size"],
-    ["Website", 15, site === "works" ? 15 : site === "social" ? 10 : 0, site === "broken" ? "a website link that opens (yours did not open when we checked)" : site === "social" ? "your company website, if you have one" : "your website or social media page"],
+    ["Website", 12, site === "works" ? 12 : site === "social" ? 8 : 0, site === "broken" ? "a website link that opens (yours did not open when we checked)" : site === "social" ? "your company website, if you have one" : "your website or social media page"],
     ["WhatsApp", 15, whatsappOk(wa, c.country) ? 15 : has(wa) ? 5 : 0, has(wa) ? "a WhatsApp mobile number in full, with the country code" : "your WhatsApp number"],
     ["Contact person", 10, [pv.surname, pv.first_name, pv.job_title].filter(has).length * (10 / 3), "the contact person's names and job title"],
     ["Year established", 3, has(c.established) ? 3 : 0, "the year your company was established"],
-    ["Trade figures 2025", 7, (has(pv.turnover_2025) ? 3 : 0) + (has(pv.imports_2025) ? 2 : 0) + (has(pv.imported_from) || has(pv.imported_products) ? 2 : 0), "your 2025 turnover and imports"],
+    ["Trade figures 2025", 5, (has(pv.turnover_2025) ? 3 : 0) + (has(pv.imports_2025) ? 1 : 0) + (has(pv.imported_from) || has(pv.imported_products) ? 1 : 0), "your 2025 turnover and imports"],
     ["Expos and categories", 5, expos.length ? (expos.some((n) => det[n]) ? 5 : 3) : 0, expos.length ? "your categories for each expo you ticked" : "the expos you want to attend"],
     ["Company profile document", 5, has(c.profile_file) ? 5 : 0, "your company profile document (PDF or Word)"],
+    ["Company logo", 5, has(c.logo_url) ? 5 : 0, "your company logo"],
   ];
   const total = Math.round(items.reduce((s, i) => s + i[2], 0));
   const gaps = items.filter((i) => i[2] < i[1] - 0.01).map((i) => i[3]);
@@ -123,7 +124,7 @@ exports.handler = async () => {
   const out = [];
   try {
     const [cos, privs, scores] = await Promise.all([
-      sbGet("companies?select=id,owner,name,role,city,country,about,sells,wants,markets,deal_size,website,whatsapp,established,expos,expo_details,profile_file,status,created_at"),
+      sbGet("companies?select=id,owner,name,role,city,country,about,sells,wants,markets,deal_size,website,whatsapp,established,expos,expo_details,profile_file,logo_url,status,created_at"),
       sbGet("company_private?select=company_id,whatsapp,details"),
       sbGet("company_scores?select=company_id,sig,score,grade,gaps,nudges,nudged_at"),
     ]);
@@ -136,7 +137,7 @@ exports.handler = async () => {
       const p = pmap.get(c.id) || {};
       c._whatsapp = p.whatsapp || c.whatsapp;
       c._pv = p.details || {};
-      const sig = crypto.createHash("md5").update(JSON.stringify([c, c._pv])).digest("hex");
+      const sig = crypto.createHash("md5").update(JSON.stringify(["v2", c, c._pv])).digest("hex");
       const prev = smap.get(c.id);
       if (!prev || prev.sig !== sig) todo.push([c, sig, prev]);
     }
